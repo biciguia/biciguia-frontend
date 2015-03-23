@@ -20,6 +20,10 @@
       <input type="text" class="address" id="destination_address" placeholder="Destino" class="pure-input">
       <button type="button" id="route_button" class="pure-button">Buscar rota</button>
     </ul>
+  </form>
+  <ul class="pure-menu-list" id="origin_table">
+    
+  </ul>
   </div> 
 
 
@@ -34,7 +38,18 @@
 <script type="text/javascript" src="assets/js/event_handlers.js"></script>
 
 <script>
-function getGeocodeFromAddress(element) {
+function getGeocodeFromAddress(element, callback) {
+  var geoCoderURL = "//nominatim.openstreetmap.org/search?format=json";
+  geoCoderURL += "&city=" + encodeURIComponent("São Paulo");
+  geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
+  geoCoderURL += "&country=Brasil";
+  geoCoderURL += "&street=" + encodeURIComponent($(element).val());
+  $.get(geoCoderURL, function(data){
+    console.log(data);
+  }).fail(function(){
+    console.log("ERRO");
+  });
+
   // TODO make ajax request to nominatim
   console.log("OK!");
   console.log(this);

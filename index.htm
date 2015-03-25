@@ -21,10 +21,10 @@
       <button type="button" id="route_button" class="pure-button">Buscar rota</button>
     </ul>
     <div id="suggestions" style="z-index: 1; position: absolute; background: black">
-      <span class="pure-menu-heading">Endereços de Origem</span>
+      <span class="pure-menu-heading" id="origin_heading" style="display: none">Endereços de Origem</span>
       <ul class="pure-menu-list" id="origin_table" style="display: none">
       </ul>
-      <span class="pure-menu-heading">Endereços de Destino</span>
+      <span class="pure-menu-heading" id="destination_heading" style="display: none">Endereços de Destino</span>
       <ul class="pure-menu-list" id="destination_table" style="display: none">
       </ul>
     </div>
@@ -57,22 +57,6 @@ function getGeocodeFromAddress(element, source) {
     console.log("ERRO");
   });
 }
-
-function showAddressList(addresses, source) {
-  var list = $('#'+source+'_table');
-  list.empty();
-  list.show();
-
-  for (var i = 0; i < addresses.length; i++) {
-    var display_name = addresses[i].display_name;
-
-    list.append("<li class='pure-menu-item'><a href='#' id='"+source+"-"+i+"' class='pure-menu-link suggestion_item'>"+display_name+"</a></li>");
-
-  }
-  
-  $('.suggestion_item').click(menuItemSelectedAddressWrapper(addresses));
-}
-
 
 // create a map in the "map" div, set the view to a given place and zoom
 var map = L.map('map').setView([-23.5475, -46.63611], 13);

@@ -16,15 +16,20 @@
   <span class="pure-menu-heading">Biciguia</span>
   <form class="pure-form pure-form-stacked">
     <ul class="pure-menu-list">
-      <input type="text" class="address" id="origin_address" placeholder="Origem" class="pure-input">
-      <input type="text" class="address" id="destination_address" placeholder="Destino" class="pure-input">
+      <input type="text" class="address pure-input" id="origin_address" placeholder="Origem">
+      <input type="text" class="address pure-input" id="destination_address" placeholder="Destino">
       <button type="button" id="route_button" class="pure-button">Buscar rota</button>
     </ul>
+    <div id="suggestions" style="z-index: 1; position: absolute; background: black">
+      <span class="pure-menu-heading">Endereços de Origem</span>
+      <ul class="pure-menu-list" id="origin_table" style="display: none">
+      </ul>
+      <span class="pure-menu-heading">Endereços de Destino</span>
+      <ul class="pure-menu-list" id="destination_table" style="display: none">
+      </ul>
+    </div>
   </form>
-  <ul class="pure-menu-list" id="origin_table">
-    
-  </ul>
-  </div> 
+  </div>
 
 
   <div id="map">
@@ -38,21 +43,36 @@
 <script type="text/javascript" src="assets/js/event_handlers.js"></script>
 
 <script>
-function getGeocodeFromAddress(element, callback) {
+function getGeocodeFromAddress(element, origin) {
   var geoCoderURL = "//nominatim.openstreetmap.org/search?format=json";
   geoCoderURL += "&city=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&country=Brasil";
   geoCoderURL += "&street=" + encodeURIComponent($(element).val());
   $.get(geoCoderURL, function(data){
-    console.log(data);
+    if (origin == 'origin') {
+      showAddressList(data, $("#origin_table"));
+    } else {
+      showAddressList(data, $("#destination_table"));
+    }
   }).fail(function(){
     console.log("ERRO");
   });
+}
 
-  // TODO make ajax request to nominatim
-  console.log("OK!");
-  console.log(this);
+function showAddressList(addresses, list) {
+  list.empty();
+  list.show();
+
+  for (var i = 0; i < addresses.length; i++) {
+    var display_name = addresses[i].display_name;
+
+    list.append("<li class='pure-menu-item'><a href='#' class='pure-menu-link suggestion_item'>"+display_name+"</a></li>");
+
+  }
+  
+  $('.suggestion_item').click(function(event){
+  console.log(event);});
 }
 
 // create a map in the "map" div, set the view to a given place and zoom

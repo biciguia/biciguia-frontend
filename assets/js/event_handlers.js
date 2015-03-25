@@ -6,28 +6,44 @@ $(document).ready(function() {
     console.log("Button clicked");
   });
 
-  $(".address").focusout(function(element) {
-    getGeocodeFromAddress(element.target);
+  var madeRequest = false;
+
+  $(".address").focusout(function(event) {
+    if (!madeRequest) {
+      madeRequest = true;
+      if (event.target.id == 'origin_address') {
+        getGeocodeFromAddress(event.target, 'origin');
+      } else {
+        getGeocodeFromAddress(event.target, 'destination');
+      }
+    }
   });
 
-  (function () {
-    // TODO test if there is no problem with both text boxes using
-    // lastKeypressId at the same time (possible race condition)
-    var lastKeypressId = 0;
-    $(".address").keyup(function(element) {
-      var targetId = lastKeypressId + 1;
-      lastKeypressId = targetId;
+  // TODO test if there is no problem with both text boxes using
+  // lastKeypressId at the same time (possible race condition)
+  var lastKeypressId = 0;
+  $(".address").keyup(function(event) {
+    var targetId = lastKeypressId + 1;
+    lastKeypressId = targetId;
 
-      setTimeout(function() {
-        if (lastKeypressId == targetId) {
-          getGeocodeFromAddress(element.target);
-        } else {
-          console.log("usuario digitou");
+    madeRequest = false;
+
+    setTimeout(function() {
+      if (lastKeypressId == targetId) {
+        if (!madeRequest) {
+          madeRequest = true;
+          if (event.target.id == 'origin_address') {
+            getGeocodeFromAddress(event.target, 'origin');
+          } else {
+            getGeocodeFromAddress(event.target, 'destination');
+          }
         }
-        // TODO adjust the timeout below
-      }, 2000);
-    });
-  })();
-  
+      } else {
+        console.log("usuario digitou");
+      }
+      // TODO adjust the timeout below
+    }, 2000);
+  });
+
 
 });

@@ -43,37 +43,36 @@
 <script type="text/javascript" src="assets/js/event_handlers.js"></script>
 
 <script>
-function getGeocodeFromAddress(element, origin) {
+function getGeocodeFromAddress(element, source) {
+  var value = $(element).val();
+  if(!value){ /* hideAddressList(source); */ return; }
   var geoCoderURL = "//nominatim.openstreetmap.org/search?format=json";
   geoCoderURL += "&city=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&country=Brasil";
   geoCoderURL += "&street=" + encodeURIComponent($(element).val());
   $.get(geoCoderURL, function(data){
-    if (origin == 'origin') {
-      showAddressList(data, $("#origin_table"));
-    } else {
-      showAddressList(data, $("#destination_table"));
-    }
+    showAddressList(data, source);
   }).fail(function(){
     console.log("ERRO");
   });
 }
 
-function showAddressList(addresses, list) {
+function showAddressList(addresses, source) {
+  var list = $('#'+source+'_table');
   list.empty();
   list.show();
 
   for (var i = 0; i < addresses.length; i++) {
     var display_name = addresses[i].display_name;
 
-    list.append("<li class='pure-menu-item'><a href='#' class='pure-menu-link suggestion_item'>"+display_name+"</a></li>");
+    list.append("<li class='pure-menu-item'><a href='#' id='"+source+"-"+i+"' class='pure-menu-link suggestion_item'>"+display_name+"</a></li>");
 
   }
   
-  $('.suggestion_item').click(function(event){
-  console.log(event);});
+  $('.suggestion_item').click(menuItemSelectedAddressWrapper(addresses));
 }
+
 
 // create a map in the "map" div, set the view to a given place and zoom
 var map = L.map('map').setView([-23.5475, -46.63611], 13);

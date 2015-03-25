@@ -47,3 +47,15 @@ $(document).ready(function() {
 
 
 });
+
+function menuItemSelectedAddressWrapper(addressesList) {
+  return function(event) { menuItemSelected(event, addressesList); };
+}
+
+function menuItemSelected(event, addressesList) {
+  if(event.target.id.match('origin')) {
+     $('#origin_address').val(event.target.innerHTML);
+  } else {
+    $('#destination_address').val(event.target.innerHTML);
+  } 
+}

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>É isso aí, negada</title>
   <link rel="stylesheet" type="text/css" href="assets/leaflet-0.7.3/leaflet.css">
-  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
   <link rel="stylesheet" type="text/css" href="assets/css/regras_basicas.css">
 </head>
 <body>
@@ -40,24 +40,10 @@
 <script type="text/javascript" src="assets/leaflet-0.7.3/leaflet.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
-<script type="text/javascript" src="assets/js/event_handlers.js"></script>
+<script type="text/javascript" src="libs/lib_nominatim.js"></script>
+<script type="text/javascript" src="libs/ui_nominatim.js"></script>
 
 <script>
-function getGeocodeFromAddress(element, source) {
-  var value = $(element).val();
-  if(!value){ /* hideAddressList(source); */ return; }
-  var geoCoderURL = "//nominatim.openstreetmap.org/search?format=json";
-  geoCoderURL += "&city=" + encodeURIComponent("São Paulo");
-  geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
-  geoCoderURL += "&country=Brasil";
-  geoCoderURL += "&street=" + encodeURIComponent($(element).val());
-  $.get(geoCoderURL, function(data){
-    showAddressList(data, source);
-  }).fail(function(){
-    console.log("ERRO");
-  });
-}
-
 // create a map in the "map" div, set the view to a given place and zoom
 var map = L.map('map').setView([-23.5475, -46.63611], 13);
 

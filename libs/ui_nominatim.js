@@ -1,4 +1,4 @@
-// setup event handlers only after the DOM is ready
+ // setup event handlers only after the DOM is ready
 $(document).ready(function() {
 
   $("#route_button").click(function() {
@@ -44,48 +44,6 @@ $(document).ready(function() {
       // TODO adjust the timeout below
     }, 2000);
   });
+
+
 });
-
-function menuItemSelectedAddressWrapper(addressesList) {
-  return function(event) { menuItemSelected(event, addressesList); };
-}
-
-function menuItemSelected(event, addressesList) {
-  if(event.target.id.match('origin')) {
-    $('#origin_address').val(event.target.innerHTML);
-    hideAddressList('origin');
-  } else {
-    $('#destination_address').val(event.target.innerHTML);
-    hideAddressList('destination');
-  }
-}
-
-function showAddressList(addresses, source) {
-  var list = $('#'+source+'_table');
-  list.empty();
-  list.show();
-
-  var heading = $('#'+source+'_heading');
-  heading.show();
-
-  for (var i = 0; i < addresses.length; i++) {
-    var display_name = addresses[i].display_name;
-
-    list.append("<li class='pure-menu-item'><a href='#' id='"+source+"-"+i+"' class='pure-menu-link suggestion_item'>"+display_name+"</a></li>");
-
-    // TODO for each address, place a marker in the map
-  }
-  
-  $('.suggestion_item').click(menuItemSelectedAddressWrapper(addresses));
-}
-
-function hideAddressList(source) {
-  var list = $('#'+source+'_table');
-
-  list.empty();
-  list.hide();
-
-  var heading = $('#'+source+'_heading');
-  heading.hide();
-}
-

@@ -27,6 +27,10 @@ body {
   display: flex;
 }*/
 
+#temp{
+  color: white;
+}
+
 #map {
   flex: 1;
   min-width: 75%;

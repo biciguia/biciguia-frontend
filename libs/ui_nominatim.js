@@ -1,49 +1,90 @@
- // setup event handlers only after the DOM is ready
-$(document).ready(function() {
+// globals used by the UI code
+var madeRequest = false;
+var lastKeypressId = 0;
 
-  $("#route_button").click(function() {
+// setup event handlers only after the DOM is ready
+$(document).ready(onDOMReady);
+
+function onDOMReady() {
+  $("#route-button").click(function() {
     // TODO calculate route and display info
     console.log("Button clicked");
   });
 
-  var madeRequest = false;
+  $(".address").focusout(showGeocodesAfterEvent);
+  $(".address").keyup(keyUpHandler);
+}
 
-  $(".address").focusout(function(event) {
-    if (!madeRequest) {
-      madeRequest = true;
-      if (event.target.id == 'origin_address') {
-        getGeocodeFromAddress(event.target, 'origin');
-      } else {
-        getGeocodeFromAddress(event.target, 'destination');
-      }
+function showGeocodesAfterEvent(event) {
+  var value = $(event.target).val();
+  if (!madeRequest) {
+    madeRequest = true;
+    if (event.target.id == 'origin-address') {
+      showGeocodes(value, 'origin');
+    } else {
+      showGeocodes(value, 'destination');
     }
-  });
+  }
+}
 
-  // TODO test if there is no problem with both text boxes using
-  // lastKeypressId at the same time (possible race condition)
-  var lastKeypressId = 0;
-  $(".address").keyup(function(event) {
-    var targetId = lastKeypressId + 1;
-    lastKeypressId = targetId;
+function keyUpHandler(event) {
+  var targetId = lastKeypressId + 1;
+  lastKeypressId = targetId;
 
-    madeRequest = false;
+  madeRequest = false;
 
-    setTimeout(function() {
-      if (lastKeypressId == targetId) {
-        if (!madeRequest) {
-          madeRequest = true;
-          if (event.target.id == 'origin_address') {
-            getGeocodeFromAddress(event.target, 'origin');
-          } else {
-            getGeocodeFromAddress(event.target, 'destination');
-          }
-        }
-      } else {
-        console.log("usuario digitou");
-      }
-      // TODO adjust the timeout below
-    }, 2000);
-  });
+  setTimeout(function() {
+    if (lastKeypressId == targetId) {
+      showGeocodesAfterEvent(event);
+    }
+    // TODO adjust the timeout below
+  }, 1000);
+}
 
+function showGeocodes(address, source) {
+  var geoCoderURL = getGeocoderURLFromAddress(address, source);
 
-});
+  if (geoCoderURL == undefined) {
+    hideAddressList(source);
+  } else {
+    $.get(geoCoderURL,
+      bind2ndArgument(showAddressList, source)
+    ).fail(errorCallback);
+  }
+}
+
+function menuItemSelected(event, addressesList) {
+  var pieces = event.target.id.split('-');
+  var source = pieces[0];
+  var i = parseInt(pieces[1]);
+  $('#'+source+'-address').val(addressesList[i].display_name);
+  hideAddressList(source);
+}
+
+function showAddressList(addresses, source) {
+  var list = $('#'+source+'-table');
+  list.empty();
+  list.show();
+  var heading = $('#'+source+'-heading');
+  heading.show();
+
+  for (var i = 0; i < addresses.length; i++) {
+    var display_name = addresses[i].display_name;
+    var itemHtml = "<li class='pure-menu-item'>";
+    itemHtml += "<a href='#' id='"+source+"-"+i+"' class='pure-menu-link "+source+"-suggestion-item'>";
+    itemHtml += display_name+"</a></li>";
+    list.append(itemHtml);
+  }
+
+  $('.'+source+'-suggestion-item').click(bind2ndArgument(menuItemSelected, addresses));
+}
+
+function hideAddressList(source) {
+  var list = $('#'+source+'-table');
+  list.empty();
+  list.hide();
+
+  var heading = $('#'+source+'-heading');
+  heading.hide();
+}
+

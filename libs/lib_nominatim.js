@@ -45,13 +45,13 @@ function showAddressList(addresses, source) {
 
   for (var i = 0; i < addresses.length; i++) {
     var display_name = addresses[i].display_name;
-    var itemHtml = "<li class='pure-menu-item'><a href='#' id='"+source+"-"+i+"' class='pure-menu-link suggestion_item'>"+display_name+"</a></li>";
+    var itemHtml = "<li class='pure-menu-item'><a href='#' id='"+source+"-"+i+"' class='pure-menu-link "+source+"_suggestion_item'>"+display_name+"</a></li>";
     list.append(itemHtml);
 
     // TODO for each address, place a marker in the map
   }
 
-  $('.suggestion_item').click(bind2ndArgument(menuItemSelected, addresses));
+  $('.'+source+'_suggestion_item').click(bind2ndArgument(menuItemSelected, addresses));
 }
 
 function hideAddressList(source) {

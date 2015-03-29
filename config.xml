@@ -20,8 +20,8 @@
     <gap:platform name="android" />
     <!-- <gap:platform name="winphone" /> -->
 
-    
-    <!-- Fixando o valor de orientação para retrato por enquanto -->
 	<preference name="orientation" value="portrait" />
+    <preference name="fullscreen" value="true" />
+    <preference name="SplashScreenDelay" value="0"/>
 
 </widget>

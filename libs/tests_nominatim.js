@@ -1,3 +1,19 @@
+var addressIME = [{
+  "place_id":"90628654",
+    "licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",
+    "osm_type":"way",
+    "osm_id":"154079142",
+    "boundingbox":["-23.5598092","-23.5589311","-46.7324506","-46.7317129"],
+    "lat":"-23.55935105",
+    "lon":"-46.732049560281",
+    "display_name":"IME - Bloco B, 1010, Rua do Matão, Butantã, São Paulo, RMSP, São Paulo, Southeast Region, 05508-090, Brazil",
+    "class":"building",
+    "type":"yes",
+    "importance":0.501
+}];
+
+
+
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");
   var expected = '//nominatim.openstreetmap.org/search?format=json&city=S%C3%A3o%20Paulo&state=S%C3%A3o%20Paulo&country=Brasil&street=Rua%20do%20Matao%2C%201010';
@@ -20,20 +36,6 @@ QUnit.test("bind2ndArgument", function (assert) {
 });
 
 QUnit.test("getAddressListHTML", function (assert) {
-  var addressIME = [
-  {"place_id":"90628654",
-    "licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",
-    "osm_type":"way",
-    "osm_id":"154079142",
-    "boundingbox":["-23.5598092","-23.5589311","-46.7324506","-46.7317129"],
-    "lat":"-23.55935105",
-    "lon":"-46.732049560281",
-    "display_name":"IME - Bloco B, 1010, Rua do Matão, Butantã, São Paulo, RMSP, São Paulo, Southeast Region, 05508-090, Brazil",
-    "class":"building",
-    "type":"yes",
-    "importance":0.501}
-  ];
-
   var expected = "<li class='pure-menu-item'><a href='#' id='origin-0' class='pure-menu-link origin-suggestion-item'>IME - Bloco B, 1010, Rua do Matão, Butantã, São Paulo, RMSP, São Paulo, Southeast Region, 05508-090, Brazil</a></li>";
 
   var result = getAddressListHTML(addressIME, 'origin');
@@ -46,20 +48,69 @@ QUnit.test("getAddressListHTML", function (assert) {
 QUnit.test("hideAddressList", function (assert) {
   var orig_$ = $;
 
-  var obj = {
+  var test_stubs = {
     "empty": sinon.spy(),
-    "hide": sinon.spy()
+    "hide":  sinon.spy()
   };
 
-  $ = sinon.stub().returns(obj);
+  $ = sinon.stub().returns(test_stubs);
 
   hideAddressList('origin');
 
   assert.ok($.calledWith('#origin-table'), "#origin-table reached correctly");
   assert.ok($.calledWith('#origin-heading'), "#origin-heading reached correctly");
 
-  assert.ok(obj.empty.calledOnce, "The list is emptied");
-  assert.ok(obj.hide.calledTwice, "The elements are hidden");
+  assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
+  assert.ok(test_stubs.hide.calledTwice, "The elements are hidden");
 
   $ = orig_$;
 });
+
+QUnit.test("showAddressList", function (assert) {
+  var orig_$ = $;
+  
+  var test_stubs = {
+    "empty":  sinon.spy(),
+    "show":   sinon.spy(),
+    "append": sinon.spy(),
+    "click":  sinon.spy()
+  };
+
+  $ = sinon.stub().returns(test_stubs);
+  
+  showAddressList(addressIME, 'origin');
+
+  assert.ok($.calledWith("#origin-table"), "#origin-table reached correctly");
+  assert.ok($.calledWith("#origin-heading"), "#origin-heading reached correctly");
+  assert.ok($.calledWith(".origin-suggestion-item"), ".origin-suggestion-item reached correctly");
+
+  assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
+  assert.ok(test_stubs.show.calledTwice, "The elements are shown");
+  assert.ok(test_stubs.append.calledOnce, "The elements are added to the list");
+  assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
+
+
+  $ = orig_$;
+});
+
+QUnit.test("menuItemSelected", function (assert) {
+  var oring_$ = $;
+  
+  var test_stubs = {
+    "val":    sinon.spy(),
+    "empty":  sinon.spy(),
+    "hide":   sinon.spy(),
+  };
+
+  $ = sinon.stub().returns(test_stubs);
+  
+  var test_event = {"target": {"id": "origin-0"}};
+
+  menuItemSelected(test_event, addressIME);
+
+  assert.ok($.calledWith("#origin-address"), "#origin-address reached correctly");
+  assert.ok(test_stubs.val.calledWith(addressIME[0].display_name), "Address textbox changed correctly");
+
+  $ = oring_$;
+});
+

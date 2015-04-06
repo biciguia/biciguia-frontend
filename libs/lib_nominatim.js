@@ -25,3 +25,17 @@ function getGeocoderURLFromAddress(address, source) {
   return geoCoderURL;
 }
 
+function getAddressListHTML(addresses, source) {
+  var list = [];
+
+  for (var i = 0; i < addresses.length; i++) {
+    var display_name = addresses[i].display_name;
+    var itemHtml = "<li class='pure-menu-item'>";
+    itemHtml += "<a href='#' id='"+source+"-"+i+"' class='pure-menu-link "+source+"-suggestion-item'>";
+    itemHtml += display_name+"</a></li>";
+
+    list.push(itemHtml);
+  }
+
+  return list;
+}

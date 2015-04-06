@@ -2,9 +2,6 @@
 var madeRequest = false;
 var lastKeypressId = 0;
 
-// setup event handlers only after the DOM is ready
-$(document).ready(onDOMReady);
-
 function onDOMReady() {
   $("#route-button").click(function() {
     // TODO calculate route and display info
@@ -68,13 +65,8 @@ function showAddressList(addresses, source) {
   var heading = $('#'+source+'-heading');
   heading.show();
 
-  for (var i = 0; i < addresses.length; i++) {
-    var display_name = addresses[i].display_name;
-    var itemHtml = "<li class='pure-menu-item'>";
-    itemHtml += "<a href='#' id='"+source+"-"+i+"' class='pure-menu-link "+source+"-suggestion-item'>";
-    itemHtml += display_name+"</a></li>";
-    list.append(itemHtml);
-  }
+  var listElements = getAddressListHTML(addresses, source);
+  list.append(listElements);
 
   $('.'+source+'-suggestion-item').click(bind2ndArgument(menuItemSelected, addresses));
 }

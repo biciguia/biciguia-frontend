@@ -44,6 +44,9 @@
 <script type="text/javascript" src="libs/ui_nominatim.js"></script>
 
 <script>
+// setup event handlers only after the DOM is ready
+$(document).ready(onDOMReady);
+
 // create a map in the "map" div, set the view to a given place and zoom
 var map = L.map('map').setView([-23.5475, -46.63611], 13);
 

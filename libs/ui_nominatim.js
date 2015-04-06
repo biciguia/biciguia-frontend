@@ -54,8 +54,11 @@ function menuItemSelected(event, addressesList) {
   var pieces = event.target.id.split('-');
   var source = pieces[0];
   var i = parseInt(pieces[1]);
+  var coords = [addressesList[i].lat, addressesList[i].lon];
   $('#'+source+'-address').val(addressesList[i].display_name);
   hideAddressList(source);
+  L.marker(coords).addTo(map);
+  map.setView(coords);
 }
 
 function showAddressList(addresses, source) {

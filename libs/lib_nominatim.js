@@ -1,3 +1,15 @@
+
+var map;
+function initializeMap(){
+  map = L.map('map').setView([-23.5475, -46.63611], 13);
+  // add an OpenStreetMap tile layer
+  L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+}
+
+
 // utility functions
 function errorCallback() {
   console.log("ERROR");

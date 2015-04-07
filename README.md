@@ -1,3 +1,1 @@
-Frontend do Projeto Biciguia.
-
-Alguma hora a gente escreve mais aqui.
+Biciguia project is distributed under GNU General Public License.

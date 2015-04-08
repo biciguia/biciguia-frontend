@@ -39,7 +39,7 @@ function bind2ndArgument(callback, source) {
 }
 //
 
-function getGeocoderURLFromAddress(address, source) {
+function getGeocoderURLFromAddress(address) {
   if (address.match('^ *$')) {
     return undefined;
   }

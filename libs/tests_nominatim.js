@@ -29,13 +29,16 @@ var addressIME = [{
     "importance":0.501
 }];
 
-
+/* globals for mocking */
+var $;
 
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");
   var expected = '//nominatim.openstreetmap.org/search?format=json&city=S%C3%A3o%20Paulo&state=S%C3%A3o%20Paulo&country=Brasil&street=Rua%20do%20Matao%2C%201010';
 
   assert.ok(result == expected, "URL returned is ok");
+
+  assert.ok(getGeocoderURLFromAddress("    ") == undefined, "Spaces are handled correctly");
 });
 
 QUnit.test("bind2ndArgument", function (assert) {
@@ -63,8 +66,6 @@ QUnit.test("getAddressListHTML", function (assert) {
 });
 
 QUnit.test("hideAddressList", function (assert) {
-  var orig_$ = $;
-
   var test_stubs = {
     "empty": sinon.spy(),
     "hide":  sinon.spy()
@@ -79,13 +80,9 @@ QUnit.test("hideAddressList", function (assert) {
 
   assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
   assert.ok(test_stubs.hide.calledTwice, "The elements are hidden");
-
-  $ = orig_$;
 });
 
 QUnit.test("showAddressList", function (assert) {
-  var orig_$ = $;
-  
   var test_stubs = {
     "empty":  sinon.spy(),
     "show":   sinon.spy(),
@@ -105,14 +102,9 @@ QUnit.test("showAddressList", function (assert) {
   assert.ok(test_stubs.show.calledTwice, "The elements are shown");
   assert.ok(test_stubs.append.calledOnce, "The elements are added to the list");
   assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
-
-
-  $ = orig_$;
 });
 
 QUnit.test("menuItemSelected", function (assert) {
-  var oring_$ = $;
-  
   var test_stubs = {
     "val":    sinon.spy(),
     "empty":  sinon.spy(),
@@ -127,7 +119,5 @@ QUnit.test("menuItemSelected", function (assert) {
 
   assert.ok($.calledWith("#origin-address"), "#origin-address reached correctly");
   assert.ok(test_stubs.val.calledWith(addressIME[0].display_name), "Address textbox changed correctly");
-
-  $ = oring_$;
 });
 

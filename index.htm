@@ -16,18 +16,21 @@
   <span class="pure-menu-heading">Biciguia</span>
   <form class="pure-form pure-form-stacked">
     <ul class="pure-menu-list">
+      <!-- TODO: Address is hidden behind maps: fix it. -->
       <input type="text" class="address pure-input" id="origin-address" placeholder="Origem">
+      <div id="address-suggestion-origin">
+        <span class="pure-menu-heading" id="origin-heading" style="display: none">Endereços de Origem</span>
+        <ul class="pure-menu-list" id="origin-table" style="display: none">
+        </ul>
+      </div>
       <input type="text" class="address pure-input" id="destination-address" placeholder="Destino">
+      <div id="address-suggestion-destination">
+        <span class="pure-menu-heading" id="destination-heading" style="display: none">Endereços de Destino</span>
+        <ul class="pure-menu-list" id="destination-table" style="display: none">
+        </ul>
+      </div>
       <button type="button" id="route-button" class="pure-button">Buscar rota</button>
     </ul>
-    <div id="address-suggestions">
-      <span class="pure-menu-heading" id="origin-heading" style="display: none">Endereços de Origem</span>
-      <ul class="pure-menu-list" id="origin-table" style="display: none">
-      </ul>
-      <span class="pure-menu-heading" id="destination-heading" style="display: none">Endereços de Destino</span>
-      <ul class="pure-menu-list" id="destination-table" style="display: none">
-      </ul>
-    </div>
   </form>
   </div>
 

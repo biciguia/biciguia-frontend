@@ -74,6 +74,7 @@ function menuItemSelected(event, addressesList) {
   var source = pieces[0];
   var i = parseInt(pieces[1]);
   var coords = [addressesList[i].lat, addressesList[i].lon];
+  var zoom = 18;
   $('#'+source+'-address').val(addressesList[i].display_name);
   hideAddressList(source);
   if(source == "origin"){
@@ -93,11 +94,18 @@ function menuItemSelected(event, addressesList) {
     }
     else markerDestination = new L.Marker(coords).addTo(map);
   }
+  map.setZoom(zoom);
   map.setView(coords);
-  var deltaLat = markerDestination.getLatLng().lat - markerOrigin.getLatLng().lat;
-  var deltaLng = markerDestination.getLatLng().lng - markerOrigin.getLatLng().lng;
-  if (markerOrigin != undefined && markerDestination != undefined && markerOrigin!=markerDestination)
-    map.setView([markerOrigin.getLatLng().lat + deltaLat/2, markerOrigin.getLatLng().lng + deltaLng/2]);
+  
+  if (markerOrigin != undefined && markerDestination != undefined)
+  {
+    var dist = Math.sqrt(Math.pow(markerDestination.getLatLng().lat - markerOrigin.getLatLng().lat, 2) + Math.pow(markerDestination.getLatLng().lng - markerOrigin.getLatLng().lng, 2));
+    var distMax = 0.2533425413595797;
+    zoom = Math.round(18 - 7*(dist/distMax));
+    map.setZoom(zoom);
+    map.setView([(markerOrigin.getLatLng().lat + markerDestination.getLatLng().lat)/2, (markerOrigin.getLatLng().lng + markerDestination.getLatLng().lng)/2]);
+  }
+
 }
 
 function showAddressList(addresses, source) {

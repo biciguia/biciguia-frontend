@@ -15,24 +15,30 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
-// request URL to get Sao Paulo weather information by the city id (3448439).
-var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?id=3448439";
+function getWeatherData() {
+  // request URL to get Sao Paulo weather information by the city id (3448439).
+  var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?id=3448439";
 
-// object storing the weather information.
-var weatherInfo = jQuery.parseJSON(
-  jQuery.ajax({
+  // object storing the weather information.
+  var weatherInfo = $.parseJSON(
+    $.ajax({
     url: weatherUrl, 
     async: false,
     dataType: 'json'
-  }).responseText
-);
+    }).responseText
+  );
 
-console.log(weatherInfo);
-console.log("Icon: " + weatherInfo.weather[0].icon);
+  console.log(weatherInfo);
+  console.log("Icon: " + weatherInfo.weather[0].icon);
 
-// convert the temperature from Kelvin to Celsius
-var tempMaxCelsius = weatherInfo.main.temp_max - 273.15;
-var tempMinCelsius = weatherInfo.main.temp_min - 273.15;
+  return weatherInfo;
+}
 
-document.getElementById("temp").innerHTML = "Temperatura:<br /><br /> MÁX: "+ tempMaxCelsius.toFixed(0)+"<br /> MIN: "
-	+ tempMinCelsius.toFixed(0);
+function displayTemperature(weatherInfo){
+  // convert the temperature from Kelvin to Celsius
+  var tempMaxCelsius = weatherInfo.main.temp_max - 273.15;
+  var tempMinCelsius = weatherInfo.main.temp_min - 273.15;
+
+  $("#temp").html("Temperatura:<br /><br /> MÁX: "+ tempMaxCelsius.toFixed(0)+"<br /> MIN: "
+    + tempMinCelsius.toFixed(0));
+}

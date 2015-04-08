@@ -58,7 +58,7 @@ function keyUpHandler(event) {
 }
 
 function showGeocodes(address, source) {
-  var geoCoderURL = getGeocoderURLFromAddress(address, source);
+  var geoCoderURL = getGeocoderURLFromAddress(address);
 
   if (geoCoderURL == undefined) {
     hideAddressList(source);
@@ -92,10 +92,12 @@ function menuItemSelected(event, addressesList) {
       markerDestination.update();
     }
     else markerDestination = new L.Marker(coords).addTo(map);
-  
   }
   map.setView(coords);
-  console.log("A: " + markerOrigin.getLatLng() + "  B: " + markerDestination.getLatLng());
+  var deltaLat = markerDestination.getLatLng().lat - markerOrigin.getLatLng().lat;
+  var deltaLng = markerDestination.getLatLng().lng - markerOrigin.getLatLng().lng;
+  if (markerOrigin != undefined && markerDestination != undefined && markerOrigin!=markerDestination)
+    map.setView([markerOrigin.getLatLng().lat + deltaLat/2, markerOrigin.getLatLng().lng + deltaLng/2]);
 }
 
 function showAddressList(addresses, source) {
@@ -108,6 +110,7 @@ function showAddressList(addresses, source) {
   var listElements = getAddressListHTML(addresses, source);
   list.append(listElements);
 
+  $('.'+source+'-suggestion-item').click(bind2ndArgument(menuItemSelected, addresses));
 }
 
 function hideAddressList(source) {

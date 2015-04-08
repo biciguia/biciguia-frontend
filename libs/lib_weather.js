@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 function getWeatherData(callback) {
   // request URL to get Sao Paulo weather information by the city id (3448439).
-  var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?id=3448439";
+  var weatherUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?units=metric&id=3448439&cnt=2"
 
   $.get(weatherUrl, callback);
 }

@@ -16,13 +16,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
 function displayTemperature(weatherInfo){
-  // convert the temperature from Kelvin to Celsius
-  var tempMaxCelsius = weatherInfo.main.temp_max - 273.15;
-  var tempMinCelsius = weatherInfo.main.temp_min - 273.15;
+	var html = "Tempo<br><br>";
 
-  $("#temp").html("Temperatura:<br /><br /> MÁX: "+ tempMaxCelsius.toFixed(0)+"<br /> MIN: "
-    + tempMinCelsius.toFixed(0));
+	for (var i = 0; i < 2; i++) {
+		var info = weatherInfo.list[i];
+		html += "<img src='" +
+			'http://openweathermap.org/img/w/' + info.weather[0].icon + '.png' +
+			"'></img><br>";
+		html += "Máx " + info.temp.max + " °C<br>";
+		html += "Min " + info.temp.min + " °C<br>";
+		html += "Humidade do ar " + info.humidity + "%<br>";
 
-  console.log(weatherInfo);
-  //console.log("Icon: " + weatherInfo.weather[0].icon);
+		if (i == 0) {
+			html += "<br>Amanhã<br>";
+		}
+	}
+
+	$("#weather").html(html);
 }

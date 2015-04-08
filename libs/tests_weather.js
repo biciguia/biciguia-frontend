@@ -25,17 +25,35 @@ QUnit.test("getWeatherData", function (assert) {
 
   getWeatherData('dummy');
 
-  var expectedURL = "http://api.openweathermap.org/data/2.5/weather?id=3448439";
+  var expectedURL = "http://api.openweathermap.org/data/2.5/forecast/daily?units=metric&id=3448439&cnt=2";
 
   assert.ok($.get.calledWith(expectedURL, 'dummy'), "$.get called correctly");
 });
 
 QUnit.test("displayTemperature", function (assert) {
   var weatherInfo = {
-    "main": {
-      "temp_max": 273.15 + 10,
-      "temp_min": 273.15 + 5
-    }
+    "list": [
+    {
+      "humidity": 50,
+      "temp": {
+        "max": 30,
+        "min": 15
+      },
+      "weather": [{
+        "icon": 'dummy1'
+      }]
+    },
+    {
+      "humidity": 80,
+      "temp": {
+        "max": 40,
+        "min": 25
+      },
+      "weather": [{
+        "icon": 'dummy2'
+      }]
+    },
+    ]
   };
 
   var test_stubs = {
@@ -46,9 +64,12 @@ QUnit.test("displayTemperature", function (assert) {
 
   displayTemperature(weatherInfo);
 
-  assert.ok($.calledWith("#temp"), "#temp accessed correctly");
+  assert.ok($.calledWith("#weather"), "#weather accessed correctly");
 
-  var expected = "Temperatura:<br /><br /> MÁX: 10<br /> MIN: 5";
+  var expected = "Tempo<br><br><img src='http://openweathermap.org/img/w/dummy1.png'></img>" +
+  "<br>Máx 30 °C<br>Min 15 °C<br>Humidade do ar 50%<br><br>" + 
+  "Amanhã<br><img src='http://openweathermap.org/img/w/dummy2.png'></img>" +
+  "<br>Máx 40 °C<br>Min 25 °C<br>Humidade do ar 80%<br>";
 
   assert.ok(test_stubs.html.calledWith(expected), "Temperature rendered correctly");
 

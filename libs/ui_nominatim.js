@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 // globals used by the UI code
 var madeRequest = false;
 var lastKeypressId = 0;
+var markerOrigin;
+var markerDestination;
 
 function onDOMReady() {
   $("#route-button").click(function() {
@@ -74,8 +76,26 @@ function menuItemSelected(event, addressesList) {
   var coords = [addressesList[i].lat, addressesList[i].lon];
   $('#'+source+'-address').val(addressesList[i].display_name);
   hideAddressList(source);
-  L.marker(coords).addTo(map);
+  if(source == "origin"){
+    if (markerOrigin != undefined )
+    {
+      markerOrigin.setLatLng(coords);
+      markerOrigin.update();
+    }
+    else markerOrigin = new L.Marker(coords).addTo(map);
+  }
+  else
+  {
+     if (markerDestination != undefined )
+    {
+      markerDestination.setLatLng(coords);
+      markerDestination.update();
+    }
+    else markerDestination = new L.Marker(coords).addTo(map);
+  
+  }
   map.setView(coords);
+  console.log("A: " + markerOrigin.getLatLng() + "  B: " + markerDestination.getLatLng());
 }
 
 function showAddressList(addresses, source) {
@@ -88,7 +108,6 @@ function showAddressList(addresses, source) {
   var listElements = getAddressListHTML(addresses, source);
   list.append(listElements);
 
-  $('.'+source+'-suggestion-item').click(bind2ndArgument(menuItemSelected, addresses));
 }
 
 function hideAddressList(source) {
@@ -99,4 +118,3 @@ function hideAddressList(source) {
   var heading = $('#'+source+'-heading');
   heading.hide();
 }
-

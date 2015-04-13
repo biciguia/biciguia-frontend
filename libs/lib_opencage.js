@@ -44,11 +44,16 @@ function getGeocoderURLFromAddress(address) {
     return undefined;
   }
 
-  var geoCoderURL = "//nominatim.openstreetmap.org/search?format=json";
-  geoCoderURL += "&city=" + encodeURIComponent("São Paulo");
-  geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
-  geoCoderURL += "&country=Brasil";
-  geoCoderURL += "&street=" + encodeURIComponent(address);
+  var api_key = '651ad55fe59eed0f1beb0c550ab6b0d3';
+
+  address += ", São Paulo";
+
+  var geoCoderURL = "https://api.opencagedata.com/geocode/v1/json?key=" + encodeURIComponent(api_key);
+  geoCoderURL += "&countrycode=BR";
+  geoCoderURL += "&language=pt-BR";
+  geoCoderURL += "&min_confidence=3";
+  geoCoderURL += "&fields=" + encodeURIComponent("geometry,components");
+  geoCoderURL += "&q=" + encodeURIComponent(address);
 
   return geoCoderURL;
 }
@@ -56,8 +61,8 @@ function getGeocoderURLFromAddress(address) {
 function getAddressListHTML(addresses, source) {
   var list = [];
 
-  for (var i = 0; i < addresses.length; i++) {
-    var display_name = addresses[i].display_name;
+  for (var i = 0; i < addresses.results.length; i++) {
+    var display_name = addresses.results[i].formatted;
     var itemHtml = "<li class='pure-menu-item'>";
     itemHtml += "<a href='#' id='"+source+"-"+i+"' class='pure-menu-link "+source+"-suggestion-item'>";
     itemHtml += display_name+"</a></li>";

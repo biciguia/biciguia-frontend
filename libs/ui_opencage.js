@@ -73,9 +73,10 @@ function menuItemSelected(event, addressesList) {
   var pieces = event.target.id.split('-');
   var source = pieces[0];
   var i = parseInt(pieces[1]);
-  var coords = [addressesList[i].lat, addressesList[i].lon];
+  var coords = [addressesList.results[i].geometry.lat,
+                addressesList.results[i].geometry.lng];
   var zoom = 18;
-  $('#'+source+'-address').val(addressesList[i].display_name);
+  $('#'+source+'-address').val(addressesList.results[i].formatted);
   hideAddressList(source);
   if(source == "origin"){
     if (markerOrigin != undefined )
@@ -96,7 +97,7 @@ function menuItemSelected(event, addressesList) {
   }
   map.setZoom(zoom);
   map.setView(coords);
-  
+
   if (markerOrigin != undefined && markerDestination != undefined)
   {
     var dist = Math.sqrt(Math.pow(markerDestination.getLatLng().lat - markerOrigin.getLatLng().lat, 2) + Math.pow(markerDestination.getLatLng().lng - markerOrigin.getLatLng().lng, 2));

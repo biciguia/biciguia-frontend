@@ -172,13 +172,32 @@ QUnit.test("menuItemSelected", function (assert) {
     "hide":   sinon.spy(),
   };
 
+  var marker_stub = {
+    "addTo": sinon.spy()
+  };
+
+  var map_stub = {
+    "setView": sinon.spy(),
+    "fitBounds": sinon.spy()
+  };
   $ = sinon.stub().returns(test_stubs);
+
+  var old_L = L;
+  L = sinon.stub(old_L);
+  L.Marker.returns(marker_stub);
+
+  map = map_stub;
 
   var test_event = {"target": {"id": "origin-0"}};
 
   menuItemSelected(test_event, addressIME);
 
   assert.ok($.calledWith("#origin-address"), "#origin-address reached correctly");
-  assert.ok(test_stubs.val.calledWith(addressIME[0].display_name), "Address textbox changed correctly");
+  assert.ok(test_stubs.val.calledWith(addressIME.results[0].formatted), "Address textbox changed correctly");
+  assert.ok(L.Marker.calledWith([addressIME.results[0].geometry.lat, addressIME.results[0].geometry.lng]), "Marker created in the right place");
+  assert.ok(marker_stub.addTo.calledWith(map_stub), "Marker added to map");
+  assert.ok(map_stub.setView.calledWith([addressIME.results[0].geometry.lat, addressIME.results[0].geometry.lng], 17), "Map centered arround maker");
+
+  L = old_L;
 });
 

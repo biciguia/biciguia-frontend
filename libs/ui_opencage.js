@@ -18,8 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 // globals used by the UI code
 var madeRequest = false;
 var lastKeypressId = 0;
-var markerOrigin;
-var markerDestination;
+var markers = [undefined, undefined];
 
 function onDOMReady() {
   $("#route-button").click(function() {
@@ -75,36 +74,25 @@ function menuItemSelected(event, addressesList) {
   var i = parseInt(pieces[1]);
   var coords = [addressesList.results[i].geometry.lat,
                 addressesList.results[i].geometry.lng];
-  var zoom = 18;
+  var zoom = 17;
   $('#'+source+'-address').val(addressesList.results[i].formatted);
   hideAddressList(source);
-  if(source == "origin"){
-    if (markerOrigin != undefined )
-    {
-      markerOrigin.setLatLng(coords);
-      markerOrigin.update();
-    }
-    else markerOrigin = new L.Marker(coords).addTo(map);
+  var markerIdx = 0;
+  if(source == "destination") {
+    markerIdx = 1;
+  } 
+  if (markers[markerIdx] != undefined ) {
+    markers[markerIdx].setLatLng(coords);
+    markers[markerIdx].update();
+  } else {
+    markers[markerIdx] = new L.Marker(coords).addTo(map);
   }
-  else
-  {
-     if (markerDestination != undefined )
-    {
-      markerDestination.setLatLng(coords);
-      markerDestination.update();
-    }
-    else markerDestination = new L.Marker(coords).addTo(map);
-  }
-  map.setZoom(zoom);
-  map.setView(coords);
 
-  if (markerOrigin != undefined && markerDestination != undefined)
-  {
-    var dist = Math.sqrt(Math.pow(markerDestination.getLatLng().lat - markerOrigin.getLatLng().lat, 2) + Math.pow(markerDestination.getLatLng().lng - markerOrigin.getLatLng().lng, 2));
-    var distMax = 0.2533425413595797;
-    zoom = Math.round(18 - 7*(dist/distMax));
-    map.setZoom(zoom);
-    map.setView([(markerOrigin.getLatLng().lat + markerDestination.getLatLng().lat)/2, (markerOrigin.getLatLng().lng + markerDestination.getLatLng().lng)/2]);
+  if (markers[0] != undefined && markers[1] != undefined) {
+    var group = new L.featureGroup(markers);
+    map.fitBounds(group.getBounds());
+  }else{
+    map.setView(coords, zoom);
   }
 
 }

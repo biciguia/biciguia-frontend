@@ -67,9 +67,9 @@ QUnit.test("displayTemperature", function (assert) {
   assert.ok($.calledWith("#weather"), "#weather accessed correctly");
 
   var expected = "Tempo<br><br><img src='http://openweathermap.org/img/w/dummy1.png'></img>" +
-  "<br>Máx 30 °C<br>Min 15 °C<br>Humidade do ar 50%<br><br>" + 
+  "<br>Máx 30 °C<br>Min 15 °C<br>Umidade do ar 50%<br><br>" + 
   "Amanhã<br><img src='http://openweathermap.org/img/w/dummy2.png'></img>" +
-  "<br>Máx 40 °C<br>Min 25 °C<br>Humidade do ar 80%<br>";
+  "<br>Máx 40 °C<br>Min 25 °C<br>Umidade do ar 80%<br>";
 
   assert.ok(test_stubs.html.calledWith(expected), "Temperature rendered correctly");
 

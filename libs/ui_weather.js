@@ -25,7 +25,7 @@ function displayTemperature(weatherInfo){
 			"'></img><br>";
 		html += "Máx " + info.temp.max + " °C<br>";
 		html += "Min " + info.temp.min + " °C<br>";
-		html += "Humidade do ar " + info.humidity + "%<br>";
+		html += "Umidade do ar " + info.humidity + "%<br>";
 
 		if (i == 0) {
 			html += "<br>Amanhã<br>";

@@ -54,7 +54,7 @@ function keyUpHandler(event) {
       showGeocodesAfterEvent(event);
     }
     // TODO adjust the timeout below
-  }, 100);
+  }, 400);
 }
 
 function showGeocodes(address, source) {
@@ -76,7 +76,10 @@ function menuItemSelected(event, addressesList) {
   var coords = [addressesList.results[i].geometry.lat,
   addressesList.results[i].geometry.lng];
   var zoom = 17;
-  $('#'+source+'-address').val(addressesList.results[i].formatted);
+  var road_name = addressesList.results[i].formatted;
+  road_name = road_name.replace(/, Brasil$/, '');
+  road_name = road_name.replace(/, São Paulo - SP$/, '');
+  $('#'+source+'-address').val(road_name);
   hideAddressList(source);
   var markerIdx = 0;
   if(source == "destination") {
@@ -100,6 +103,14 @@ function menuItemSelected(event, addressesList) {
 
 function showAddressList(addresses, source) {
   spinner.stop();
+
+  for (var i = 0; i < addresses.results.length; i++) {
+    if (addresses.results[i].components.city != "São Paulo" ||
+        addresses.results[i].components.road == undefined) {
+      addresses.results.splice(i, 1);
+      i--;
+    }
+  }
 
   var list = $('#'+source+'-table');
   list.empty();

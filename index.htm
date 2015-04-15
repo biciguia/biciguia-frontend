@@ -1,68 +1,67 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>É isso aí, negada</title>
-  <link rel="stylesheet" type="text/css" href="assets/leaflet-0.7.3/leaflet.css">
-  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/regras_basicas.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>É isso aí, negada</title>
+    <link rel="stylesheet" type="text/css" href="assets/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/regras_basicas.css">
+  </head>
+  <body>
 
-<div class="header">Cabeçalho central</div>
+    <div class="header">Cabeçalho central</div>
 
-<div id="content" class="body">
-  <div id="menu" class="pure-menu ">
-    <div class="pure-g pure-menu-heading">
-  	  <span class="pure-u-1-2" >Biciguia</span>
-	  <div class="pure-u-1-2" style=" position:relative"id="spinner"></div>
-	</div>
-  <form class="pure-form pure-form-stacked">
-    <ul class="pure-menu-list">
-      <!-- TODO: Address is hidden behind maps: fix it. -->
-      <input type="text" class="address pure-input" id="origin-address" placeholder="Origem">
-      <div id="address-suggestion-origin">
-        <span class="pure-menu-heading" id="origin-heading" style="display: none">Endereços de Origem</span>
-        <ul class="pure-menu-list" id="origin-table" style="display: none">
-        </ul>
+    <div id="content" class="body">
+      <div id="menu" class="pure-menu ">
+        <div class="pure-g pure-menu-heading">
+          <span class="pure-u-1-2" >Biciguia</span>
+          <div class="pure-u-1-2" style=" position:relative"id="spinner"></div>
+        </div>
+        <form class="pure-form pure-form-stacked">
+          <ul class="pure-menu-list">
+            <!-- TODO: Address is hidden behind maps: fix it. -->
+            <input type="text" class="address pure-input" id="origin-address" placeholder="Origem">
+            <div id="address-suggestion-origin">
+              <span class="pure-menu-heading" id="origin-heading" style="display: none">Endereços de Origem</span>
+              <ul class="pure-menu-list" id="origin-table" style="display: none">
+              </ul>
+            </div>
+            <input type="text" class="address pure-input" id="destination-address" placeholder="Destino">
+            <div id="address-suggestion-destination">
+              <span class="pure-menu-heading" id="destination-heading" style="display: none">Endereços de Destino</span>
+              <ul class="pure-menu-list" id="destination-table" style="display: none">
+              </ul>
+            </div>
+            <button type="button" id="route-button" class="pure-button">Buscar rota</button>
+          </ul>
+        </form>
+        <div id="weather"></div>
       </div>
-      <input type="text" class="address pure-input" id="destination-address" placeholder="Destino">
-      <div id="address-suggestion-destination">
-        <span class="pure-menu-heading" id="destination-heading" style="display: none">Endereços de Destino</span>
-        <ul class="pure-menu-list" id="destination-table" style="display: none">
-        </ul>
+
+
+      <div id="map">
       </div>
-      <button type="button" id="route-button" class="pure-button">Buscar rota</button>
-    </ul>
-  </form>
-  <div id="weather"></div> 
-  </div>
+    </div>
 
 
-  <div id="map">
-  </div>
-</div>
+    <script type="text/javascript" src="assets/js/spin.min.js"></script>
+    <script type="text/javascript" src="assets/leaflet-0.7.3/leaflet.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
 
-<script type="text/javascript" src="assets/js/spin.min.js"></script>
-<script type="text/javascript" src="assets/leaflet-0.7.3/leaflet.js"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="libs/lib_misc.js"></script>
+    <script type="text/javascript" src="libs/lib_weather.js"></script>
+    <script type="text/javascript" src="libs/ui_weather.js"></script>
+    <script type="text/javascript" src="libs/lib_opencage.js"></script>
+    <script type="text/javascript" src="libs/ui_opencage.js"></script>
 
+    <script>
+    // setup event handlers only after the DOM is ready
+    $(document).ready(onDOMReady);
 
-<script type="text/javascript" src="libs/lib_misc.js"></script>
-<script type="text/javascript" src="libs/lib_weather.js"></script>
-<script type="text/javascript" src="libs/ui_weather.js"></script>
-<script type="text/javascript" src="libs/lib_opencage.js"></script>
-<script type="text/javascript" src="libs/ui_opencage.js"></script>
-
-<script>
-// setup event handlers only after the DOM is ready
-$(document).ready(onDOMReady);
-
-// create a map in the "map" div, set the view to a given place and zoom
-initializeMap();
-getWeatherData(displayTemperature);
-
-</script>
-</body>
+    // create a map in the "map" div, set the view to a given place and zoom
+    initializeMap();
+    getWeatherData(displayTemperature);
+    </script>
+  </body>
 </html>

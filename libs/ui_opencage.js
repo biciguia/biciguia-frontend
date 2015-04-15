@@ -24,6 +24,7 @@ function onDOMReady() {
   $("#route-button").click(function() {
     // TODO calculate route and display info
     console.log("Button clicked");
+    routeByCoordinates(markers[0]._latlng,markers[1]._latlng);
   });
 
   $(".address").focusout(showGeocodesAfterEvent);
@@ -92,6 +93,7 @@ function menuItemSelected(event, addressesList) {
   if (markers[0] != undefined && markers[1] != undefined) {
     var group = new L.featureGroup(markers);
     map.fitBounds(group.getBounds());
+
   }else{
     map.setView(coords, zoom);
   }

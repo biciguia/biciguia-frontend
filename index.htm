@@ -2,14 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>É isso aí, negada</title>
+    <title>Biciguia</title>
     <link rel="stylesheet" type="text/css" href="assets/leaflet-0.7.3/leaflet.css">
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/regras_basicas.css">
   </head>
   <body>
-
-    <div class="header">Cabeçalho central</div>
 
     <div id="content" class="body">
       <div id="menu" class="pure-menu ">
@@ -21,17 +19,11 @@
           <ul class="pure-menu-list">
             <!-- TODO: Address is hidden behind maps: fix it. -->
             <input type="text" class="address pure-input" id="origin-address" placeholder="Origem">
-            <div id="address-suggestion-origin">
-              <span class="pure-menu-heading" id="origin-heading" style="display: none">Endereços de Origem</span>
-              <ul class="pure-menu-list" id="origin-table" style="display: none">
-              </ul>
-            </div>
+            <ul class="address-suggestion pure-menu-list" id="origin-table">
+            </ul>
             <input type="text" class="address pure-input" id="destination-address" placeholder="Destino">
-            <div id="address-suggestion-destination">
-              <span class="pure-menu-heading" id="destination-heading" style="display: none">Endereços de Destino</span>
-              <ul class="pure-menu-list" id="destination-table" style="display: none">
-              </ul>
-            </div>
+            <ul class="address-suggestion pure-menu-list" id="destination-table">
+            </ul>
             <button type="button" id="route-button" class="pure-button">Buscar rota</button>
           </ul>
         </form>

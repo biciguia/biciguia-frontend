@@ -76,10 +76,7 @@ function menuItemSelected(event, addressesList) {
   var coords = [addressesList.results[i].geometry.lat,
   addressesList.results[i].geometry.lng];
   var zoom = 17;
-  var road_name = addressesList.results[i].formatted;
-  road_name = road_name.replace(/, Brasil$/, '');
-  road_name = road_name.replace(/, São Paulo - SP$/, '');
-  $('#'+source+'-address').val(road_name);
+  $('#'+source+'-address').val(addressesList.results[i].formatted);
   hideAddressList(source);
   var markerIdx = 0;
   if(source == "destination") {
@@ -110,13 +107,15 @@ function showAddressList(addresses, source) {
       addresses.results.splice(i, 1);
       i--;
     }
+    var road_name = addresses.results[i].formatted;
+    road_name = road_name.replace(/, Brasil$/, '');
+    road_name = road_name.replace(/, São Paulo - SP$/, '');
+    addresses.results[i].formatted = road_name;
   }
 
   var list = $('#'+source+'-table');
   list.empty();
   list.show();
-  var heading = $('#'+source+'-heading');
-  heading.show();
 
   var listElements = getAddressListHTML(addresses, source);
   list.append(listElements);
@@ -130,7 +129,4 @@ function hideAddressList(source) {
   var list = $('#'+source+'-table');
   list.empty();
   list.hide();
-
-  var heading = $('#'+source+'-heading');
-  heading.hide();
 }

@@ -18,7 +18,7 @@
 function displayTemperature(weatherInfo) {
   spinner.stop();
 
-  var html = "Tempo<br><br>";
+  var html = "Previsão do tempo<br>";
 
   for (var i = 0; i < 2; i++) {
     var info = weatherInfo.list[i];

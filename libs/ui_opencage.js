@@ -21,8 +21,8 @@ var lastKeypressId = 0;
 var markers = [undefined, undefined];
 
 function onDOMReady() {
-  $("#route-button").click(function() {
-    // TODO calculate route and display info
+	$("#route-button").click(function() {
+			// TODO calculate route and display info
     console.log("Button clicked");
   });
 
@@ -50,10 +50,11 @@ function keyUpHandler(event) {
 
   setTimeout(function() {
     if (lastKeypressId == targetId) {
+      spinner.spin(document.getElementById("spinner"));
       showGeocodesAfterEvent(event);
     }
     // TODO adjust the timeout below
-  }, 1000);
+  }, 100);
 }
 
 function showGeocodes(address, source) {
@@ -98,6 +99,8 @@ function menuItemSelected(event, addressesList) {
 }
 
 function showAddressList(addresses, source) {
+  spinner.stop();
+
   var list = $('#'+source+'-table');
   list.empty();
   list.show();
@@ -111,6 +114,8 @@ function showAddressList(addresses, source) {
 }
 
 function hideAddressList(source) {
+  spinner.stop();
+
   var list = $('#'+source+'-table');
   list.empty();
   list.hide();

@@ -63,8 +63,8 @@ function getAddressListHTML(addresses, source) {
 
   for (var i = 0; i < addresses.results.length; i++) {
     var display_name = addresses.results[i].formatted;
-    var itemHtml = "<li class='pure-menu-item'>";
-    itemHtml += "<a href='#' id='"+source+"-"+i+"' class='pure-menu-link "+source+"-suggestion-item'>";
+    var itemHtml = "<li class='address-suggestion-item pure-menu-item'>";
+    itemHtml += "<a href='#' id='"+source+"-"+i+"' class='address-suggestion-item pure-menu-link "+source+"-suggestion-item'>";
     itemHtml += display_name+"</a></li>";
 
     list.push(itemHtml);

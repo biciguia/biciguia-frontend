@@ -1,19 +1,19 @@
 /*
-Copyright © 2015 Biciguia Team
+   Copyright © 2015 Biciguia Team
 
-Biciguia is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+   Biciguia is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-Biciguia is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   Biciguia is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
-*/
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>
+   */
 
 // globals used by the UI code
 var madeRequest = false;
@@ -21,8 +21,8 @@ var lastKeypressId = 0;
 var markers = [undefined, undefined];
 
 function onDOMReady() {
-	$("#route-button").click(function() {
-			// TODO calculate route and display info
+  $("#route-button").click(function() {
+    // TODO calculate route and display info
     console.log("Button clicked");
   });
 
@@ -64,8 +64,8 @@ function showGeocodes(address, source) {
     hideAddressList(source);
   } else {
     $.get(geoCoderURL,
-      bind2ndArgument(showAddressList, source)
-    ).fail(errorCallback);
+        bind2ndArgument(showAddressList, source)
+        ).fail(errorCallback);
   }
 }
 
@@ -74,14 +74,14 @@ function menuItemSelected(event, addressesList) {
   var source = pieces[0];
   var i = parseInt(pieces[1]);
   var coords = [addressesList.results[i].geometry.lat,
-                addressesList.results[i].geometry.lng];
+  addressesList.results[i].geometry.lng];
   var zoom = 17;
   $('#'+source+'-address').val(addressesList.results[i].formatted);
   hideAddressList(source);
   var markerIdx = 0;
   if(source == "destination") {
     markerIdx = 1;
-  } 
+  }
   if (markers[markerIdx] != undefined ) {
     markers[markerIdx].setLatLng(coords);
     markers[markerIdx].update();

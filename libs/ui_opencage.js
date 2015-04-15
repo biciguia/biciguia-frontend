@@ -18,12 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 // globals used by the UI code
 var madeRequest = false;
 var lastKeypressId = 0;
-var markerOrigin;
-var markerDestination;
+var markers = [undefined, undefined];
 
 function onDOMReady() {
-  $("#route-button").click(function() {
-    // TODO calculate route and display info
+	$("#route-button").click(function() {
+			// TODO calculate route and display info
     console.log("Button clicked");
   });
 
@@ -51,10 +50,11 @@ function keyUpHandler(event) {
 
   setTimeout(function() {
     if (lastKeypressId == targetId) {
+      spinner.spin(document.getElementById("spinner"));
       showGeocodesAfterEvent(event);
     }
     // TODO adjust the timeout below
-  }, 1000);
+  }, 100);
 }
 
 function showGeocodes(address, source) {
@@ -73,42 +73,34 @@ function menuItemSelected(event, addressesList) {
   var pieces = event.target.id.split('-');
   var source = pieces[0];
   var i = parseInt(pieces[1]);
-  var coords = [addressesList[i].lat, addressesList[i].lon];
-  var zoom = 18;
-  $('#'+source+'-address').val(addressesList[i].display_name);
+  var coords = [addressesList.results[i].geometry.lat,
+                addressesList.results[i].geometry.lng];
+  var zoom = 17;
+  $('#'+source+'-address').val(addressesList.results[i].formatted);
   hideAddressList(source);
-  if(source == "origin"){
-    if (markerOrigin != undefined )
-    {
-      markerOrigin.setLatLng(coords);
-      markerOrigin.update();
-    }
-    else markerOrigin = new L.Marker(coords).addTo(map);
+  var markerIdx = 0;
+  if(source == "destination") {
+    markerIdx = 1;
+  } 
+  if (markers[markerIdx] != undefined ) {
+    markers[markerIdx].setLatLng(coords);
+    markers[markerIdx].update();
+  } else {
+    markers[markerIdx] = new L.Marker(coords).addTo(map);
   }
-  else
-  {
-     if (markerDestination != undefined )
-    {
-      markerDestination.setLatLng(coords);
-      markerDestination.update();
-    }
-    else markerDestination = new L.Marker(coords).addTo(map);
-  }
-  map.setZoom(zoom);
-  map.setView(coords);
-  
-  if (markerOrigin != undefined && markerDestination != undefined)
-  {
-    var dist = Math.sqrt(Math.pow(markerDestination.getLatLng().lat - markerOrigin.getLatLng().lat, 2) + Math.pow(markerDestination.getLatLng().lng - markerOrigin.getLatLng().lng, 2));
-    var distMax = 0.2533425413595797;
-    zoom = Math.round(18 - 7*(dist/distMax));
-    map.setZoom(zoom);
-    map.setView([(markerOrigin.getLatLng().lat + markerDestination.getLatLng().lat)/2, (markerOrigin.getLatLng().lng + markerDestination.getLatLng().lng)/2]);
+
+  if (markers[0] != undefined && markers[1] != undefined) {
+    var group = new L.featureGroup(markers);
+    map.fitBounds(group.getBounds());
+  }else{
+    map.setView(coords, zoom);
   }
 
 }
 
 function showAddressList(addresses, source) {
+  spinner.stop();
+
   var list = $('#'+source+'-table');
   list.empty();
   list.show();
@@ -122,6 +114,8 @@ function showAddressList(addresses, source) {
 }
 
 function hideAddressList(source) {
+  spinner.stop();
+
   var list = $('#'+source+'-table');
   list.empty();
   list.hide();

@@ -21,7 +21,7 @@ body {
 .address-suggestion {
   z-index: 10;
   position: fixed;
-  background: black;
+  background: #191818;
   display: none;
 }
 

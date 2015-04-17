@@ -4,10 +4,6 @@ body {
   height: 100%;
 }
 
-.header {
-  height: 50px;
-}
-
 body {
   display: flex;
   flex-flow: column wrap;
@@ -15,27 +11,29 @@ body {
 
 .body {
   position: absolute;
-  top: 50px;
+  top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   display: flex;
 }
 
-/*#content {
-  flex: 1 1;
-  display: flex;
-}*/
+.address-suggestion {
+  z-index: 10;
+  position: fixed;
+  background: #191818;
+  display: none;
+}
 
-#address-suggestions {
-  z-index: 1;
-  position: absolute;
-  background: black;
+.address-suggestion-item {
+  padding: 0.2em;
+  padding-right: 0.4em;
 }
 
 #weather{
+  position: absolute;
+  bottom: 0;
   color: white;
-  background-color: gray;
   padding: 1em;
 }
 
@@ -43,20 +41,19 @@ body {
   flex: 1;
   min-width: 75%;
 }
+
 #menu {
   background: none repeat scroll 0% 0% #191818;
-  /*position: fixed;*/
-  /*top: 0px;*/
-  /*bottom: 0px;*/
-  /*overflow: auto;*/
   width: 25%;
   flex: 1;
   display: flex;
   overflow: auto;
   flex-direction: column;
 }
+
 #menu a,label {
     color: #999;
     border: none;
     padding: 0.6em 0 0.6em 0.6em;
 }
+

@@ -15,6 +15,23 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
+var OSRM = {};
+var OSRM.CONSTANTS = {};
+var OSRM.CONSTANTS.PRECISION = {};
+OSRM.RoutingGeometry = {};
+
+function routeByCoordinates(originLatLng, destinationLatLng) {
+  makeRouteRequest(originLatLng, destinationLatLng);
+}
+
+function makeRouteRequest(originLatLng, destinationLatLng) {
+  var requestURL = getRouteURLFromCoordinates(originLatLng, destinationLatLng)
+
+  console.log(requestURL);
+  $.get(requestURL, displayRoute).fail(errorCallback);
+  
+}
+
 function getRouteURLFromCoordinates (originLatLng, destinationLatLng)
 {
   var requestURL = "http://104.131.18.160:5000/viaroute?loc=";
@@ -22,28 +39,20 @@ function getRouteURLFromCoordinates (originLatLng, destinationLatLng)
   requestURL += originLatLng.lng + "&loc=";
   requestURL += destinationLatLng.lat + ",";
   requestURL += destinationLatLng.lng + "&instructions=true";
+
   return requestURL;
 }
 
-function makeRouteRequest(originLatLng, destinationLatLng) {
-  var requestURL = getRouteURLFromCoordinates(originLatLng, destinationLatLng)
-  $.get(requestURL, displayRoute);
+function displayRoute(response) {
+  console.log("DisplayRoute: "+response);
+  // alert("response: "+ response);
+  var decodedResponse = decodeRouteResponse(response);
+  // alert("response depois: "+decodedResponse);
+  // alert("Aqui");
+
 }
 
 function decodeRouteResponse(encodedResponse) {
 
   return _decode(encodedResponse,6);
-}
-
-function displayRoute(response) {
-  var decodedResponse = decodeRouteResponse(response);
-  //display(response);
-  console.log("decodedResponse:");
-  console.log(decodedResponse);
-  console.log("decodedResponse: " + decodedResponse);
-
-}
-
-function routeByCoordinates(originLatLng, destinationLatLng) {
-  makeRouteRequest(originLatLng, destinationLatLng);
 }

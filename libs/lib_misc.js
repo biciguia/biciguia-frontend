@@ -26,6 +26,13 @@ function bind2ndArgument(callback, source) {
   return function(data) { callback(data, source);};
 }
 
+/* fix OSRM.RoutingGeometry.js */
+var OSRM = {};
+OSRM.CONSTANTS = {};
+OSRM.CONSTANTS.PRECISION = {};
+OSRM.RoutingGeometry = {};
+
+
 var spinner = createSpinner();
 
 function createSpinner() {

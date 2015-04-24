@@ -24,8 +24,8 @@ function onDOMReady() {
 
 	$("#route-button").click(function() {
 			// TODO calculate route and display info
-
-    routeByCoordinates(markers[0]._latlng,markers[1]._latlng);
+    if(markers[0] != undefined && markers[1] != undefined)
+       routeByCoordinates(markers[0]._latlng,markers[1]._latlng);
     // alert("Marker[0]: "+markers[0]._latlng+" Marker[1]: "+markers[1]._latlng);
   });
 

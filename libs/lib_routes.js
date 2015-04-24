@@ -42,6 +42,8 @@ function getRouteURLFromCoordinates (originLatLng, destinationLatLng)
 function displayRoute(response) {
   var decodedResponse = decodeRouteResponse(response);
   
+  hideRoute();
+
   polyline = L.polyline(decodedResponse, {color: 'red'}).addTo(map);
   map.fitBounds(polyline.getBounds());
 }

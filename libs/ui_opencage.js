@@ -72,6 +72,7 @@ function showGeocodes(address, source) {
   }
 }
 
+// TODO: Refactor
 function menuItemSelected(event, addressesList) {
   var pieces = event.target.id.split('-');
   var source = pieces[0];
@@ -99,6 +100,8 @@ function menuItemSelected(event, addressesList) {
   }else{
     map.setView(coords, zoom);
   }
+
+  hideRoute();
 
 }
 

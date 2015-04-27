@@ -23,10 +23,15 @@ var markers = [undefined, undefined];
 function onDOMReady() {
 
 	$("#route-button").click(function() {
-			// TODO calculate route and display info
-    if(markers[0] != undefined && markers[1] != undefined)
-       routeByCoordinates(markers[0]._latlng,markers[1]._latlng);
-    // alert("Marker[0]: "+markers[0]._latlng+" Marker[1]: "+markers[1]._latlng);
+			// TODO display info
+    if(markers[0] != undefined && markers[1] != undefined) {
+      var routeOptions = {
+        option1: $('#option-1').is(':checked'),
+        option2: $('#option-2').is(':checked'),
+        option3: $('#option-3').is(':checked')
+      };
+      routeByCoordinates(markers[0]._latlng,markers[1]._latlng, routeOptions);
+    }
   });
 
   $(".address").focusout(showGeocodesAfterEvent);

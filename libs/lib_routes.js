@@ -17,18 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 var polyline;
 
-function routeByCoordinates(originLatLng, destinationLatLng) {
-  makeRouteRequest(originLatLng, destinationLatLng);
-}
+function routeByCoordinates(originLatLng, destinationLatLng, routeOptions) {
+  var requestURL = getRouteURLFromCoordinates(originLatLng, destinationLatLng, routeOptions);
 
-function makeRouteRequest(originLatLng, destinationLatLng) {
-  var requestURL = getRouteURLFromCoordinates(originLatLng, destinationLatLng)
-
-  console.log(requestURL);
   $.get(requestURL, displayRoute).fail(errorCallback);
 }
 
-function getRouteURLFromCoordinates (originLatLng, destinationLatLng)
+function getRouteURLFromCoordinates (originLatLng, destinationLatLng, routeOptions)
 {
   var requestURL = "http://104.131.18.160:5000/viaroute?loc=";
   requestURL += originLatLng.lat + ",";
@@ -36,12 +31,15 @@ function getRouteURLFromCoordinates (originLatLng, destinationLatLng)
   requestURL += destinationLatLng.lat + ",";
   requestURL += destinationLatLng.lng + "&instructions=true";
 
+  // TODO send along options to the router
+  console.log(routeOptions);
+
   return requestURL;
 }
 
 function displayRoute(response) {
   var decodedResponse = decodeRouteResponse(response);
-  
+
   hideRoute();
 
   polyline = L.polyline(decodedResponse, {color: 'red'}).addTo(map);

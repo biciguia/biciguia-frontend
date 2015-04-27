@@ -107,7 +107,6 @@ function menuItemSelected(event, addressesList) {
   }
 
   hideRoute();
-
 }
 
 function showAddressList(addresses, source) {

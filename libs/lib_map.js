@@ -18,38 +18,23 @@
 var map;
 var overlays = {};
 
+var overlayFiles = {
+  "Ambulatórios": "ambulatorios_de_especialidades.json",
+  "Bibliotecas": "bibliotecas.json",
+  "Bosques e Pontos de Leitura": "bosques_e_pontos_de_leitura.json",
+  "Hospitais": "hospitais.json",
+  "Museus": "museus.json",
+  "Pronto-Socorros": "pronto-socorros.json",
+  "Unidades Básicas de Saúde": "ubs.json"
+};
+
 function initializeMap(){
   map = L.map('map').setView([-23.5475, -46.63611], 13);
 
-  var overlayFiles = {
-    "Ambulatórios": "ambulatorios_de_especialidades.json",
-    "Bibliotecas": "bibliotecas.json",
-    "Bosques e Pontos de Leitura": "bosques_e_pontos_de_leitura.json",
-    "Hospitais": "hospitais.json",
-    "Museus": "museus.json",
-    "Pronto-Socorros": "pronto-socorros.json",
-    "Unidades Básicas de Saúde": "ubs.json"
-  };
-
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
-      var count = 1;
-      (function(key){
-        $.getJSON('../assets/overlays/'+overlayFiles[key],
-            function(data) {
-              var markers = createJsonMarkers(data);
-              for (var i = 0; i < markers.length; i++) {
-                markers[i] = L.marker(markers[i].coords).bindPopup(markers[i].description);
-              }
-              overlays[key] = L.layerGroup(markers);
-              count++;
-              if (count == Object.keys(overlayFiles).length) {
-                L.control.layers(undefined, overlays).addTo(map);
-                count = undefined;
-              }
-            }
-          ).fail(errorCallback);
-      })(key);
+      $.getJSON('../assets/overlays/'+overlayFiles[key],
+        bind2ndArgument(createLeafletMarkers, key)).fail(errorCallback);
     }
   }
 
@@ -60,14 +45,30 @@ function initializeMap(){
 
 }
 
-function createJsonMarkers(fileJson) {
+var __count = 0;
+function createLeafletMarkers(fileJson, key) {
+  var markers = createMarkersArray(fileJson);
+
+  for (var i = 0; i < markers.length; i++) {
+    markers[i] = L.marker(markers[i].coords).bindPopup(markers[i].description);
+  }
+
+  overlays[key] = L.layerGroup(markers);
+  __count++;
+  if (__count == Object.keys(overlayFiles).length) {
+    L.control.layers(undefined, overlays).addTo(map);
+    __count = undefined;
+  }
+}
+
+function createMarkersArray(fileJson) {
   var markers = [];
   for (var i = 0; i < fileJson.length; i++) {
     var place = fileJson[i];
 
     var marker = {
       "coords": [place.latitude, place.longitude],
-      "description": place.nome + "\n" + place.descricao
+      "description": "<h2>" + place.nome + "</h2><p>" + place.descricao + "</p>",
     };
 
     markers.push(marker);

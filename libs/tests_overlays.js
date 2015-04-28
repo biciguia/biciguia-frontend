@@ -15,11 +15,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>
    */
 
-/* globals for mocking */
-
-QUnit.test("createJsonMarkers", function (assert) {
-  var place = [
-  {
+   var place = [
+   {
     "latitude": 5,
     "longitude": -5,
     "nome": "Teste",
@@ -33,17 +30,42 @@ QUnit.test("createJsonMarkers", function (assert) {
   }
   ];
 
-  var result = createJsonMarkers(place);
+QUnit.test("createMarkersArray", function (assert) {
+  var result = createMarkersArray(place);
 
   assert.equal(result.length, 2, "Result has the correct lenght");
 
-  assert.equal(result[0].description, place[0].nome + "\n" + place[0].descricao,
-      "Object 1 has the correct description");
+  var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
+  assert.equal(result[0].description, desc1, "Object 1 has the correct description");
   assert.equal(result[0].coords[0], place[0].latitude, "Object 1 has the correct latitude");
   assert.equal(result[0].coords[1], place[0].longitude, "Object 1 has the correct longitude");
 
-  assert.equal(result[1].description, place[1].nome + "\n" + place[1].descricao,
-      "Object 2 has the correct description");
+  var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>"
+  assert.equal(result[1].description, desc2, "Object 2 has the correct description");
   assert.equal(result[1].coords[0], place[1].latitude, "Object 2 has the correct latitude");
   assert.equal(result[1].coords[1], place[1].longitude, "Object 2 has the correct longitude");
+});
+
+QUnit.test("createLeafletMarkers", function (assert) {
+  var marker_stubs = {
+    "bindPopup": sinon.spy()
+  };
+
+  var marker_stub = sinon.stub(L, "marker");
+  marker_stub.returns(marker_stubs);
+
+  var layergroup_stub = sinon.stub(L, "layerGroup");
+
+  createLeafletMarkers(place);
+  assert.ok(marker_stub.calledTwice, "Created the markers correctly");
+  assert.ok(marker_stubs.bindPopup.calledTwice, "Created the popups correctly");
+
+  assert.ok(layergroup_stub.calledOnce, "Created the layer group with all the markers");
+  // TODO Check if markers are receiving correct coordinates and descriptions
+  // TODO Check if layergroup is receiving the markers
+  // TODO Check if L.control.layers is being created and added to map correctly
+  // TODO Check if the control is only added after __count reaches the length of overlayFiles
+
+  layergroup_stub.restore();
+  marker_stub.restore();
 });

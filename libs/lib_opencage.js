@@ -15,20 +15,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>
    */
 
-
-// utility functions
-function errorCallback() {
-  console.log("ERROR");
-}
-
-// receives a function f and an argument s
-// and returns a function that takes an argument d
-// that runs f(d, s)
-function bind2ndArgument(callback, source) {
-  return function(data) { callback(data, source);};
-}
-//
-
 function getGeocoderURLFromAddress(address) {
   if (address.match('^ *$')) {
     return undefined;

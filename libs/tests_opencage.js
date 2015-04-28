@@ -1,19 +1,19 @@
 /*
-Copyright © 2015 Biciguia Team
+   Copyright © 2015 Biciguia Team
 
-Biciguia is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+   Biciguia is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-Biciguia is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   Biciguia is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
-*/
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>
+   */
 
 var addressIME = {
   "results": [
@@ -80,17 +80,18 @@ var addressIME = {
       "suburb": "Butant\u00e3"
     },
     "confidence": 10,
-    "formatted": "IME - Bloco B, 1010 Rua do Mat\u00e3o, S\u00e3o Paulo - SP, Brasil",
+    "formatted": "IME - Bloco B, 1010 Rua do Mat\u00e3o",
     "geometry": {
       "lat": -23.55935105,
       "lng": -46.732049560281
     }
   }
-]};
+  ]};
 
 /* globals for mocking */
 var $; /* jquery */
 var L; /* leaflet */
+var spinner; /* lib_misc.js */
 
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");
@@ -116,10 +117,9 @@ QUnit.test("bind2ndArgument", function (assert) {
 });
 
 QUnit.test("getAddressListHTML", function (assert) {
-  var expected = "<li class='pure-menu-item'><a href='#' id='origin-0' class='pure-menu-link origin-suggestion-item'>IME - Bloco B, 1010 Rua do Mat\u00e3o, S\u00e3o Paulo - SP, Brasil</a></li>";
+  var expected = "<li class='address-suggestion-item pure-menu-item'><a href='#' id='origin-0' class='address-suggestion-item pure-menu-link origin-suggestion-item'>IME - Bloco B, 1010 Rua do Mat\u00e3o</a></li>";
 
   var result = getAddressListHTML(addressIME, 'origin');
-  console.log(result);
 
   assert.equal(result.length, 1, "Result has expected length");
 
@@ -134,13 +134,18 @@ QUnit.test("hideAddressList", function (assert) {
 
   $ = sinon.stub().returns(test_stubs);
 
+  spinner = {
+    "stop": sinon.spy()
+  };
+
   hideAddressList('origin');
 
   assert.ok($.calledWith('#origin-table'), "#origin-table reached correctly");
-  assert.ok($.calledWith('#origin-heading'), "#origin-heading reached correctly");
 
   assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
-  assert.ok(test_stubs.hide.calledTwice, "The elements are hidden");
+  assert.ok(test_stubs.hide.calledOnce, "The elements are hidden");
+
+  assert.ok(spinner.stop.calledOnce, "The spinner was stopped");
 });
 
 QUnit.test("showAddressList", function (assert) {
@@ -153,16 +158,21 @@ QUnit.test("showAddressList", function (assert) {
 
   $ = sinon.stub().returns(test_stubs);
 
+  spinner = {
+    "stop": sinon.spy()
+  };
+
   showAddressList(addressIME, 'origin');
 
   assert.ok($.calledWith("#origin-table"), "#origin-table reached correctly");
-  assert.ok($.calledWith("#origin-heading"), "#origin-heading reached correctly");
   assert.ok($.calledWith(".origin-suggestion-item"), ".origin-suggestion-item reached correctly");
 
   assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
-  assert.ok(test_stubs.show.calledTwice, "The elements are shown");
+  assert.ok(test_stubs.show.calledOnce, "The elements are shown");
   assert.ok(test_stubs.append.calledOnce, "The elements are added to the list");
   assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
+
+  assert.ok(spinner.stop.calledOnce, "The spinner was stopped");
 });
 
 QUnit.test("menuItemSelected", function (assert) {

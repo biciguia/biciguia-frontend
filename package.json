@@ -3,7 +3,7 @@
 },
 "devDependencies": {
     "grunt": "~0.3.14",
-    "grunt-contrib-qunit": "latest",
+    "grunt-contrib-qunit": "latest"
 },
 "scripts": {
     "test": "grunt test --verbose"

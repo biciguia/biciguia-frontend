@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
-        pkg: '<json:package.json>',
+        //pkg: '<json:package.json>',
         qunit: {
             files: ['tests/tests.html']
         },

@@ -1,14 +1,18 @@
 module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
+        pkg: '<json:package.json>',
         qunit: {
-            all: {
-                options: {
-                    urls: ['tests/index.html'],
-                    noGlobals: true
-                }
-            }
-        }
+            files: ['tests/tests.html']
+        },
+        //qunit: {
+        //    all: {
+        //        options: {
+        //            urls: ['tests/index.html'],
+        //            noGlobals: true
+        //        }
+        //    }
+        //}
     });
 
     // Load plugin

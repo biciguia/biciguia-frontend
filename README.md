@@ -4,9 +4,9 @@ Biciguia project
 
 
 ## Build
-Build Status (master branch):[![Build Status (master):](https://travis-ci.org/biciguia/biciguia-frontend.svg?branch=master)][travismaster]
+Build Status (master branch):![Build Status (master):](https://travis-ci.org/biciguia/biciguia-frontend.svg?branch=master)
 
-Build Status (develop branch): [![Build Status (develop):](https://travis-ci.org/biciguia/biciguia-frontend.svg?branch=develop)][travisdevelop]
+Build Status (develop branch):![Build Status (develop):](https://travis-ci.org/biciguia/biciguia-frontend.svg?branch=develop)
 
 ## Changelog
 

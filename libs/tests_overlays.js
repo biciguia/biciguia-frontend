@@ -30,17 +30,17 @@
   }
   ];
 
+  var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
+  var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
+
 QUnit.test("createMarkersArray", function (assert) {
   var result = createMarkersArray(place);
 
   assert.equal(result.length, 2, "Result has the correct lenght");
-
-  var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
   assert.equal(result[0].description, desc1, "Object 1 has the correct description");
   assert.equal(result[0].coords[0], place[0].latitude, "Object 1 has the correct latitude");
   assert.equal(result[0].coords[1], place[0].longitude, "Object 1 has the correct longitude");
 
-  var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>"
   assert.equal(result[1].description, desc2, "Object 2 has the correct description");
   assert.equal(result[1].coords[0], place[1].latitude, "Object 2 has the correct latitude");
   assert.equal(result[1].coords[1], place[1].longitude, "Object 2 has the correct longitude");
@@ -52,17 +52,22 @@ QUnit.test("createLeafletMarkers", function (assert) {
   };
 
   var marker_stub = sinon.stub(L, "marker");
-  marker_stub.returns(marker_stubs);
+  L.marker.returns(marker_stubs);
 
   var layergroup_stub = sinon.stub(L, "layerGroup");
 
   createLeafletMarkers(place);
-  assert.ok(marker_stub.calledTwice, "Created the markers correctly");
+  assert.ok(L.marker.calledTwice, "Created the markers correctly");
   assert.ok(marker_stubs.bindPopup.calledTwice, "Created the popups correctly");
 
-  assert.ok(layergroup_stub.calledOnce, "Created the layer group with all the markers");
-  // TODO Check if markers are receiving correct coordinates and descriptions
-  // TODO Check if layergroup is receiving the markers
+  assert.ok(L.layerGroup.calledOnce, "Created the layer group with all the markers");
+  assert.ok(L.marker.calledWith([5, -5]), "1 Was called with corrects arguments");
+  assert.ok(L.marker.calledWith([10, -10]), "2 Was called with corrects arguments");
+  assert.ok(marker_stubs.bindPopup.calledWith(desc1), "1 was called with description argument correctly");
+  assert.ok(marker_stubs.bindPopup.calledWith(desc2), "2 was called with description argument correctly");
+  // check first argument of first call
+  assert.ok(L.layerGroup.args[0][0].length == 2, "layerGroup was created with correct number of markers");
+  
   // TODO Check if L.control.layers is being created and added to map correctly
   // TODO Check if the control is only added after __count reaches the length of overlayFiles
 

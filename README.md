@@ -12,6 +12,8 @@ Code Climate (master branch): [![Code Climate](https://codeclimate.com/github/bi
 
 Test Coverage (master branch [Code Climate]): [![Test Coverage](https://codeclimate.com/github/biciguia/biciguia-frontend/badges/coverage.svg)](https://codeclimate.com/github/biciguia/biciguia-frontend/coverage)
 
+Code Climate report: [![Code Climate]](https://codeclimate.com/github/biciguia/biciguia-frontend/code)
+
 ## Changelog
 
 ### v0.1

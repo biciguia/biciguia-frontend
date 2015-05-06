@@ -51,25 +51,39 @@ QUnit.test("createLeafletMarkers", function (assert) {
     "bindPopup": sinon.spy()
   };
 
+  var control_stubs = {
+    "addTo": sinon.spy()
+  }
+
   var marker_stub = sinon.stub(L, "marker");
   L.marker.returns(marker_stubs);
 
   var layergroup_stub = sinon.stub(L, "layerGroup");
 
   createLeafletMarkers(place);
+
   assert.ok(L.marker.calledTwice, "Created the markers correctly");
   assert.ok(marker_stubs.bindPopup.calledTwice, "Created the popups correctly");
 
   assert.ok(L.layerGroup.calledOnce, "Created the layer group with all the markers");
   assert.ok(L.marker.calledWith([5, -5]), "1 Was called with corrects arguments");
   assert.ok(L.marker.calledWith([10, -10]), "2 Was called with corrects arguments");
+
   assert.ok(marker_stubs.bindPopup.calledWith(desc1), "1 was called with description argument correctly");
   assert.ok(marker_stubs.bindPopup.calledWith(desc2), "2 was called with description argument correctly");
   // check first argument of first call
   assert.ok(L.layerGroup.args[0][0].length == 2, "layerGroup was created with correct number of markers");
-  
-  // TODO Check if L.control.layers is being created and added to map correctly
-  // TODO Check if the control is only added after __count reaches the length of overlayFiles
+
+  var control_stub = sinon.stub(L.control, "layers");
+  L.control.layers.returns(control_stubs);
+
+  while (__count != undefined) {
+    createLeafletMarkers(place);
+  }
+
+  assert.ok(L.control.layers.calledOnce, "Layer control created correctly");
+  assert.ok(control_stubs.addTo.calledOnce, "Controls added to the map");
+  control_stub.restore();
 
   layergroup_stub.restore();
   marker_stub.restore();

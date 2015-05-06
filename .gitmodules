@@ -1,0 +1,3 @@
+[submodule "assets/dados-espaciais-json"]
+	path = assets/overlays
+	url = https://github.com/prefeiturasp/dados-espaciais-json

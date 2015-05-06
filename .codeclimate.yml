@@ -1,0 +1,10 @@
+# Remove any languages you don't want analyzed.
+languages:
+   JavaScript: true
+# For all languages, we support a standard set of Glob patterns.
+exclude_paths:
+- assets/* # Exclude all contents of a folder (including all subfolders)
+- tests/js/sinon-1.14.1.js
+# - app/helpers/users_helper.php # Exclude a specific file
+# - app/controllers/*.py # Exclude specific files type within a folder/subfolders
+# - lib/**/*.rb # Recursively ignore all files ending in .rb

@@ -106,7 +106,7 @@ function menuItemSelected(event, addressesList) {
     map.setView(coords, zoom);
   }
 
-  hideRoute();
+  removeRoute();
 }
 
 function showAddressList(addresses, source) {

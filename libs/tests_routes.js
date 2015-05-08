@@ -48,8 +48,8 @@ QUnit.test("displayRoute", function (assert) {
   var old_decodeRouteResponse = decodeRouteResponse;
   decodeRouteResponse = sinon.stub().returns(decodedResponse);
 
-  var old_hideRoute = hideRoute;
-  hideRoute = sinon.spy();
+  var old_removeRoute = removeRoute;
+  removeRoute = sinon.spy();
 
   var polyline_stubs = {
     "addTo": sinon.stub(),
@@ -81,28 +81,28 @@ QUnit.test("displayRoute", function (assert) {
   assert.ok(map.fitBounds.calledWith(polyline_stubs), "Map was zoomed in to the correct region");
   assert.ok(polyline_stubs.getBounds.calledOnce, "Map was zoomed in correctly");
 
-  assert.ok(hideRoute.calledOnce, "Route polyline was hidden");
+  assert.ok(removeRoute.calledOnce, "Route polyline was hidden");
 
   polyline_stub.restore();
-  hideRoute = old_hideRoute;
+  removeRoute = old_removeRoute;
   decodeRouteResponse = old_decodeRouteResponse;
 });
 
-QUnit.test("hideRoute", function (assert) {
+QUnit.test("removeRoute", function (assert) {
   polyline = undefined;
 
   map = {
     "removeLayer": sinon.spy()
   };
 
-  hideRoute();
+  removeRoute();
 
   assert.equal(map.removeLayer.called, false, "Didn't remove empty route");
 
   var tmp_polyline = {};
   polyline = tmp_polyline;
 
-  hideRoute();
+  removeRoute();
 
   assert.ok(map.removeLayer.calledOnce, "Removed route");
   assert.ok(map.removeLayer.calledWith(tmp_polyline), "Removed correct route");

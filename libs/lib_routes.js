@@ -40,7 +40,18 @@ function getRouteURLFromCoordinates (originLatLng, destinationLatLng, routeOptio
 function displayRoute(response) {
   var decodedResponse = decodeRouteResponse(response);
 
-  hideRoute();
+  removeRoute();
+
+  $('#weather').hide();
+
+  var instructions = response.paths[0].instructions;
+  $('#instructions').append('<p id="instructions-title">Instruções</p>');
+
+  for(var i = 0; i < instructions.length; i++){
+    var html = instructionHtml(i + 1, instructions[i]);
+
+    $('#instructions').append(html);
+  }
 
   polyline = L.polyline(decodedResponse, {color: 'red'}).addTo(map);
   map.fitBounds(polyline.getBounds());
@@ -50,9 +61,29 @@ function decodeRouteResponse(encodedResponse) {
   return OSRM.RoutingGeometry._decode(encodedResponse.route_geometry, OSRM.CONSTANTS.PRECISION);
 }
 
-function hideRoute() {
+function removeRoute() {
   if (polyline != undefined) {
     map.removeLayer(polyline);
     polyline = undefined;
   }
+
+  $('#instructions').empty();
+  
+  $('#weather').show();
+}
+
+function convertTimeUnit(ms){
+  return ms+' ms';
+}
+
+function instructionHtml(id, instruction){
+  var result = '<div class="instruction">'+
+                  '<p class="instruction-text">'+id+'. '+instruction.text+'</p>'+
+                  '<div class="instruction-info">'+
+                    '<div class="intruction-time">'+convertTimeUnit(instruction.time)+'</div>'+
+                    '<div class="intruction-dist">'+instruction.distance+' m</div>'+
+                  '</div>'+
+                '</div>';
+
+  return result;
 }

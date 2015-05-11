@@ -22,14 +22,18 @@ var markers = [undefined, undefined];
 
 function onDOMReady() {
   $("#route-button").click(function() {
-    // TODO calculate route and display info
-    console.log("Button clicked");
-  });
+    if(markers[0] != undefined && markers[1] != undefined) {
+      var routeOptions = {
+        option1: $('#option-1').is(':checked'),
+        option2: $('#option-2').is(':checked'),
+        option3: $('#option-3').is(':checked')
+      };
+      routeByCoordinates(markers[0]._latlng,markers[1]._latlng, routeOptions);
+    }
+    });
 
   $(".address").focusout(showGeocodesAfterEvent);
-  console.log("1");
   $(".address").keyup(keyUpHandler);
-  console.log("2");
 }
 
 function showGeocodesAfterEvent(event) {
@@ -38,7 +42,6 @@ function showGeocodesAfterEvent(event) {
     madeRequest = true;
     if (event.target.id == 'origin-address') {
       var t = showGeocodes(value, 'origin');
-      console.log(t);
     } else {
       showGeocodes(value, 'destination');
     }
@@ -67,9 +70,7 @@ function showGeocodes(address, source) {
   if (geoCoderURL == undefined) {
     hideAddressList(source);
   } else {
-    $.get(geoCoderURL,
-      bind2ndArgument(showAddressList, source)
-      ).fail(errorCallback);
+    $.get(geoCoderURL, bind2ndArgument(showAddressList, source)).fail(errorCallback);
   }
 }
 

@@ -15,36 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
-var map;
-function initializeMap(){
-  map = L.map('map').setView([-23.5475, -46.63611], 13);
-  // add an OpenStreetMap tile layer
-  L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-}
-
-
-// utility functions
-function errorCallback() {
-  console.log("ERROR");
-}
-
-// receives a function f and an argument s
-// and returns a function that takes an argument d
-// that runs f(d, s)
-function bind2ndArgument(callback, source) {
-  return function(data) { callback(data, source);};
-}
-//
-
 function getGeocoderURLFromAddress(address) {
   if (address.match('^ *$')) {
     return undefined;
   }
 
-  var geoCoderURL = "//nominatim.openstreetmap.org/search?format=json";
+  var geoCoderURL = "http://nominatim.openstreetmap.org/search?format=json";
   geoCoderURL += "&city=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&country=Brasil";

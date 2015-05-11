@@ -34,9 +34,9 @@ var $;
 
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");
-  var expected = '//nominatim.openstreetmap.org/search?format=json&city=S%C3%A3o%20Paulo&state=S%C3%A3o%20Paulo&country=Brasil&street=Rua%20do%20Matao%2C%201010';
+  var expected = 'http://nominatim.openstreetmap.org/search?format=json&city=S%C3%A3o%20Paulo&state=S%C3%A3o%20Paulo&country=Brasil&street=Rua%20do%20Matao%2C%201010';
 
-  assert.ok(result == expected, "URL returned is ok");
+  assert.equal(result, expected, "URL returned is ok");
 
   assert.ok(getGeocoderURLFromAddress("    ") == undefined, "Spaces are handled correctly");
 });

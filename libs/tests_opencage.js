@@ -90,7 +90,6 @@ var addressIME = {
 
 /* globals for mocking */
 var $; /* jquery */
-var spinner; /* lib_misc.js */
 
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");

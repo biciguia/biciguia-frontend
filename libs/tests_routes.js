@@ -16,6 +16,7 @@
    */
 
 /* globals for mocking */
+var polyline;
 var map;
 
 QUnit.test("getRouteURLFromCoordinates ", function (assert) {
@@ -37,7 +38,7 @@ QUnit.test("getRouteURLFromCoordinates ", function (assert) {
 
   var result = getRouteURLFromCoordinates(origin, destination, options);
 
-  var expected = 'http://104.131.18.160:5000/viaroute?loc=10,-10&loc=20,-20&instructions=true';
+  var expected = 'http://104.131.18.160:8989/route?point=10%2C-10&point=20%2C-20&locale=pt_BR&instructions=true&vehicle=bike2&elevation=true';
 
   assert.equal(result, expected, "Route URL was generated correctly");
 });
@@ -66,7 +67,26 @@ QUnit.test("displayRoute", function (assert) {
     "fitBounds": sinon.spy()
   };
 
-  var response = "dummy";
+  var $_stubs = {
+    "hide": sinon.spy(),
+    "append": sinon.spy(),
+  };
+
+  $ = sinon.stub().returns($_stubs);
+
+  var response = {
+    paths: [
+    {
+      instructions: [
+      {
+        text: 'Test instruction',
+        time: 50,
+        distance: 5000
+      },
+      ],
+    },
+    ],
+  };
 
   displayRoute(response);
 
@@ -83,9 +103,54 @@ QUnit.test("displayRoute", function (assert) {
 
   assert.ok(removeRoute.calledOnce, "Route polyline was hidden");
 
+  assert.ok($_stubs.hide.calledOnce, "Hidden the weather info");
+  var numAppends = response.paths[0].instructions.length + 1;
+  assert.equal($_stubs.append.callCount, numAppends, "Added the right number of instructions");
+
   polyline_stub.restore();
   removeRoute = old_removeRoute;
   decodeRouteResponse = old_decodeRouteResponse;
+});
+
+QUnit.test("invertLatLngs", function (assert) {
+  var test = [
+    [1, 2],
+    [3, 4],
+  ];
+
+  var expected = [
+    [2, 1],
+    [4, 3],
+  ];
+
+  var result = invertLatLngs(test);
+
+  for (var i = 0; i < result.length; i++) {
+    for (var j = 0; j < result[i].length; j++) {
+      assert.equal(result[i][j], expected[i][j], "Coordinate is swapped correctly");
+    }
+  }
+});
+
+QUnit.test("instructionHtml", function (assert) {
+  var test = {
+    text: 'Test',
+    time: 1000,
+    distance: 1000,
+  };
+
+  var expected = '<div class="instruction"><p class="instruction-text">1. Test</p><div class="instruction-info"><div class="intruction-time">1s</div><div class="intruction-dist">1000 m</div></div></div>';
+
+  var result = instructionHtml(1, test);
+
+  assert.equal(result, expected, "Generated instruction html correctly");
+});
+
+QUnit.test("convertTimeUnit", function (assert) {
+  assert.equal(convertTimeUnit(1*1000), "1s", "Seconds are correct");
+  assert.equal(convertTimeUnit(60*1000), "1m0s", "Minutes are correct");
+  assert.equal(convertTimeUnit(60*60*1000), "1h0m", "Hours are correct");
+  assert.equal(convertTimeUnit(90*60*1000 + 30*1000), "1h30m", "Everything is correct");
 });
 
 QUnit.test("removeRoute", function (assert) {
@@ -95,9 +160,18 @@ QUnit.test("removeRoute", function (assert) {
     "removeLayer": sinon.spy()
   };
 
+  var $_stubs = {
+    "empty": sinon.spy(),
+    "show": sinon.spy(),
+  };
+
+  $ = sinon.stub().returns($_stubs);
+
   removeRoute();
 
   assert.equal(map.removeLayer.called, false, "Didn't remove empty route");
+  assert.ok($_stubs.empty.called, "Removed instructions");
+  assert.ok($_stubs.show.called, "Displayed weather info");
 
   var tmp_polyline = {};
   polyline = tmp_polyline;

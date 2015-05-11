@@ -15,10 +15,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>
    */
 
-/* globals for mocking */
-var $;
-var spinner;
-
 QUnit.test("getWeatherData", function (assert) {
   $ = {
     "get": sinon.spy()

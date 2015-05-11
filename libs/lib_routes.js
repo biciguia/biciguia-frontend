@@ -25,11 +25,11 @@ function routeByCoordinates(originLatLng, destinationLatLng, routeOptions) {
 
 function getRouteURLFromCoordinates (originLatLng, destinationLatLng, routeOptions)
 {
-  var requestURL = "http://104.131.18.160:5000/viaroute?loc=";
-  requestURL += originLatLng.lat + ",";
-  requestURL += originLatLng.lng + "&loc=";
-  requestURL += destinationLatLng.lat + ",";
-  requestURL += destinationLatLng.lng + "&instructions=true";
+  var requestURL = "http://104.131.18.160:8989/route?point=";
+  requestURL += encodeURIComponent(originLatLng.lat+","+originLatLng.lng);
+  requestURL += "&point=";
+  requestURL += encodeURIComponent(destinationLatLng.lat+","+destinationLatLng.lng);
+  requestURL += "&locale=pt_BR&instructions=true&vehicle=bike2&elevation=true";
 
   // TODO send along options to the router
   console.log(routeOptions);
@@ -58,7 +58,18 @@ function displayRoute(response) {
 }
 
 function decodeRouteResponse(encodedResponse) {
-  return OSRM.RoutingGeometry._decode(encodedResponse.route_geometry, OSRM.CONSTANTS.PRECISION);
+  var result = decodePath(encodedResponse.paths[0].points, true);
+  return invertLatLngs(result);
+}
+
+function invertLatLngs(array) {
+  var result = array;
+  for (var i = 0; i < result.length; i++) {
+    var tmp = result[i][0];
+    result[i][0] = result[i][1];
+    result[i][1] = tmp;
+  }
+  return result;
 }
 
 function removeRoute() {
@@ -73,7 +84,22 @@ function removeRoute() {
 }
 
 function convertTimeUnit(ms){
-  return ms+' ms';
+  var segundos = ms/1000;
+  var minutos = segundos/60;
+  var horas = minutos/60;
+  segundos = Math.floor(segundos);
+  minutos = Math.floor(minutos);
+  horas = Math.floor(horas);
+
+  segundos -= minutos*60;
+  minutos -= horas*60;
+  if (horas > 0) {
+    return horas+'h'+minutos+'m';
+  } else if (minutos > 0) {
+    return minutos+'m'+segundos+'s';
+  } else {
+    return segundos+'s';
+  }
 }
 
 function instructionHtml(id, instruction){

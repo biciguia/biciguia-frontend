@@ -23,7 +23,6 @@ var markers = [undefined, undefined];
 function onDOMReady() {
 
 	$("#route-button").click(function() {
-			// TODO display info
     if(markers[0] != undefined && markers[1] != undefined) {
       var routeOptions = {
         option1: $('#option-1').is(':checked'),

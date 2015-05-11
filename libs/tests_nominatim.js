@@ -100,11 +100,10 @@ QUnit.test("showAddressList", function (assert) {
   showAddressList(addressIME, 'origin');
 
   assert.ok($.calledWith("#origin-table"), "#origin-table reached correctly");
-  assert.ok($.calledWith("#origin-heading"), "#origin-heading reached correctly");
   assert.ok($.calledWith(".origin-suggestion-item"), ".origin-suggestion-item reached correctly");
 
   assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
-  assert.ok(test_stubs.show.calledTwice, "The elements are shown");
+  assert.ok(test_stubs.show.calledOnce, "The elements are shown");
   assert.ok(test_stubs.append.calledOnce, "The elements are added to the list");
   assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
 });
@@ -126,6 +125,10 @@ QUnit.test("menuItemSelected", function (assert) {
   };
   $ = sinon.stub().returns(test_stubs);
 
+  var old_removeRoute = removeRoute;
+
+  removeRoute = sinon.spy();
+
   var old_L = L;
   L = sinon.stub(old_L);
   L.Marker.returns(marker_stub);
@@ -141,6 +144,8 @@ QUnit.test("menuItemSelected", function (assert) {
   assert.ok(L.Marker.calledWith([addressIME[0].lat, addressIME[0].lon]), "Marker created in the right place");
   assert.ok(marker_stub.addTo.calledWith(map_stub), "Marker added to map");
   assert.ok(map_stub.setView.calledWith([addressIME[0].lat, addressIME[0].lon], 17), "Map centered arround maker");
+  assert.ok(removeRoute.calledOnce, "Removed route from map");
 
+  removeRoute = old_removeRoute;
   L = old_L;
 });

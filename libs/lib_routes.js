@@ -32,7 +32,6 @@ function getRouteURLFromCoordinates (originLatLng, destinationLatLng, routeOptio
   requestURL += "&locale=pt_BR&instructions=true&vehicle=bike2&elevation=true";
 
   // TODO send along options to the router
-  console.log(routeOptions);
 
   return requestURL;
 }

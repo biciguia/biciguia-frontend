@@ -41,7 +41,7 @@ function showGeocodesAfterEvent(event) {
   if (!madeRequest) {
     madeRequest = true;
     if (event.target.id == 'origin-address') {
-      var t = showGeocodes(value, 'origin');
+      showGeocodes(value, 'origin');
     } else {
       showGeocodes(value, 'destination');
     }
@@ -65,7 +65,6 @@ function keyUpHandler(event) {
 
 function showGeocodes(address, source) {
   var geoCoderURL = getGeocoderURLFromAddress(address);
-  console.log(geoCoderURL);
 
   if (geoCoderURL == undefined) {
     hideAddressList(source);
@@ -79,7 +78,6 @@ function menuItemSelected(event, addressesList) {
   var source = pieces[0];
   var i = parseInt(pieces[1]);
   var coords = [addressesList[i].lat, addressesList[i].lon];
-  console.log(addressesList[i]);
   var zoom = 17;
   $('#'+source+'-address').val(addressesList[i].display_name);
   hideAddressList(source);
@@ -91,26 +89,25 @@ function menuItemSelected(event, addressesList) {
     markers[markerIdx].setLatLng(coords);
     markers[markerIdx].update();
   } else {
-    console.log(markers);
-    console.log(coords);
     markers[markerIdx] = new L.Marker(coords).addTo(map);
   }
 
   if (markers[0] != undefined && markers[1] != undefined) {
     var group = new L.featureGroup(markers);
     map.fitBounds(group.getBounds());
-  }else{
+  } else {
     map.setView(coords, zoom);
   }
 
+  removeRoute();
 }
 
 function showAddressList(addresses, source) {
+  spinner.stop();
+
   var list = $('#'+source+'-table');
   list.empty();
   list.show();
-  var heading = $('#'+source+'-heading');
-  heading.show();
 
   var listElements = getAddressListHTML(addresses, source);
   list.append(listElements);

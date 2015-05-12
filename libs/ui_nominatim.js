@@ -43,6 +43,10 @@ function showRoute() {
 
 // TODO refactor to reduce coupling
 // TODO create more logs to specify if did not choose or if geocoder result was empty
+<<<<<<< HEAD
+=======
+// TODO fix test
+>>>>>>> hotfix/default-address
 function onDOMReady() {
   $("#route-button").click(function() {
     if(markers[0] != undefined && markers[1] != undefined) {
@@ -146,28 +150,6 @@ function menuItemSelected(event, addressesList) {
   var i = parseInt(pieces[1]);
   var coords = [addressesList[i].lat, addressesList[i].lon];
   setMarker(source,addressesList[i]);
-  var zoom = 17;
-  $('#'+source+'-address').val(addressesList[i].display_name);
-  hideAddressList(source);
-  var markerIdx = 0;
-  if(source == "destination") {
-    markerIdx = 1;
-  }
-  if (markers[markerIdx] != undefined ) {
-    markers[markerIdx].setLatLng(coords);
-    markers[markerIdx].update();
-  } else {
-    markers[markerIdx] = new L.Marker(coords).addTo(map);
-  }
-
-  if (markers[0] != undefined && markers[1] != undefined) {
-    var group = new L.featureGroup(markers);
-    map.fitBounds(group.getBounds());
-  } else {
-    map.setView(coords, zoom);
-  }
-
-  removeRoute();
 }
 
 function showAddressList(addresses, source) {

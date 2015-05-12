@@ -43,10 +43,7 @@ function showRoute() {
 
 // TODO refactor to reduce coupling
 // TODO create more logs to specify if did not choose or if geocoder result was empty
-<<<<<<< HEAD
-=======
 // TODO fix test
->>>>>>> hotfix/default-address
 function onDOMReady() {
   $("#route-button").click(function() {
     if(markers[0] != undefined && markers[1] != undefined) {

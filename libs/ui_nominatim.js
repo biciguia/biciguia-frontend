@@ -19,18 +19,59 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 var madeRequest = false;
 var lastKeypressId = 0;
 var markers = [undefined, undefined];
+var menu = document.getElementById( "menu" );
+var origin = undefined, destination = undefined;
 
+init();
+
+//TODO: resolve undefined
+function init() {
+  menu.onclick = function(){
+    hideAddressList("origin");
+    hideAddressList("destination");
+  }
+}
+
+function showRoute() {
+  var routeOptions = {
+    option1: $('#option-1').is(':checked'),
+    option2: $('#option-2').is(':checked'),
+    option3: $('#option-3').is(':checked')
+  };
+  routeByCoordinates(markers[0]._latlng,markers[1]._latlng, routeOptions);
+}
+
+// TODO refactor to reduce coupling
+// TODO create more logs to specify if did not choose or if geocoder result was empty
 function onDOMReady() {
   $("#route-button").click(function() {
     if(markers[0] != undefined && markers[1] != undefined) {
-      var routeOptions = {
-        option1: $('#option-1').is(':checked'),
-        option2: $('#option-2').is(':checked'),
-        option3: $('#option-3').is(':checked')
-      };
-      routeByCoordinates(markers[0]._latlng,markers[1]._latlng, routeOptions);
+      showRoute();
     }
-    });
+    else if (origin != undefined && destination != undefined) {
+      console.log("will do it");
+      if (markers[0] == undefined) {
+        console.log("origin updated")
+        setMarker("origin",origin);
+      }
+      if (markers[1] == undefined) {
+        console.log("destination updated");
+        setMarker("destination",destination);
+      }
+      showRoute();
+    }
+    else {
+      if (markers[0] == undefined && origin == undefined) {
+        if (markers[1] == undefined && destination == undefined)
+          alert("Favor escolher origem e destino válidos.");
+        else 
+          alert("Favor escolher uma origem válida.");
+      }
+      else if (markers[1] == undefined && destination == undefined) {
+          alert("Favor escolher um destino válido.");
+      }
+    }
+  });
 
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
@@ -73,11 +114,38 @@ function showGeocodes(address, source) {
   }
 }
 
+function setMarker(source, address) {
+  var coords = [address.lat, address.lon];
+  var zoom = 17;
+  $('#'+source+'-address').val(address.display_name);
+  hideAddressList(source);
+  var markerIdx = 0;
+  if(source == "destination") {
+    markerIdx = 1;
+  }
+  if (markers[markerIdx] != undefined ) {
+    markers[markerIdx].setLatLng(coords);
+    markers[markerIdx].update();
+  } else {
+    markers[markerIdx] = new L.Marker(coords).addTo(map);
+  }
+
+  if (markers[0] != undefined && markers[1] != undefined) {
+    var group = new L.featureGroup(markers);
+    map.fitBounds(group.getBounds());
+  } else {
+    map.setView(coords, zoom);
+  }
+
+  removeRoute();
+}
+
 function menuItemSelected(event, addressesList) {
   var pieces = event.target.id.split('-');
   var source = pieces[0];
   var i = parseInt(pieces[1]);
   var coords = [addressesList[i].lat, addressesList[i].lon];
+  setMarker(source,addressesList[i]);
   var zoom = 17;
   $('#'+source+'-address').val(addressesList[i].display_name);
   hideAddressList(source);
@@ -111,6 +179,10 @@ function showAddressList(addresses, source) {
 
   var listElements = getAddressListHTML(addresses, source);
   list.append(listElements);
+  if (source == "origin")
+    origin = addresses[0];
+  else if (source == "destination")
+    destination = addresses[0];
 
   $('.'+source+'-suggestion-item').click(bind2ndArgument(menuItemSelected, addresses));
 }

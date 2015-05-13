@@ -19,14 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 var madeRequest = false;
 var lastKeypressId = 0;
 var markers = [undefined, undefined];
-var menu = document.getElementById( "menu" );
 var origin = undefined, destination = undefined;
 
-init();
-
-//TODO: resolve undefined
-function init() {
-  menu.onclick = function(){
+function hideAddressListOnClick() {
+  document.getElementById( "menu" ).onclick = function(){
     hideAddressList("origin");
     hideAddressList("destination");
   }
@@ -45,6 +41,8 @@ function showRoute() {
 // TODO create more logs to specify if did not choose or if geocoder result was empty
 // TODO fix test
 function onDOMReady() {
+  hideAddressListOnClick();
+
   $("#route-button").click(function() {
     if(markers[0] != undefined && markers[1] != undefined) {
       showRoute();

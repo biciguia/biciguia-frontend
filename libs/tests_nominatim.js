@@ -108,7 +108,7 @@ QUnit.test("showAddressList", function (assert) {
   assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
 });
 
-QUnit.test("menuItemSelected", function (assert) {
+QUnit.test("setMarker", function (assert) {
   var test_stubs = {
     "val":    sinon.spy(),
     "empty":  sinon.spy(),

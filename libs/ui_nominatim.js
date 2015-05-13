@@ -76,6 +76,16 @@ function onDOMReady() {
 
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
+
+   $("#rota-zoada-button").click(function() {
+      $("#text-rota-zoada").show(1000);
+      $("#confirmar-button").show();
+      
+      $("#confirmar-button").click(function(){
+        var text = $("#text-rota-zoada").val();
+        console.log(text);
+      });
+   });
 }
 
 function showGeocodesAfterEvent(event) {

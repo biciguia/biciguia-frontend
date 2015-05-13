@@ -16,6 +16,7 @@
    */
 
 var polyline;
+var searchRoute = false;
 
 function routeByCoordinates(originLatLng, destinationLatLng, routeOptions) {
   var requestURL = getRouteURLFromCoordinates(originLatLng, destinationLatLng, routeOptions);

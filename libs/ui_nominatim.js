@@ -21,6 +21,7 @@ var lastKeypressId = 0;
 var markers = [undefined, undefined];
 var origin = undefined, destination = undefined;
 
+
 function hideAddressListOnClick() {
   document.getElementById( "menu" ).onclick = function(){
     hideAddressList("origin");
@@ -29,6 +30,7 @@ function hideAddressListOnClick() {
 }
 
 function showRoute() {
+  searchRoute = true;
   var routeOptions = {
     option1: $('#option-1').is(':checked'),
     option2: $('#option-2').is(':checked'),
@@ -44,6 +46,7 @@ function onDOMReady() {
   hideAddressListOnClick();
 
   $("#route-button").click(function() {
+    
     if(markers[0] != undefined && markers[1] != undefined) {
       showRoute();
     }
@@ -74,7 +77,29 @@ function onDOMReady() {
 
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
+
+   $("#broken-route-button").click(function() {
+      brokenRoute();
+    });
 }
+
+function brokenRoute(){
+  if(!searchRoute){
+    alert("Você precisa escolher uma rota antes!");
+  }
+  else{
+    var str = '<textarea id="text-broken-route" rows="4" cols="35"></textarea>'+
+               '<button type="button" id="confirm-button" class="pure-button">Confirmar</button>';
+
+    $("#broken-route").html(str);
+        
+    $("#confirm-button").click(function(){
+      var text = $("#text-broken-route").val();
+      console.log("Mensagem: "+text+"\nOrigem"+markers[0]+"\nDestino"+markers[1]);
+    });
+  }
+}
+
 
 function showGeocodesAfterEvent(event) {
   var value = $(event.target).val();
@@ -137,6 +162,7 @@ function setMarker(source, address) {
   }
 
   removeRoute();
+  searchRoute = false;
 }
 
 function menuItemSelected(event, addressesList) {

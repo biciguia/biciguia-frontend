@@ -90,8 +90,6 @@ var addressIME = {
 
 /* globals for mocking */
 var $; /* jquery */
-var L; /* leaflet */
-var spinner; /* lib_misc.js */
 
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");
@@ -182,21 +180,24 @@ QUnit.test("menuItemSelected", function (assert) {
     "hide":   sinon.spy(),
   };
 
-  var marker_stub = {
+  var marker_stubs = {
     "addTo": sinon.spy()
   };
 
   var map_stub = {
     "setView": sinon.spy(),
-    "fitBounds": sinon.spy()
+    "fitBounds": sinon.spy(),
+    "removeLayer": sinon.spy()
   };
   $ = sinon.stub().returns(test_stubs);
 
-  var old_L = L;
-  L = sinon.stub(old_L);
-  L.Marker.returns(marker_stub);
+  var marker_stub = sinon.stub(L, "Marker");
+  marker_stub.returns(marker_stubs);
 
   map = map_stub;
+
+  var old_hideAddressList = hideAddressList;
+  hideAddressList = sinon.spy();
 
   var test_event = {"target": {"id": "origin-0"}};
 
@@ -205,9 +206,12 @@ QUnit.test("menuItemSelected", function (assert) {
   assert.ok($.calledWith("#origin-address"), "#origin-address reached correctly");
   assert.ok(test_stubs.val.calledWith(addressIME.results[0].formatted), "Address textbox changed correctly");
   assert.ok(L.Marker.calledWith([addressIME.results[0].geometry.lat, addressIME.results[0].geometry.lng]), "Marker created in the right place");
-  assert.ok(marker_stub.addTo.calledWith(map_stub), "Marker added to map");
+  assert.ok(marker_stubs.addTo.calledWith(map_stub), "Marker added to map");
   assert.ok(map_stub.setView.calledWith([addressIME.results[0].geometry.lat, addressIME.results[0].geometry.lng], 17), "Map centered arround maker");
 
-  L = old_L;
+  assert.ok(hideAddressList.calledOnce, "Address list was hidden");
+
+  marker_stub.restore();
+  hideAddressList = old_hideAddressList;
 });
 

@@ -19,20 +19,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 var madeRequest = false;
 var lastKeypressId = 0;
 var markers = [undefined, undefined];
-var menu = document.getElementById( "menu" );
 var origin = undefined, destination = undefined;
+var originConfigured = false;
 
-init();
 
-//TODO: resolve undefined
-function init() {
-  menu.onclick = function(){
+function hideAddressListOnClick() {
+  document.getElementById( "menu" ).onclick = function(){
     hideAddressList("origin");
     hideAddressList("destination");
   }
 }
 
 function showRoute() {
+  searchRoute = true;
   var routeOptions = {
     option1: $('#option-1').is(':checked'),
     option2: $('#option-2').is(':checked'),
@@ -45,7 +44,10 @@ function showRoute() {
 // TODO create more logs to specify if did not choose or if geocoder result was empty
 // TODO fix test
 function onDOMReady() {
+  hideAddressListOnClick();
+
   $("#route-button").click(function() {
+    
     if(markers[0] != undefined && markers[1] != undefined) {
       showRoute();
     }
@@ -74,9 +76,41 @@ function onDOMReady() {
     }
   });
 
+  $("#broken-route-confirm-button").click(function(){
+    var text = $("#text-broken-route").val();
+    var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], polyline);
+    var url = 'http://104.131.18.160:8000/reclamacao';
+    $.post(url, brokenRouteObject, succesfulRequestBrokenRoute());
+  });
+
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
+
+   $("#broken-route-button").click(function() {
+      brokenRoute();
+    });
 }
+
+function brokenRoute(){
+  if(!searchRoute){
+    alert("Você precisa escolher uma rota antes!");
+  }
+  else{
+    $("#text-broken-route").show();
+    $("#broken-route-confirm-button").show();
+    $("#broken-route-button").hide();
+  }
+}
+
+function succesfulRequestBrokenRoute(){
+  $("#text-broken-route").hide();
+  $("#text-broken-route").val('');
+  $("#broken-route-confirm-button").hide();
+  $("#broken-route-button").show();
+
+  alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
+}
+
 
 function showGeocodesAfterEvent(event) {
   var value = $(event.target).val();
@@ -138,7 +172,50 @@ function setMarker(source, address) {
     map.setView(coords, zoom);
   }
 
+  markers[markerIdx].setOpacity(1);
+
+  if (source == "origin")
+    originConfigured = true;
+  else // (source == "destination")
+    originConfigured = false;
+
   removeRoute();
+  searchRoute = false;
+}
+
+// triggered by click on map
+function addSomeMarker(lat, lon) {
+  var source = "";
+  var address = [];
+  address.lat = lat;
+  address.lon = lon;
+  address.display_name = lat.toFixed(5) + ", " + lon.toFixed(5);
+  var shouldShowRoute = true;
+
+  if (markers[0] == undefined) {
+    source = "origin";
+    shouldShowRoute = false;
+  }
+  else {
+    if (markers[1] == undefined) {
+      source = "destination";
+    }
+    else {
+      if (!originConfigured) {
+        source = "origin";
+        shouldShowRoute = false;
+        markers[1].setOpacity(0);
+      }
+      else {
+        source = "destination";
+      }
+    }
+  }
+
+  setMarker(source, address);
+  if (shouldShowRoute)
+    showRoute();
+  //console.log("addSomeMarker("+lat+","+lon+")");
 }
 
 function menuItemSelected(event, addressesList) {

@@ -20,6 +20,7 @@ var madeRequest = false;
 var lastKeypressId = 0;
 var markers = [undefined, undefined];
 var origin = undefined, destination = undefined;
+var originConfigured = false;
 
 
 function hideAddressListOnClick() {
@@ -161,8 +162,50 @@ function setMarker(source, address) {
     map.setView(coords, zoom);
   }
 
+  markers[markerIdx].setOpacity(1);
+
+  if (source == "origin")
+    originConfigured = true;
+  else // (source == "destination")
+    originConfigured = false;
+
   removeRoute();
   searchRoute = false;
+}
+
+// triggered by click on map
+function addSomeMarker(lat, lon) {
+  var source = "";
+  var address = [];
+  address.lat = lat;
+  address.lon = lon;
+  address.display_name = lat.toFixed(5) + ", " + lon.toFixed(5);
+  var shouldShowRoute = true;
+
+  if (markers[0] == undefined) {
+    source = "origin";
+    shouldShowRoute = false;
+  }
+  else {
+    if (markers[1] == undefined) {
+      source = "destination";
+    }
+    else {
+      if (!originConfigured) {
+        source = "origin";
+        shouldShowRoute = false;
+        markers[1].setOpacity(0);
+      }
+      else {
+        source = "destination";
+      }
+    }
+  }
+
+  setMarker(source, address);
+  if (shouldShowRoute)
+    showRoute();
+  //console.log("addSomeMarker("+lat+","+lon+")");
 }
 
 function menuItemSelected(event, addressesList) {

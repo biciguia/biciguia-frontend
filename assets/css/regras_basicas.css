@@ -12,7 +12,7 @@
 }
 
 #header {
-  height: 50px;
+  height: 64px;
   width:100%;
   flex: none; /* Para evitar que o header diminua */
   background: #13988a;
@@ -20,7 +20,7 @@
 
 #map {
   min-width: 75%;
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 64px);
 }
 
 #menu {
@@ -29,4 +29,5 @@
   flex-direction: column;
   float: left;
 }
+
 

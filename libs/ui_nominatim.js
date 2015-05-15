@@ -76,6 +76,13 @@ function onDOMReady() {
     }
   });
 
+  $("#broken-route-confirm-button").click(function(){
+    var text = $("#text-broken-route").val();
+    var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], polyline);
+    var url = 'http://104.131.18.160:8000/reclamacao';
+    $.post(url, brokenRouteObject, succesfulRequestBrokenRoute());
+  });
+
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
 
@@ -89,16 +96,19 @@ function brokenRoute(){
     alert("Você precisa escolher uma rota antes!");
   }
   else{
-    var str = '<textarea id="text-broken-route" rows="4" cols="35"></textarea>'+
-               '<button type="button" id="confirm-button" class="pure-button">Confirmar</button>';
-
-    $("#broken-route").html(str);
-        
-    $("#confirm-button").click(function(){
-      var text = $("#text-broken-route").val();
-      console.log("Mensagem: "+text+"\nOrigem"+markers[0]+"\nDestino"+markers[1]);
-    });
+    $("#text-broken-route").show();
+    $("#broken-route-confirm-button").show();
+    $("#broken-route-button").hide();
   }
+}
+
+function succesfulRequestBrokenRoute(){
+  $("#text-broken-route").hide();
+  $("#text-broken-route").val('');
+  $("#broken-route-confirm-button").hide();
+  $("#broken-route-button").show();
+
+  alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
 }
 
 

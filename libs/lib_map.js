@@ -31,6 +31,8 @@ var overlayFiles = {
 function initializeMap(){
   map = L.map('map').setView([-23.5475, -46.63611], 13);
 
+  map.on("click", mapClicked);
+
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
       $.getJSON('../assets/overlays/'+overlayFiles[key],
@@ -43,6 +45,10 @@ function initializeMap(){
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
+}
+
+function mapClicked(e){
+  addSomeMarker(e.latlng.lat,e.latlng.lng);
 }
 
 var __count = 0;

@@ -24,9 +24,32 @@
             <input type="text" class="address pure-input" id="destination-address" placeholder="Destino">
             <ul class="address-suggestion pure-menu-list" id="destination-table">
             </ul>
+            <div class="pure-g">
+              <label for="option-1" class="pure-checkbox pure-u-1-3">
+                <input id="option-1" type="checkbox"> Opção 1
+              </label>
+              <label for="option-2" class="pure-checkbox pure-u-1-3">
+                <input id="option-2" type="checkbox"> Opção 2
+              </label>
+              <label for="option-3" class="pure-checkbox pure-u-1-3">
+                <input id="option-3" type="checkbox"> Opção 3
+              </label>
+            </div>
             <button type="button" id="route-button" class="pure-button">Buscar rota</button>
           </ul>
         </form>
+
+        <div id="broken-route">
+          <br><br>
+          <textarea id="text-broken-route" rows="4" cols="35"></textarea>
+          <button type="button" id="broken-route-confirm-button" class="pure-button">Confirmar</button>
+          <button type="button" id="broken-route-button" class="pure-button">Rota zoada</button>
+          
+        </div>        
+
+
+        <div id="instructions"></div>
+
         <div id="weather"></div>
       </div>
 
@@ -35,18 +58,18 @@
       </div>
     </div>
 
-
     <script type="text/javascript" src="assets/js/spin.min.js"></script>
     <script type="text/javascript" src="assets/leaflet-0.7.3/leaflet.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-
+    <script type="text/javascript" src="assets/js/decodePath.js"></script>
 
     <script type="text/javascript" src="libs/lib_misc.js"></script>
     <script type="text/javascript" src="libs/lib_map.js"></script>
+    <script type="text/javascript" src="libs/lib_routes.js"></script>
     <script type="text/javascript" src="libs/lib_weather.js"></script>
+    <script type="text/javascript" src="libs/lib_nominatim.js"></script>
     <script type="text/javascript" src="libs/ui_weather.js"></script>
-    <script type="text/javascript" src="libs/lib_opencage.js"></script>
-    <script type="text/javascript" src="libs/ui_opencage.js"></script>
+    <script type="text/javascript" src="libs/ui_nominatim.js"></script>
 
     <script>
     // setup event handlers only after the DOM is ready

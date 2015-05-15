@@ -21,9 +21,16 @@ var lastKeypressId = 0;
 var markers = [undefined, undefined];
 
 function onDOMReady() {
-  $("#route-button").click(function() {
-    // TODO calculate route and display info
-    console.log("Button clicked");
+
+	$("#route-button").click(function() {
+    if(markers[0] != undefined && markers[1] != undefined) {
+      var routeOptions = {
+        option1: $('#option-1').is(':checked'),
+        option2: $('#option-2').is(':checked'),
+        option3: $('#option-3').is(':checked')
+      };
+      routeByCoordinates(markers[0]._latlng,markers[1]._latlng, routeOptions);
+    }
   });
 
   $(".address").focusout(showGeocodesAfterEvent);
@@ -69,6 +76,7 @@ function showGeocodes(address, source) {
   }
 }
 
+// TODO: Refactor
 function menuItemSelected(event, addressesList) {
   var pieces = event.target.id.split('-');
   var source = pieces[0];
@@ -92,10 +100,12 @@ function menuItemSelected(event, addressesList) {
   if (markers[0] != undefined && markers[1] != undefined) {
     var group = new L.featureGroup(markers);
     map.fitBounds(group.getBounds());
+
   }else{
     map.setView(coords, zoom);
   }
 
+  removeRoute();
 }
 
 function showAddressList(addresses, source) {

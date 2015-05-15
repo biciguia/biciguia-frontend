@@ -182,3 +182,19 @@ QUnit.test("removeRoute", function (assert) {
   assert.ok(map.removeLayer.calledWith(tmp_polyline), "Removed correct route");
   assert.equal(polyline, undefined, "polyline unset correctly");
 });
+
+QUnit.test("testBrokenRouteObject", function(assert) {
+  var fakeMarker = {
+    "toGeoJSON": sinon.spy()
+  };
+  var objTest = createBrokenRouteObject("anything", "origin", "destination", fakeMarker, fakeMarker, fakeMarker);
+  var objExpected = {
+    texto: "anything",
+    endereco_origem: "origin",
+    endereco_destino: "destination",
+  };
+  assert.equal(objTest.texto, objExpected.texto, "(1) Object created successfully");
+  assert.equal(objTest.endereco_origem, objExpected.endereco_origem, "(2) Object created successfully");
+  assert.equal(objTest.endereco_destino, objExpected.endereco_destino, "(3) Object created successfully");
+  assert.ok(fakeMarker.toGeoJSON.calledThrice, "(4) Object create successfully");
+});

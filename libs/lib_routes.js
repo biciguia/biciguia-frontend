@@ -113,3 +113,16 @@ function instructionHtml(id, instruction){
 
   return result;
 }
+
+function createBrokenRouteObject(text, origin, destination, origin_point, destination_point, route){
+  var result = {
+    "texto": text,
+    "endereco_origem": origin,
+    "endereco_destino": destination,
+    "ponto_origem": origin_point.toGeoJSON(),
+    "ponto_destino": destination_point.toGeoJSON(),
+    "rota_tracada": route.toGeoJSON(),
+  };
+
+  return result;
+}

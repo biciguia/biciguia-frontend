@@ -1,0 +1,57 @@
+.address-suggestion {
+  z-index: 10;
+  position: fixed;
+  background: #191818;
+  display: none;
+}
+
+.address-suggestion-item {
+  padding: 0.2em;
+  padding-right: 0.4em;
+}
+
+#instructions {
+  color: white;
+  width: 100%;
+}
+
+.instruction {
+  position: relative;
+  width: 100%;
+}
+
+.instruction-dist {
+  bottom: 0px;
+}
+
+.instruction-info {
+  float: right;
+}
+
+.instruction-text {
+  float: left;
+  width: 70%;
+}
+
+.instruction-time {
+  top: 0px;
+}
+
+#instructions-title {
+    color: #999;
+    border: none;
+    padding: 0.6em 0 0.6em 0.6em;
+}
+
+#menu a,label {
+    color: #999;
+    border: none;
+    padding: 0.6em 0 0.6em 0.6em;
+}
+
+#weather {
+  position: absolute;
+  bottom: 0;
+  color: white;
+  padding: 1em;
+}

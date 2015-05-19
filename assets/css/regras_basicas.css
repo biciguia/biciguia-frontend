@@ -1,73 +1,28 @@
-html,
-body {
-  margin: 0px;
-  height: 100%;
-}
+/* Regras para o layout básico */
 
-body {
+#container {
   display: flex;
-  flex-flow: column wrap;
+  height: 100vh;
+  flex-direction: column;
 }
 
-.body {
+#content {
+  flex-direction: row;
+  flex-wrap: nowrap;
   position: absolute;
-  top: 0;
+  top: 48px;
   right: 0;
   bottom: 0;
   left: 0;
+
   display: flex;
 }
 
-.address-suggestion {
-  z-index: 10;
-  position: fixed;
-  background: #191818;
-  display: none;
-}
-
-.address-suggestion-item {
-  padding: 0.2em;
-  padding-right: 0.4em;
-}
-
-#weather {
-  position: absolute;
-  bottom: 0;
-  color: white;
-  padding: 1em;
-}
-
-#instructions {
-  color: white;
-  width: 100%;
-}
-
-.instruction {
-  position: relative;
-  width: 100%;
-}
-
-.instruction-dist {
-  bottom: 0px;
-}
-
-.instruction-info {
-  float: right;
-}
-
-.instruction-text {
-  float: left;
-  width: 70%;
-}
-
-.instruction-time {
-  top: 0px;
-}
-
-#instructions-title {
-    color: #999;
-    border: none;
-    padding: 0.6em 0 0.6em 0.6em;
+#header {
+  height: 48px;
+  width:100%;
+  flex: none; /* Para evitar que o header diminua */
+  background: #13988a;
 }
 
 #text-broken-route {
@@ -79,24 +34,39 @@ body {
 }
 
 #map {
-  flex: 1;
   min-width: 75%;
-  float: right;
+  height: calc(100vh - 48px);
+  /*height: 93vh;*/
+  flex: 1;
 }
 
 #menu {
-  background: none repeat scroll 0% 0% #191818;
+  background: none repeat scroll 0% 0% #637c89;
   width: 25%;
-  flex: 1;
-  display: flex;
-  overflow: auto;
   flex-direction: column;
   float: left;
+  min-height: calc(100vh - 48px);
+  overflow: auto;
+  /*height: 93vh;*/
 }
 
-#menu a,label {
-    color: #999;
-    border: none;
-    padding: 0.6em 0 0.6em 0.6em;
+/*
+#botao-menu {
+  font-size: 6.5vh;
+  vertical-align: inherit;
 }
+*/
+
+/* Agora os Media Queries todos */
+@media (max-width: 992px) {
+/*@media all and (orientation:portrait) {*/
+  #menu {
+    width: 100%;
+  }
+  #map {
+    display: none;
+  }
+
+}
+
 

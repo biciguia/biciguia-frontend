@@ -12,7 +12,7 @@
 }
 
 #header {
-  height: 64px;
+  height: 48px;
   width:100%;
   flex: none; /* Para evitar que o header diminua */
   background: #13988a;
@@ -20,7 +20,8 @@
 
 #map {
   min-width: 75%;
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - 48px);
+  /*height: 93vh;*/
 }
 
 #menu {
@@ -28,6 +29,27 @@
   width: 25%;
   flex-direction: column;
   float: left;
+  height: calc(100vh - 48px);
+  /*height: 93vh;*/
+}
+
+/*
+#botao-menu {
+  font-size: 6.5vh;
+  vertical-align: inherit;
+}
+*/
+
+/* Agora os Media Queries todos */
+@media (max-width: 992px) {
+/*@media all and (orientation:portrait) {*/
+  #menu {
+    width: 100%;
+  }
+  #map {
+    display: none;
+  }
+
 }
 
 

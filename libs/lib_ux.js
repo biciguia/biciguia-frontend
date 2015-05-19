@@ -10,5 +10,6 @@ $('#botao-menu').click(function() {
   }
   else {
     $('#menu').animate({width: 'toggle'});
+    map.invalidateSize(); //Para fazer os tiles do mapa carregarem
   }
 });

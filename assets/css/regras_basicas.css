@@ -9,6 +9,13 @@
 #content {
   flex-direction: row;
   flex-wrap: nowrap;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
 }
 
 #header {
@@ -22,6 +29,7 @@
   min-width: 75%;
   height: calc(100vh - 48px);
   /*height: 93vh;*/
+  flex: 1;
 }
 
 #menu {
@@ -29,7 +37,8 @@
   width: 25%;
   flex-direction: column;
   float: left;
-  height: calc(100vh - 48px);
+  min-height: calc(100vh - 48px);
+  overflow: auto;
   /*height: 93vh;*/
 }
 

@@ -197,3 +197,16 @@ function hideAddressList(source) {
   list.empty();
   list.hide();
 }
+
+$('#botao-menu').click(function() {
+  //We must have two functionalities here, one for big screens, other for small ones
+  if($(window).width() <= 992) {
+    $('#menu').animate({width: 'toggle'});
+    $('#map').toggle();
+    map.invalidateSize(); //So the tile maps load
+  }
+  else {
+    $('#menu').animate({width: 'toggle'});
+    map.invalidateSize(); //So the tile maps load
+  }
+});

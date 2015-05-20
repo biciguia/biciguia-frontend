@@ -180,7 +180,9 @@ function setMarker(source, address) {
     map.setView(coords, zoom);
   }
 
-  markers[markerIdx].setOpacity(1);
+  if (markers[markerIdx] != undefined) {
+    markers[markerIdx].setOpacity(1);
+  }
 
   if (source == "origin")
     originConfigured = true;

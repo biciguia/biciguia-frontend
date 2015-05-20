@@ -77,9 +77,24 @@ function onDOMReady() {
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
 
-   $("#broken-route-button").click(function() {
-      brokenRoute();
-    });
+  $("#broken-route-button").click(function() {
+    brokenRoute();
+   });
+
+  $('#botao-menu').click(function() {
+  //We must have two functionalities here, one for big screens, other for small ones
+    if($(window).width() <= 992) {
+      $('#menu').animate({width: 'toggle'});
+      $('#map').toggle();
+      map.invalidateSize(); //So the tile maps load
+    }
+    else {
+      $('#menu').animate({width: 'toggle'});
+      map.invalidateSize(); //So the tile maps load
+    }
+  });
+
+
 }
 
 function brokenRoute(){
@@ -141,10 +156,12 @@ function showGeocodes(address, source) {
 }
 
 function setMarker(source, address) {
+  console.log("teste");
   var coords = [address.lat, address.lon];
   var zoom = 17;
   $('#'+source+'-address').val(address.display_name);
   hideAddressList(source);
+  console.log(zoom);
   var markerIdx = 0;
   if(source == "destination") {
     markerIdx = 1;
@@ -172,6 +189,14 @@ function setMarker(source, address) {
 
   removeRoute();
   searchRoute = false;
+}
+
+function menuItemSelected(event, addressesList) {
+  var pieces = event.target.id.split('-');
+  var source = pieces[0];
+  var i = parseInt(pieces[1]);
+  var coords = [addressesList[i].lat, addressesList[i].lon];
+  setMarker(source,addressesList[i]);
 }
 
 // triggered by click on map
@@ -209,13 +234,7 @@ function addSomeMarker(lat, lon) {
   //console.log("addSomeMarker("+lat+","+lon+")");
 }
 
-function menuItemSelected(event, addressesList) {
-  var pieces = event.target.id.split('-');
-  var source = pieces[0];
-  var i = parseInt(pieces[1]);
-  var coords = [addressesList[i].lat, addressesList[i].lon];
-  setMarker(source,addressesList[i]);
-}
+
 
 function showAddressList(addresses, source) {
   spinner.stop();
@@ -242,15 +261,3 @@ function hideAddressList(source) {
   list.hide();
 }
 
-$('#botao-menu').click(function() {
-  //We must have two functionalities here, one for big screens, other for small ones
-  if($(window).width() <= 992) {
-    $('#menu').animate({width: 'toggle'});
-    $('#map').toggle();
-    map.invalidateSize(); //So the tile maps load
-  }
-  else {
-    $('#menu').animate({width: 'toggle'});
-    map.invalidateSize(); //So the tile maps load
-  }
-});

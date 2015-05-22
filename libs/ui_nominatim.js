@@ -155,13 +155,11 @@ function showGeocodes(address, source) {
   }
 }
 
-function setMarker(source, address) {
-  console.log("teste");
+function setMarker(source, address, zoomIn) {
   var coords = [address.lat, address.lon];
   var zoom = 17;
   $('#'+source+'-address').val(address.display_name);
   hideAddressList(source);
-  console.log(zoom);
   var markerIdx = 0;
   if(source == "destination") {
     markerIdx = 1;
@@ -176,12 +174,8 @@ function setMarker(source, address) {
   if (markers[0] != undefined && markers[1] != undefined) {
     var group = new L.featureGroup(markers);
     map.fitBounds(group.getBounds());
-  } else {
+  } else if (zoomIn) {
     map.setView(coords, zoom);
-  }
-
-  if (markers[markerIdx] != undefined) {
-    markers[markerIdx].setOpacity(1);
   }
 
   if (source == "origin")
@@ -198,45 +192,8 @@ function menuItemSelected(event, addressesList) {
   var source = pieces[0];
   var i = parseInt(pieces[1]);
   var coords = [addressesList[i].lat, addressesList[i].lon];
-  setMarker(source,addressesList[i]);
+  setMarker(source,addressesList[i], true);
 }
-
-// triggered by click on map
-function addSomeMarker(lat, lon) {
-  var source = "";
-  var address = [];
-  address.lat = lat;
-  address.lon = lon;
-  address.display_name = lat.toFixed(5) + ", " + lon.toFixed(5);
-  var shouldShowRoute = true;
-
-  if (markers[0] == undefined) {
-    source = "origin";
-    shouldShowRoute = false;
-  }
-  else {
-    if (markers[1] == undefined) {
-      source = "destination";
-    }
-    else {
-      if (!originConfigured) {
-        source = "origin";
-        shouldShowRoute = false;
-        markers[1].setOpacity(0);
-      }
-      else {
-        source = "destination";
-      }
-    }
-  }
-
-  setMarker(source, address);
-  if (shouldShowRoute)
-    showRoute();
-  //console.log("addSomeMarker("+lat+","+lon+")");
-}
-
-
 
 function showAddressList(addresses, source) {
   spinner.stop();

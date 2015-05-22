@@ -17,6 +17,9 @@ Code Climate reports (master): [code](https://codeclimate.com/github/biciguia/bi
 
 ## Changelog
 
+### v0.5
+- Add context menu on right click for choosing route endpoints
+
 ### v0.4
 - Add "Broken Route" feedback
 - Update license to MPLv2

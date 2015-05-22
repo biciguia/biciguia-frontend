@@ -178,10 +178,13 @@ function setMarker(source, address, zoomIn) {
     map.setView(coords, zoom);
   }
 
-  if (source == "origin")
+  if (source == "origin") {
     originConfigured = true;
-  else // (source == "destination")
+    origin = address;
+  } else { // (source == "destination")
     originConfigured = false;
+    destination = address;
+  }
 
   removeRoute();
   searchRoute = false;

@@ -20,9 +20,19 @@ var overlayFiles = {
 };
 
 function initializeMap(){
-  map = L.map('map').setView([-23.5475, -46.63611], 13);
-
-  map.on("click", mapClicked);
+  map = L.map('map',{
+    contextmenu: true,
+    contextmenuWidth: 140,
+    contextmenuItems: [{
+      text: 'Definir como origem',
+      callback: bind2ndArgument(mapClicked, "origin"),
+    },
+    {
+      text: 'Definir como destino',
+      callback: bind2ndArgument(mapClicked, "destination"),
+    },
+    ]
+  }).setView([-23.5475, -46.63611], 13);
 
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
@@ -38,8 +48,13 @@ function initializeMap(){
 
 }
 
-function mapClicked(e){
-  addSomeMarker(e.latlng.lat,e.latlng.lng);
+function mapClicked(e, source){
+  var address = [];
+  address.lat = e.latlng.lat;
+  address.lon = e.latlng.lng;
+  address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
+
+  setMarker(source, address);
 }
 
 var __count = 0;

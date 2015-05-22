@@ -77,9 +77,24 @@ function onDOMReady() {
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
 
-   $("#broken-route-button").click(function() {
-      brokenRoute();
-    });
+  $("#broken-route-button").click(function() {
+    brokenRoute();
+   });
+
+  $('#botao-menu').click(function() {
+  //We must have two functionalities here, one for big screens, other for small ones
+    if($(window).width() <= 992) {
+      $('#menu').animate({width: 'toggle'});
+      $('#map').toggle();
+      map.invalidateSize(); //So the tile maps load
+    }
+    else {
+      $('#menu').animate({width: 'toggle'});
+      map.invalidateSize(); //So the tile maps load
+    }
+  });
+
+
 }
 
 function brokenRoute(){
@@ -140,7 +155,7 @@ function showGeocodes(address, source) {
   }
 }
 
-function setMarker(source, address) {
+function setMarker(source, address, zoomIn) {
   var coords = [address.lat, address.lon];
   var zoom = 17;
   $('#'+source+'-address').val(address.display_name);
@@ -159,11 +174,9 @@ function setMarker(source, address) {
   if (markers[0] != undefined && markers[1] != undefined) {
     var group = new L.featureGroup(markers);
     map.fitBounds(group.getBounds());
-  } else {
+  } else if (zoomIn) {
     map.setView(coords, zoom);
   }
-
-  markers[markerIdx].setOpacity(1);
 
   if (source == "origin")
     originConfigured = true;
@@ -174,47 +187,12 @@ function setMarker(source, address) {
   searchRoute = false;
 }
 
-// triggered by click on map
-function addSomeMarker(lat, lon) {
-  var source = "";
-  var address = [];
-  address.lat = lat;
-  address.lon = lon;
-  address.display_name = lat.toFixed(5) + ", " + lon.toFixed(5);
-  var shouldShowRoute = true;
-
-  if (markers[0] == undefined) {
-    source = "origin";
-    shouldShowRoute = false;
-  }
-  else {
-    if (markers[1] == undefined) {
-      source = "destination";
-    }
-    else {
-      if (!originConfigured) {
-        source = "origin";
-        shouldShowRoute = false;
-        markers[1].setOpacity(0);
-      }
-      else {
-        source = "destination";
-      }
-    }
-  }
-
-  setMarker(source, address);
-  if (shouldShowRoute)
-    showRoute();
-  //console.log("addSomeMarker("+lat+","+lon+")");
-}
-
 function menuItemSelected(event, addressesList) {
   var pieces = event.target.id.split('-');
   var source = pieces[0];
   var i = parseInt(pieces[1]);
   var coords = [addressesList[i].lat, addressesList[i].lon];
-  setMarker(source,addressesList[i]);
+  setMarker(source,addressesList[i], true);
 }
 
 function showAddressList(addresses, source) {
@@ -241,3 +219,4 @@ function hideAddressList(source) {
   list.empty();
   list.hide();
 }
+

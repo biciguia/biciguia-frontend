@@ -2,6 +2,15 @@
 
 Biciguia project
 
+## Workflow
+Ready Stories: [![Stories in Ready](https://badge.waffle.io/biciguia/biciguia-frontend.png?label=ready&title=Ready)](http://waffle.io/biciguia/biciguia-frontend)
+
+Stories in Progress: [![Stories in progress](https://badge.waffle.io/biciguia/biciguia-frontend.png?label=progress&title=Progress)](http://waffle.io/biciguia/biciguia-frontend)
+
+[![Throughput Graph](https://graphs.waffle.io/biciguia/biciguia-frontend/throughput.svg)](https://waffle.io/biciguia/biciguia-frontend/metrics) 
+
+Throughput Graph
+
 
 ## Build
 Build Status (master branch):[![Build Status (master):](https://travis-ci.org/biciguia/biciguia-frontend.svg?branch=master)](https://travis-ci.org/biciguia/biciguia-frontend)
@@ -38,4 +47,4 @@ Code Climate reports (master): [code](https://codeclimate.com/github/biciguia/bi
 - Initial version
 
 ## License
-Copyright (c) 2015 Biciguia team under GNU General Public License.
+Copyright (c) 2015 Biciguia team under MPLv2

@@ -199,6 +199,22 @@ function menuItemSelected(event, addressesList) {
 }
 
 function showAddressList(addresses, source) {
+  // filter out results from outside são paulo
+  for (var i = 0; i < addresses.length; i++) {
+    if (addresses[i].address.city != "São Paulo") {
+      addresses.splice(i, 1);
+      i--;
+    }
+    var road_name = addresses[i].address.road;
+    if (addresses[i].address.house_number != undefined) {
+      road_name += ", " + addresses[i].address.house_number;
+    }
+    if (addresses[i].address.city_district != undefined) {
+      road_name += ", " + addresses[i].address.city_district;
+    }
+    addresses[i].display_name = road_name;
+  }
+
   spinner.stop();
 
   var list = $('#'+source+'-table');

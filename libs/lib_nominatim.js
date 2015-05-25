@@ -18,6 +18,7 @@ function getGeocoderURLFromAddress(address) {
   geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&country=Brasil";
   geoCoderURL += "&street=" + encodeURIComponent(address);
+  geoCoderURL += "&viewbox=-47.357,-23.125,-45.863,-24.317&bounded=1";
 
   return geoCoderURL;
 }

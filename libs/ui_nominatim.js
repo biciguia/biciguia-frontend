@@ -78,16 +78,36 @@ function onDOMReady() {
     brokenRoute();
    });
 
+  // TODO: replace this with *actual code* for showing/hiding multiple screens
+  window.addEventListener('resize', function(evt) {
+    var mapElem = $('#map');
+    if ($(window).width() > 992) {
+      if (!mapElem.is(":visible")) {
+        mapElem.toggle();
+      }
+    } else {
+      var menuElem = $('#menu');
+      if (menuElem.is(":visible")) {
+        if (mapElem.is(":visible")) {
+          menuElem.show();
+          mapElem.hide();
+        }
+      } else {
+        if (!mapElem.is(":visible")) {
+          menuElem.show();
+        }
+      }
+    }
+  });
+
   $('#botao-menu').click(function() {
   //We must have two functionalities here, one for big screens, other for small ones
     if($(window).width() <= 992) {
-      $('#menu').animate({width: 'toggle'});
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
       $('#map').toggle();
-      map.invalidateSize(); //So the tile maps load
     }
     else {
-      $('#menu').animate({width: 'toggle'});
-      map.invalidateSize(); //So the tile maps load
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
     }
   });
 

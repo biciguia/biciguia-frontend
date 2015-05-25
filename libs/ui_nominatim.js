@@ -43,13 +43,10 @@ function onDOMReady() {
       showRoute();
     }
     else if (origin != undefined && destination != undefined) {
-      console.log("will do it");
       if (markers[0] == undefined) {
-        console.log("origin updated")
         setMarker("origin",origin);
       }
       if (markers[1] == undefined) {
-        console.log("destination updated");
         setMarker("destination",destination);
       }
       showRoute();
@@ -199,6 +196,14 @@ function menuItemSelected(event, addressesList) {
 }
 
 function showAddressList(addresses, source) {
+  // filter out results from outside são paulo
+  for (var i = 0; i < addresses.length; i++) {
+    if (addresses[i].address.city != "São Paulo") {
+      addresses.splice(i, 1);
+      i--;
+    }
+  }
+
   spinner.stop();
 
   var list = $('#'+source+'-table');

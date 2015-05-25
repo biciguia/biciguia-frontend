@@ -7,17 +7,31 @@
 */
 
 var addressIME = [{
-  "place_id":"2582920987",
-  "licence":"Data © OpenStreetMap contributors, ODbL 1.0. http:\/\/www.openstreetmap.org\/copyright",
+  "place_id":"90628654",
+  "licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",
   "osm_type":"way",
-  "osm_id":"154079145",
-  "boundingbox":["-23.560148","-23.5581257","-46.7327102","-46.7306589"],
-  "lat":"-23.55926325",
-  "lon":"-46.7317498316745",
-  "display_name":"Instituto de Matemática e Estatística, 1010, Rua do Matão, Butantã, São Paulo, Microrregião de São Paulo, RMSP, Mesorregião Metropolitana de São Paulo, São Paulo, Região Sudeste, 05508-090, Brasil",
+  "osm_id":"154079142",
+  "boundingbox":["-23.5597475","-23.5588694","-46.7324821","-46.7317444"],
+  "lat":"-23.55928935",
+  "lon":"-46.732081060281",
+  "display_name":"Bloco B, 1010, Rua do Matão, Butantã, São Paulo, Microrregião de São Paulo, RMSP, Mesorregião Metropolitana de São Paulo, São Paulo, Região Sudeste, 05508-090, Brasil",
   "class":"building",
   "type":"yes",
-  "importance":0.511
+  "importance":0.711,
+  "address":{
+    "building":"Bloco B",
+    "house_number":"1010",
+    "road":"Rua do Matão",
+    "suburb":"Butantã",
+    "city_district":"Butantã",
+    "city":"São Paulo",
+    "county":"Microrregião de São Paulo",
+    "state_district":"Mesorregião Metropolitana de São Paulo",
+    "state":"São Paulo",
+    "postcode":"05508-090",
+    "country":"Brasil",
+    "country_code":"br"
+  },
 }];
 
 /* globals for mocking */
@@ -25,7 +39,7 @@ var $;
 
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");
-  var expected = 'http://nominatim.openstreetmap.org/search?format=json&city=S%C3%A3o%20Paulo&state=S%C3%A3o%20Paulo&country=Brasil&street=Rua%20do%20Matao%2C%201010';
+  var expected = 'http://nominatim.openstreetmap.org/search?format=json&city=S%C3%A3o%20Paulo&state=S%C3%A3o%20Paulo&country=Brasil&street=Rua%20do%20Matao%2C%201010&viewbox=-47.357,-23.125,-45.863,-24.317&bounded=1&addressdetails=1'
 
   assert.equal(result, expected, "URL returned is ok");
 
@@ -47,7 +61,7 @@ QUnit.test("bind2ndArgument", function (assert) {
 });
 
 QUnit.test("getAddressListHTML", function (assert) {
-  var expected = "<li class='pure-menu-item'><a href='#' id='origin-0' class='pure-menu-link origin-suggestion-item'>Instituto de Matemática e Estatística, 1010, Rua do Matão, Butantã, São Paulo, Microrregião de São Paulo, RMSP, Mesorregião Metropolitana de São Paulo, São Paulo, Região Sudeste, 05508-090, Brasil</a></li>";
+  var expected = "<li class='pure-menu-item'><a href='#' id='origin-0' class='pure-menu-link origin-suggestion-item'>Rua do Matão, 1010, Butantã</a></li>";
 
   var result = getAddressListHTML(addressIME, 'origin');
 

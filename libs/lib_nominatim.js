@@ -28,10 +28,17 @@ function getAddressListHTML(addresses, source) {
   var list = [];
 
   for (var i = 0; i < addresses.length; i++) {
-    var display_name = addresses[i].display_name;
+    var road_name = addresses[i].address.road;
+    if (addresses[i].address.house_number != undefined) {
+      road_name += ", " + addresses[i].address.house_number;
+    }
+    if (addresses[i].address.city_district != undefined) {
+      road_name += ", " + addresses[i].address.city_district;
+    }
+    addresses[i].display_name = road_name;
     var itemHtml = "<li class='pure-menu-item'>";
     itemHtml += "<a href='#' id='"+source+"-"+i+"' class='pure-menu-link "+source+"-suggestion-item'>";
-    itemHtml += display_name+"</a></li>";
+    itemHtml += road_name+"</a></li>";
 
     list.push(itemHtml);
   }

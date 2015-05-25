@@ -43,13 +43,10 @@ function onDOMReady() {
       showRoute();
     }
     else if (origin != undefined && destination != undefined) {
-      console.log("will do it");
       if (markers[0] == undefined) {
-        console.log("origin updated")
         setMarker("origin",origin);
       }
       if (markers[1] == undefined) {
-        console.log("destination updated");
         setMarker("destination",destination);
       }
       showRoute();
@@ -205,14 +202,6 @@ function showAddressList(addresses, source) {
       addresses.splice(i, 1);
       i--;
     }
-    var road_name = addresses[i].address.road;
-    if (addresses[i].address.house_number != undefined) {
-      road_name += ", " + addresses[i].address.house_number;
-    }
-    if (addresses[i].address.city_district != undefined) {
-      road_name += ", " + addresses[i].address.city_district;
-    }
-    addresses[i].display_name = road_name;
   }
 
   spinner.stop();

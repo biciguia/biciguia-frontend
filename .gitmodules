@@ -4,3 +4,6 @@
 [submodule "assets/fonts/material-design-iconic-font"]
 	path = assets/fonts/material-design-iconic-font
 	url = https://github.com/zavoloklom/material-design-iconic-font.git
+[submodule "assets/icons"]
+	path = assets/icons
+	url = https://github.com/mapbox/maki.git

@@ -26,6 +26,9 @@ Code Climate reports (master): [code](https://codeclimate.com/github/biciguia/bi
 
 ## Changelog
 
+### v0.6
+- Add maki icons to POI markers
+
 ### v0.5
 - Add context menu on right click for choosing route endpoints
 

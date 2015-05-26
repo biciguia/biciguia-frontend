@@ -9,6 +9,18 @@
 var map;
 var overlays = {};
 
+var iconSize = 24; //TODO: iconSize 12 and 18.
+var LeafIcon = L.Icon.extend({
+    options: {
+        //shadowUrl: 'leaf-shadow.png',
+        iconSize:     [iconSize, iconSize],
+        shadowSize:   [iconSize, iconSize],
+        iconAnchor:   [iconSize/2, iconSize/2],
+        shadowAnchor: [iconSize/2, iconSize/2],
+        popupAnchor:  [-3, -iconSize]
+    }
+});
+
 var overlayFiles = {
   "Ambulatórios": "ambulatorios_de_especialidades.json",
   "Bibliotecas": "bibliotecas.json",
@@ -17,6 +29,16 @@ var overlayFiles = {
   "Museus": "museus.json",
   "Pronto-Socorros": "pronto-socorros.json",
   "Unidades Básicas de Saúde": "ubs.json"
+};
+
+var overlayIcons = {
+  "Ambulatórios": "../assets/icons/src/lodging",
+  "Bibliotecas": "../assets/icons/src/town-hall",
+  "Bosques e Pontos de Leitura": "../assets/icons/src/library",
+  "Hospitais": "../assets/icons/src/city",
+  "Museus": "../assets/icons/src/museum",
+  "Pronto-Socorros": "../assets/icons/src/hospital",
+  "Unidades Básicas de Saúde": "../assets/icons/src/heart"
 };
 
 function initializeMap(){
@@ -57,12 +79,18 @@ function mapClicked(e, source){
   setMarker(source, address);
 }
 
+function getIcon(key) {
+  overlayIcons[key] = overlayIcons[key] + "-" + iconSize + ".svg";
+  return new LeafIcon({iconUrl: overlayIcons[key]});
+}
+
 var __count = 0;
 function createLeafletMarkers(fileJson, key) {
   var markers = createMarkersArray(fileJson);
 
-  for (var i = 0; i < markers.length; i++) {
-    markers[i] = L.marker(markers[i].coords).bindPopup(markers[i].description);
+  var markerIcon = getIcon(key);
+  for (var i = 0; i < markers.length; i++) {  
+    markers[i] = L.marker(markers[i].coords, {icon: markerIcon}).bindPopup(markers[i].description);
   }
 
   overlays[key] = L.layerGroup(markers);

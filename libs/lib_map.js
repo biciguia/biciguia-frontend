@@ -56,6 +56,8 @@ function initializeMap(){
     ]
   }).setView([-23.5475, -46.63611], 13);
 
+  navigator.geolocation.getCurrentPosition(getGeolocation, error);
+
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
       $.getJSON('../assets/overlays/'+overlayFiles[key],
@@ -68,6 +70,21 @@ function initializeMap(){
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
+}
+
+function getGeolocation(position){
+  var address = [];
+  address.lat = position.coords.latitude;
+  address.lon = position.coords.longitude;
+  address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
+
+  setMarker(source, address); 
+
+  alert("Sucesso ao buscar sua geolocalização");
+}
+
+function error(){
+  alert("Falha ao buscar sua geolocalização");
 }
 
 function mapClicked(e, source){

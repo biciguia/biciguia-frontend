@@ -77,6 +77,8 @@ function initializeMap(){
     map.fitBounds(coordsToLeafletBounds(coords));
   });
 
+  navigator.geolocation.getCurrentPosition(getGeolocation, error);
+
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
       $.getJSON('../assets/overlays/'+overlayFiles[key],
@@ -90,6 +92,7 @@ function initializeMap(){
       }).addTo(map);
 }
 
+//TODO: unit tests (with Leaflet mocking).
 function coordsToLeafletBounds(coords) {
     var bounds = L.latLngBounds(L.latLng(coords.bottom, coords.left),
         L.latLng(coords.top, coords.right));
@@ -103,6 +106,21 @@ function ensureMapViewBounds(currentBounds) {
   if (currentBounds.top > maxBounds.top) currentBounds.top = maxBounds.top;
   if (currentBounds.right > maxBounds.right) currentBounds.right = maxBounds.right;
   return currentBounds;
+}
+
+function getGeolocation(position){
+  var address = [];
+  address.lat = position.coords.latitude;
+  address.lon = position.coords.longitude;
+  address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
+
+  setMarker('origin', address, true); 
+
+  alert("Sucesso ao buscar sua geolocalização");
+}
+
+function error(){
+  alert("Falha ao buscar sua geolocalização");
 }
 
 function mapClicked(e, source){

@@ -2,7 +2,10 @@ language: node_js
 node_js:
     - "0.10"
 
+before_install:
+    - rm node_modules
+
 before_script:
-    - rm node_modules && npm install grunt grunt-cli grunt-blanket-qunit
+    - npm install grunt grunt-cli grunt-blanket-qunit
 
 script: grunt test --verbose

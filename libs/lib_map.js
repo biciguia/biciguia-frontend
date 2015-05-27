@@ -90,6 +90,7 @@ function initializeMap(){
       }).addTo(map);
 }
 
+//TODO: unit tests (with Leaflet mocking).
 function coordsToLeafletBounds(coords) {
     var bounds = L.latLngBounds(L.latLng(coords.bottom, coords.left),
         L.latLng(coords.top, coords.right));

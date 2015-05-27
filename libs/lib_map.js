@@ -78,7 +78,7 @@ function getGeolocation(position){
   address.lon = position.coords.longitude;
   address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
 
-  setMarker(source, address); 
+  setMarker('origin', address, true); 
 
   alert("Sucesso ao buscar sua geolocalização");
 }

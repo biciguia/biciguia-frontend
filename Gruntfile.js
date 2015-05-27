@@ -1,25 +1,20 @@
 module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
-        //pkg: '<json:package.json>',
-        qunit: {
-            files: ['tests/tests.html']
+        blanket_qunit: {
+            all: {
+                options: {
+                    urls: ['tests/index.html?coverage=true&gruntReport'],
+                }
+            }
         },
-        //qunit: {
-        //    all: {
-        //        options: {
-        //            urls: ['tests/index.html'],
-        //            noGlobals: true
-        //        }
-        //    }
-        //}
     });
 
     // Load plugin
-    grunt.loadNpmTasks('grunt-contrib-qunit');
+    grunt.loadNpmTasks('grunt-blanket-qunit');
 
     // Task to run tests
     grunt.registerTask('test', [
-        'qunit'
+        'blanket_qunit'
     ]);
 };

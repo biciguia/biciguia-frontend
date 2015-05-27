@@ -8,7 +8,12 @@
 
 var map;
 var overlays = {};
-var maxBounds = null;
+var maxBounds = {
+  bottom: -24.317,
+  left: -47.357,
+  top: -23.125,
+  right: -45.863,
+};
 
 var iconSize = 24; //TODO: iconSize 12 and 18.
 var LeafIcon = L.Icon.extend({
@@ -44,7 +49,8 @@ var overlayIcons = {
 
 function initializeMap(){
   map = L.map('map',{
-    maxBounds: getMaxBounds(),
+    // TODO change
+    maxBounds: coordsToLeafletBounds(maxBounds),
     contextmenu: true,
     contextmenuWidth: 140,
     contextmenuItems: [{
@@ -60,7 +66,15 @@ function initializeMap(){
 
   //TODO: update unit tests.
   map.on('zoomend', function(e) {
-    ensureMapViewBounds(map.getBounds());
+    var curBounds_L = map.getBounds();
+    var curBounds = {
+      bottom: curBounds_L.getSouthWest().lat,
+      left: curBounds_L.getSouthWest().lng,
+      top: curBounds_L.getNorthEast().lat,
+      right: curBounds_L.getNorthEast().lng,
+    };
+    var coords = ensureMapViewBounds(curBounds);
+    map.fitBounds(coordsToLeafletBounds(coords));
   });
 
   for (var key in overlayFiles) {
@@ -76,39 +90,19 @@ function initializeMap(){
       }).addTo(map);
 }
 
-//TODO: unit tests.
-function getMaxBounds() {
-  if (maxBounds != null)
-    return maxBounds;
-  var bottom = -24.317;
-  var left = -47.357;
-  var top = -23.125;
-  var right = -45.863;
-  var southWest = L.latLng(bottom, left);
-  var northEast = L.latLng(top, right);
-  maxBounds = L.latLngBounds(southWest, northEast)
-  return maxBounds;
+function coordsToLeafletBounds(coords) {
+    var bounds = L.latLngBounds(L.latLng(coords.bottom, coords.left),
+        L.latLng(coords.top, coords.right));
+    return bounds;
 }
 
 //TODO: unit tests.
 function ensureMapViewBounds(currentBounds) {
-  var maxBounds = getMaxBounds();
-  var maxBoundsBottom = maxBounds.getSouthWest().lat;
-  var maxBoundsLeft = maxBounds.getSouthWest().lng;
-  var maxBoundsTop = maxBounds.getNorthEast().lat;
-  var maxBoundsRight = maxBounds.getNorthEast().lng;
-  var bottom = currentBounds.getSouthWest().lat;
-  var left = currentBounds.getSouthWest().lng;
-  var top = currentBounds.getNorthEast().lat;
-  var right = currentBounds.getNorthEast().lng;
-  if (bottom < maxBoundsBottom) bottom = maxBoundsBottom;
-  if (left < maxBoundsLeft) left = maxBoundsLeft;
-  if (top > maxBoundsTop) top = maxBoundsTop;
-  if (right > maxBoundsRight) right = maxBoundsRight;
-  var newSouthWest = L.latLng(bottom, left);
-  var newNorthEast = L.latLng(top, right);
-  var newBounds = L.latLngBounds(newSouthWest, newNorthEast);
-  map.fitBounds(newBounds);
+  if (currentBounds.bottom < maxBounds.bottom) currentBounds.bottom = maxBounds.bottom;
+  if (currentBounds.left < maxBounds.left) currentBounds.left = maxBounds.left;
+  if (currentBounds.top > maxBounds.top) currentBounds.top = maxBounds.top;
+  if (currentBounds.right > maxBounds.right) currentBounds.right = maxBounds.right;
+  return currentBounds;
 }
 
 function mapClicked(e, source){

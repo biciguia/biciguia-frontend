@@ -8,6 +8,7 @@
 
 var map;
 var overlays = {};
+var maxBounds = null;
 
 var iconSize = 24; //TODO: iconSize 12 and 18.
 var LeafIcon = L.Icon.extend({
@@ -43,6 +44,7 @@ var overlayIcons = {
 
 function initializeMap(){
   map = L.map('map',{
+    maxBounds: getMaxBounds(),
     contextmenu: true,
     contextmenuWidth: 140,
     contextmenuItems: [{
@@ -56,6 +58,11 @@ function initializeMap(){
     ]
   }).setView([-23.5475, -46.63611], 13);
 
+  //TODO: update unit tests.
+  map.on('zoomend', function(e) {
+    ensureMapViewBounds(map.getBounds());
+  });
+
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
       $.getJSON('../assets/overlays/'+overlayFiles[key],
@@ -67,7 +74,41 @@ function initializeMap(){
   L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
+}
 
+//TODO: unit tests.
+function getMaxBounds() {
+  if (maxBounds != null)
+    return maxBounds;
+  var bottom = -24.317;
+  var left = -47.357;
+  var top = -23.125;
+  var right = -45.863;
+  var southWest = L.latLng(bottom, left);
+  var northEast = L.latLng(top, right);
+  maxBounds = L.latLngBounds(southWest, northEast)
+  return maxBounds;
+}
+
+//TODO: unit tests.
+function ensureMapViewBounds(currentBounds) {
+  var maxBounds = getMaxBounds();
+  var maxBoundsBottom = maxBounds.getSouthWest().lat;
+  var maxBoundsLeft = maxBounds.getSouthWest().lng;
+  var maxBoundsTop = maxBounds.getNorthEast().lat;
+  var maxBoundsRight = maxBounds.getNorthEast().lng;
+  var bottom = currentBounds.getSouthWest().lat;
+  var left = currentBounds.getSouthWest().lng;
+  var top = currentBounds.getNorthEast().lat;
+  var right = currentBounds.getNorthEast().lng;
+  if (bottom < maxBoundsBottom) bottom = maxBoundsBottom;
+  if (left < maxBoundsLeft) left = maxBoundsLeft;
+  if (top > maxBoundsTop) top = maxBoundsTop;
+  if (right > maxBoundsRight) right = maxBoundsRight;
+  var newSouthWest = L.latLng(bottom, left);
+  var newNorthEast = L.latLng(top, right);
+  var newBounds = L.latLngBounds(newSouthWest, newNorthEast);
+  map.fitBounds(newBounds);
 }
 
 function mapClicked(e, source){

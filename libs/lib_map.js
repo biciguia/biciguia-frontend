@@ -81,7 +81,7 @@ function initializeMap(){
 
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
-      $.getJSON('/assets/overlays/'+overlayFiles[key],
+      $.getJSON('assets/overlays/'+overlayFiles[key],
         bind2ndArgument(createLeafletMarkers, key)).fail(errorCallback);
     }
   }

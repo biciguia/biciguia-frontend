@@ -7,3 +7,6 @@
 [submodule "assets/icons/maki"]
 	path = assets/icons/maki
 	url = https://github.com/mapbox/maki.git
+[submodule "assets/js/mapbox-gl-leaflet"]
+	path = assets/js/mapbox-gl-leaflet
+	url = https://github.com/mapbox/mapbox-gl-leaflet.git

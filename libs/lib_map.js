@@ -91,10 +91,15 @@ function initializeMap(){
 //       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 //       }).addTo(map);
      var accessToken = 'pk.eyJ1IjoianVzdHRlc3RpbmciLCJhIjoiMEg3ZWJTVSJ9.h41984pPh9afTYWBg2eoQQ';
-
-     L.tileLayer('http://{s}.tiles.mapbox.com/v4/' + 'justtesting.bb599507' + '/{z}/{x}/{y}.png?access_token=' + accessToken, {
-         attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+     L.mapboxGL({'accessToken': accessToken});
+     var gl = L.mapboxGL({
+      accessToken: accessToken,
+      style: 'https://www.mapbox.com/mapbox-gl-styles/styles/mapbox-streets-v7.json',
      }).addTo(map);
+
+     // L.tileLayer('http://{s}.tiles.mapbox.com/v4/' + 'justtesting.bb599507' + '/{z}/{x}/{y}.png?access_token=' + accessToken, {
+     //     attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+     // }).addTo(map);
 }
 
 

@@ -80,7 +80,7 @@ function onDOMReady() {
 
   // TODO: replace this with *actual code* for showing/hiding multiple screens
   window.addEventListener('resize', function(evt) {
-    var mapElem = $('#map');
+    var mapElem = $('#map-wrapper');
     if ($(window).width() > 992) {
       if (!mapElem.is(":visible")) {
         mapElem.toggle();
@@ -100,11 +100,23 @@ function onDOMReady() {
     }
   });
 
+  // TODO: Refactoring. These two pieces of code must be the same.
   $('#botao-menu').click(function() {
   //We must have two functionalities here, one for big screens, other for small ones
     if($(window).width() <= 992) {
       $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
-      $('#map').toggle();
+      $('#map-wrapper').toggle();
+    }
+    else {
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
+    }
+  });
+
+  $('#botao-rota').click(function() {
+  //We must have two functionalities here, one for big screens, other for small ones
+    if($(window).width() <= 992) {
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
+      $('#map-wrapper').toggle();
     }
     else {
       $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});

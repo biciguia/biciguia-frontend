@@ -84,7 +84,7 @@
   background-color: #fff;
 }
 
-#botao-localizacao div:hover {
+#botao-localizacao div:active {
   background-color: #E6E3E3;
 }
 
@@ -92,7 +92,7 @@
   border: 0px solid #CFDCEC;
 }
 
-#botao-rota div:hover {
+#botao-rota div:active {
   background:#30588e;
 }
 
@@ -117,10 +117,11 @@
 @media (max-width: 992px) {
 /*@media all and (orientation:portrait) {*/
   #menu {
+    display: none;
     width: 100%;
   }
-  #map {
-    display: none;
+  #map-wrapper {
+    width: 100%;
   }
 
 }

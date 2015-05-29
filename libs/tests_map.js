@@ -6,6 +6,28 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
 
+
+  var maxBounds = {
+    bottom: -24.317,
+    left: -47.357,
+    top: -23.125,
+    right: -45.863,
+  };
+
+  var insideBounds = {
+    bottom: -24.000,
+    left: -47.000,
+    top: -23.500,
+    right: -46.000,
+  };
+
+  var outsideBounds = {
+    bottom: -25.000,
+    left: -48.000,
+    top: -23.000,
+    right: -45.000,
+  };
+
    var place = [
    {
     "latitude": 5,
@@ -23,6 +45,30 @@
 
   var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
   var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
+
+  function ensureMapViewBounds(currentBounds) {
+  if (currentBounds.bottom < maxBounds.bottom) currentBounds.bottom = maxBounds.bottom;
+  if (currentBounds.left < maxBounds.left) currentBounds.left = maxBounds.left;
+  if (currentBounds.top > maxBounds.top) currentBounds.top = maxBounds.top;
+  if (currentBounds.right > maxBounds.right) currentBounds.right = maxBounds.right;
+  return currentBounds;
+}
+
+QUnit.test("ensureMapViewBounds", function (assert) {
+  var resultInsideBounds = ensureMapViewBounds(insideBounds);
+
+  assert.ok(resultInsideBounds.bottom >= maxBounds.bottom, "Result for coords inside bounds respects bottom bound");
+  assert.ok(resultInsideBounds.left >= maxBounds.left, "Result for coords inside bounds respects left bound");
+  assert.ok(resultInsideBounds.top <= maxBounds.top, "Result for coords inside bounds respects top bound");
+  assert.ok(resultInsideBounds.right <= maxBounds.right, "Result for coords inside bounds respects right bound");
+
+  var resultOutOfBounds = ensureMapViewBounds(outsideBounds);
+
+  assert.ok(resultOutOfBounds.bottom >= maxBounds.bottom, "Result for coords outside bounds respects bottom bound");
+  assert.ok(resultOutOfBounds.left >= maxBounds.left, "Result for coords outside bounds respects left bound");
+  assert.ok(resultOutOfBounds.top <= maxBounds.top, "Result for coords outside bounds respects top bound");
+  assert.ok(resultOutOfBounds.right <= maxBounds.right, "Result for coords outside bounds respects right bound");
+});
 
 QUnit.test("createMarkersArray", function (assert) {
   var result = createMarkersArray(place);

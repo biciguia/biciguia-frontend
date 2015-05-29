@@ -43,13 +43,10 @@ function onDOMReady() {
       showRoute();
     }
     else if (origin != undefined && destination != undefined) {
-      console.log("will do it");
       if (markers[0] == undefined) {
-        console.log("origin updated")
         setMarker("origin",origin);
       }
       if (markers[1] == undefined) {
-        console.log("destination updated");
         setMarker("destination",destination);
       }
       showRoute();
@@ -81,16 +78,48 @@ function onDOMReady() {
     brokenRoute();
    });
 
+  // TODO: replace this with *actual code* for showing/hiding multiple screens
+  window.addEventListener('resize', function(evt) {
+    var mapElem = $('#map-wrapper');
+    if ($(window).width() > 992) {
+      if (!mapElem.is(":visible")) {
+        mapElem.toggle();
+      }
+    } else {
+      var menuElem = $('#menu');
+      if (menuElem.is(":visible")) {
+        if (mapElem.is(":visible")) {
+          menuElem.show();
+          mapElem.hide();
+        }
+      } else {
+        if (!mapElem.is(":visible")) {
+          menuElem.show();
+        }
+      }
+    }
+  });
+
+  // TODO: Refactoring. These two pieces of code must be the same.
   $('#botao-menu').click(function() {
   //We must have two functionalities here, one for big screens, other for small ones
     if($(window).width() <= 992) {
-      $('#menu').animate({width: 'toggle'});
-      $('#map').toggle();
-      map.invalidateSize(); //So the tile maps load
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
+      $('#map-wrapper').toggle();
     }
     else {
-      $('#menu').animate({width: 'toggle'});
-      map.invalidateSize(); //So the tile maps load
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
+    }
+  });
+
+  $('#botao-rota').click(function() {
+  //We must have two functionalities here, one for big screens, other for small ones
+    if($(window).width() <= 992) {
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
+      $('#map-wrapper').toggle();
+    }
+    else {
+      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
     }
   });
 
@@ -199,6 +228,14 @@ function menuItemSelected(event, addressesList) {
 }
 
 function showAddressList(addresses, source) {
+  // filter out results from outside são paulo
+  for (var i = 0; i < addresses.length; i++) {
+    if (addresses[i].address.city != "São Paulo") {
+      addresses.splice(i, 1);
+      i--;
+    }
+  }
+
   spinner.stop();
 
   var list = $('#'+source+'-table');

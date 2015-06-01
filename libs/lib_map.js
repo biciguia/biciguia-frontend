@@ -123,7 +123,7 @@ function getGeolocation(position){
 
   setMarker('origin', address, true); 
 
-  alert("Sucesso ao buscar sua geolocalização");
+  // alert("Sucesso ao buscar sua geolocalização");
 }
 
 function error(){

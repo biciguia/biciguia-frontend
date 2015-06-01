@@ -137,6 +137,7 @@ function mapClicked(e, source){
   address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
 
   setMarker(source, address);
+  showRoute();
 }
 
 function getIcon(key) {
@@ -176,4 +177,3 @@ function createMarkersArray(fileJson) {
 
   return markers;
 }
-

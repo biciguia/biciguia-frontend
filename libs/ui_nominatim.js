@@ -116,7 +116,7 @@ function onDOMReady() {
     }
   });
 
-  $('#botao-rota').click(function() {
+  $('#route-button').click(function() {
   //We must have two functionalities here, one for big screens, other for small ones
     if($(window).width() <= 992) {
       $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});

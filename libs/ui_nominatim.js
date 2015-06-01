@@ -78,6 +78,10 @@ function onDOMReady() {
     brokenRoute();
    });
 
+  $("#location-button").click(function() {
+    navigator.geolocation.getCurrentPosition(getGeolocation, error);
+  });
+
   // TODO: replace this with *actual code* for showing/hiding multiple screens
   window.addEventListener('resize', function(evt) {
     var mapElem = $('#map-wrapper');

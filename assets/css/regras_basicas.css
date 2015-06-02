@@ -39,7 +39,7 @@
 }
 
 #map {
-  min-width: 75%;
+  min-width: 80%;
   height: calc(100vh - 48px);
   /*height: 93vh;*/
   flex: 1;
@@ -98,7 +98,7 @@
 
 #menu {
   background: none repeat scroll 0% 0% #637c89;
-  width: 25%;
+  width: 20%;
   flex-direction: column;
   float: left;
   min-height: calc(100vh - 48px);

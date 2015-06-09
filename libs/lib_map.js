@@ -86,10 +86,10 @@ function initializeMap(){
     }
   }
 
-  // add an OpenStreetMap tile layer
-//   L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-//       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-//       }).addTo(map);
+  //add an OpenStreetMap tile layer
+  // L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+  //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  //     }).addTo(map);
      var accessToken = 'pk.eyJ1IjoianVzdHRlc3RpbmciLCJhIjoiMEg3ZWJTVSJ9.h41984pPh9afTYWBg2eoQQ';
 
      L.tileLayer('http://{s}.tiles.mapbox.com/v4/' + 'justtesting.bb599507' + '/{z}/{x}/{y}.png?access_token=' + accessToken, {

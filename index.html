@@ -15,11 +15,18 @@
   <body>
 
     <div id="container" class="body">
-      <div id="header">
-          <i class="md md-menu md-3x" id="botao-menu"></i>
+      <div id="header" class="pure-menu pure-menu-horizontal">
+        <a href="#" class="pure-menu-heading margins-horizontal-menu"><i class="md md-menu md-3x" id="botao-menu"></i></a>
+        <ul class="pure-menu-list margins-horizontal-menu">
+            <li class="pure-menu-item"><a href="#" id="link-about">Sobre</a></li>
+        </ul>
+        <!-- <ul class="pure-menu-list">
+          <li><i class="md md-menu md-3x" id="botao-menu"></i></li>
+          <li><a href="#" id="link-about">Sobre</a></li>
+        </ul> -->
       </div>
       <div id="content">
-        <div id="menu" class="pure-menu">
+        <div id="menu" class="pure-menu menu">
           <div class="pure-g pure-menu-heading">
             <div class="pure-u-1-2" style=" position:relative"id="spinner"></div>
           </div>
@@ -62,6 +69,10 @@
             <div id="weather" class="pure-u-1 pure-u-md-1-3"></div>
           </div>
         </div>
+        <div id="about" class="pure-menu menu">
+          <h1>O que é isto?</h1>
+          <p>O biciguia é um projeto encampado pelo Mobilab da Prefeitura de São Paulo e pela USP para termos um software bacaninha para ciclistas</p>
+        </div>
         <div id="map-wrapper">
           <div id="map">
           </div>
@@ -83,11 +94,11 @@
     </div>
 
     <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#tpKk-gl7sXefuergdivTAUNsdhbNk2zjuSN3Gqt8_Kc"></script> -->
+    <script type="text/javascript" src="assets/js/underscore/underscore-min.js"></script>
     <script type="text/javascript" src="assets/js/spin.min.js"></script>
     <script type="text/javascript" src="assets/leaflet-0.7.3/leaflet.js"></script>
     <script type="text/javascript" src="assets/js/leaflet.contextmenu.js"></script>
-    <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script> -->
-    <script type="text/javascript" src="libs/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="assets/js/decodePath.js"></script>
 
     <script type="text/javascript" src="libs/lib_misc.js"></script>
@@ -97,6 +108,7 @@
     <script type="text/javascript" src="libs/lib_nominatim.js"></script>
     <script type="text/javascript" src="libs/ui_weather.js"></script>
     <script type="text/javascript" src="libs/ui_nominatim.js"></script>
+    <script type="text/javascript" src="libs/ui_menus.js"></script>
 
     <script>
     // setup event handlers only after the DOM is ready

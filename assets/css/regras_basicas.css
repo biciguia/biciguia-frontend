@@ -74,17 +74,17 @@
   margin-top:-0.5em;
 }
 
-#botao-localizacao {
+#location-button {
   margin: 15px;
 }
 
 /* Para conseguir ter cores e propriedades diferentes
    DENTRO dos botões sem ter que criar mais ids... */
-#botao-localizacao div {
+#location-button div {
   background-color: #fff;
 }
 
-#botao-localizacao div:active {
+#location-button div:active {
   background-color: #E6E3E3;
 }
 

@@ -78,6 +78,10 @@ function onDOMReady() {
     brokenRoute();
    });
 
+  $("#location-button").click(function() {
+    navigator.geolocation.getCurrentPosition(getGeolocation, error);
+  });
+
   // TODO: replace this with *actual code* for showing/hiding multiple screens
   window.addEventListener('resize', function(evt) {
     var mapElem = $('#map-wrapper');
@@ -112,7 +116,7 @@ function onDOMReady() {
     }
   });
 
-  $('#botao-rota').click(function() {
+  $('#route-button').click(function() {
   //We must have two functionalities here, one for big screens, other for small ones
     if($(window).width() <= 992) {
       $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});

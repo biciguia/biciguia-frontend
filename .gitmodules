@@ -7,3 +7,6 @@
 [submodule "assets/icons/maki"]
 	path = assets/icons/maki
 	url = https://github.com/mapbox/maki.git
+[submodule "assets/js/underscore"]
+	path = assets/js/underscore
+	url = https://github.com/jashkenas/underscore/

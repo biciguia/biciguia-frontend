@@ -189,7 +189,10 @@ function showGeocodes(address, source) {
 function setMarker(source, address, zoomIn) {
   var coords = [address.lat, address.lon];
   var zoom = 17;
-  $('#'+source+'-address').val(address.display_name);
+  var element = $('#'+source+'-address');
+  if (element.val() != address.display_name) {
+    element.val(address.display_name);
+  }
   hideAddressList(source);
   var markerIdx = 0;
   if(source == "destination") {

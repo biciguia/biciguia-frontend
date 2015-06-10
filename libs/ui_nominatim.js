@@ -139,7 +139,29 @@ function showGeocodesAfterEvent(event) {
   }
 }
 
+function isLatLonString(value) {
+  if (value.match('^[ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*[,][ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*$'))
+    return true;
+  return false;
+}
+
+function latLonInput(target) {
+  var source = target.id.replace("-address","");
+  var value = target.value;
+  if (isLatLonString(value)) {
+    var latLon = value.split(" ").join("").split(",");
+    latLon.lat = latLon[0];
+    latLon.lon = latLon[1];
+    latLon.display_name = latLon.lat + ", " + latLon.lon;
+    setMarker(source,latLon,true);
+    return true;
+  }
+  return false;
+}
+
 function keyUpHandler(event) {
+  if (latLonInput(event.target)) return;
+
   var targetId = lastKeypressId + 1;
   lastKeypressId = targetId;
 

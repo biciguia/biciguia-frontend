@@ -130,7 +130,7 @@ QUnit.test("instructionHtml", function (assert) {
     distance: 1000,
   };
 
-  var expected = '<div class="instruction"><p class="instruction-text">1. Test</p><div class="instruction-info"><div class="intruction-time">1s</div><div class="intruction-dist">1000 m</div></div></div>';
+  var expected = '<div class="instruction"><p class="instruction-text">1. Test</p><div class="instruction-info"><div class="intruction-time">0 min</div><div class="intruction-dist">1.0 km</div></div></div>';
 
   var result = instructionHtml(1, test);
 
@@ -138,10 +138,10 @@ QUnit.test("instructionHtml", function (assert) {
 });
 
 QUnit.test("convertTimeUnit", function (assert) {
-  assert.equal(convertTimeUnit(1*1000), "1s", "Seconds are correct");
-  assert.equal(convertTimeUnit(60*1000), "1m0s", "Minutes are correct");
-  assert.equal(convertTimeUnit(60*60*1000), "1h0m", "Hours are correct");
-  assert.equal(convertTimeUnit(90*60*1000 + 30*1000), "1h30m", "Everything is correct");
+  assert.equal(convertTimeUnit(1*1000), "0 min", "Zero minute");
+  assert.equal(convertTimeUnit(60*1000), "1 min", "Minutes are correct");
+  assert.equal(convertTimeUnit(60*60*1000), "1 h0 min", "Hours are correct");
+  assert.equal(convertTimeUnit(90*60*1000 + 30*1000), "1 h31 min", "Everything is correct");
 });
 
 QUnit.test("removeRoute", function (assert) {

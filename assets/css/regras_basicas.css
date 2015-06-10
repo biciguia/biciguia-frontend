@@ -10,7 +10,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   position: absolute;
-  top: 48px;
+  top: 40px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -19,10 +19,11 @@
 }
 
 #header {
-  height: 48px;
+  height: 40px;
   width:100%;
   flex: none; /* Para evitar que o header diminua */
-  background: #13988a;
+  background: #E85414;
+  border-bottom: 2px solid rgba(0,0,0,.2);
 }
 
 #text-broken-route {
@@ -40,7 +41,7 @@
 
 #map {
   min-width: 80%;
-  height: calc(100vh - 48px);
+  height: calc(100vh - 40px);
   /*height: 93vh;*/
   flex: 1;
 }
@@ -97,13 +98,15 @@
 }
 
 .menu {
-  background: none repeat scroll 0% 0% #637c89;
-  width: 20%;
+  background: none repeat scroll 0% 0% #435962;
+  width: 18%;
   flex-direction: column;
   float: left;
-  min-height: calc(100vh - 48px);
+  min-height: calc(100vh - 40px);
   overflow: auto;
   display: none;
+  color: white;
+  padding: 0 10px;
   /*height: 93vh;*/
 }
 
@@ -127,11 +130,9 @@
 }
 
 .margins-horizontal-menu {
+  color: white;
   margin-top: -1px;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 5px 10px;
 
 }
 
@@ -139,4 +140,23 @@
   background: none repeat scroll 0% 0% #2598D4;
 }
 
+.pure-menu-item a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
 
+.pure-input[type=text] {
+  width: 100%;
+  color: #333;
+}
+
+.pure-button {
+  color: rgba(0, 0, 0, 0.7);
+  background-color: #E7E7E7;
+  text-transform: uppercase;
+  font-size: 75%;
+  font-weight: bold;
+  padding: 0.8em 1.2em;
+  box-shadow: 0 2px 0px #8B8B8B;
+}

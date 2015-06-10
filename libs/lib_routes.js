@@ -84,23 +84,35 @@ function convertTimeUnit(ms){
 
   segundos -= minutos*60;
   minutos -= horas*60;
-  if (horas > 0) {
-    return horas+'h'+minutos+'m';
-  } else if (minutos > 0) {
-    return minutos+'m'+segundos+'s';
-  } else {
-    return segundos+'s';
+  
+  if(segundos >= 30) {
+    minutos++;
   }
+  if (horas > 0) {
+    return horas+' h'+minutos+' min';
+  } else {
+    return minutos+' min';
+  } 
 }
 
 function instructionHtml(id, instruction){
+  var distancia = instruction.distance;
+
   var result = '<div class="instruction">'+
                   '<p class="instruction-text">'+id+'. '+instruction.text+'</p>'+
                   '<div class="instruction-info">'+
-                    '<div class="intruction-time">'+convertTimeUnit(instruction.time)+'</div>'+
-                    '<div class="intruction-dist">'+instruction.distance+' m</div>'+
-                  '</div>'+
-                '</div>';
+                    '<div class="intruction-time">'+convertTimeUnit(instruction.time)+'</div>';
+
+  if(distancia >= 1000) {
+    distancia /= 1000;
+    result += '<div class="intruction-dist">'+distancia.toFixed(1)+' km</div>';
+  }
+  else {
+    result += '<div class="intruction-dist">'+distancia.toFixed(0)+' m</div>';
+  }
+  
+  result +=  '</div>'+
+            '</div>';
 
   return result;
 }

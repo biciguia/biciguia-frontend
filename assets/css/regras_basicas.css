@@ -39,7 +39,7 @@
 }
 
 #map {
-  min-width: 75%;
+  min-width: 80%;
   height: calc(100vh - 48px);
   /*height: 93vh;*/
   flex: 1;
@@ -96,13 +96,14 @@
   background:#30588e;
 }
 
-#menu {
+.menu {
   background: none repeat scroll 0% 0% #637c89;
-  width: 25%;
+  width: 20%;
   flex-direction: column;
   float: left;
   min-height: calc(100vh - 48px);
   overflow: auto;
+  display: none;
   /*height: 93vh;*/
 }
 
@@ -116,14 +117,26 @@
 /* Agora os Media Queries todos */
 @media (max-width: 992px) {
 /*@media all and (orientation:portrait) {*/
-  #menu {
-    display: none;
+  .menu {
+    /*display: none;*/
     width: 100%;
   }
   #map-wrapper {
     width: 100%;
   }
+}
 
+.margins-horizontal-menu {
+  margin-top: -1px;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+
+#about {
+  background: none repeat scroll 0% 0% #2598D4;
 }
 
 

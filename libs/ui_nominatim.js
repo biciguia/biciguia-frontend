@@ -79,7 +79,7 @@ function onDOMReady() {
    });
 
   $("#location-button").click(function() {
-    navigator.geolocation.getCurrentPosition(getGeolocation, error);
+    navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
   });
 
   // TODO: replace this with *actual code* for showing/hiding multiple screens

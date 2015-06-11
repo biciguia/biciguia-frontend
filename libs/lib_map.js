@@ -77,7 +77,7 @@ function initializeMap(){
     map.fitBounds(coordsToLeafletBounds(coords));
   });
 
-  navigator.geolocation.getCurrentPosition(getGeolocation, error);
+  navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
 
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
@@ -122,12 +122,11 @@ function getGeolocation(position){
   address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
 
   setMarker('origin', address, true); 
-
-  // alert("Sucesso ao buscar sua geolocalização");
 }
 
-function error(){
-  alert("Falha ao buscar sua geolocalização");
+function errorGeolocation(error){
+  if(error.code != error.PERMISSION_DENIED)
+    alert("Falha ao buscar sua geolocalização");
 }
 
 function mapClicked(e, source){

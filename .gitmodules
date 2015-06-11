@@ -10,3 +10,6 @@
 [submodule "assets/js/underscore"]
 	path = assets/js/underscore
 	url = https://github.com/jashkenas/underscore/
+[submodule "assets/js/Leaflet.Elevation"]
+	path = assets/js/Leaflet.Elevation
+	url = https://github.com/MrMufflon/Leaflet.Elevation

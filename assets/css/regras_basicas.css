@@ -25,13 +25,10 @@
   background: #13988a;
 }
 
-#text-broken-route {
+#broken-route, #text-broken-route, #broken-route-confirm-button {
   display: none;
 }
 
-#broken-route-confirm-button {
-  display: none;
-}
 
 #map-wrapper {
   position: relative;

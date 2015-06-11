@@ -36,6 +36,7 @@ function displayRoute(response) {
   removeRoute();
 
   $('#weather').hide();
+  $('#broken-route').show();
 
   var instructions = response.paths[0].instructions;
   $('#instructions').append('<p id="instructions-title">Instruções</p>');
@@ -71,6 +72,7 @@ function removeRoute() {
   if (routeLine) {
     if (map.hasLayer(routeLine)) {
       map.removeLayer(routeLine);
+      routeLine = undefined;
     }
   }
   if (elev) {
@@ -79,13 +81,10 @@ function removeRoute() {
       map.removeControl(elev);
     }
   } 
-  // if (polyline != undefined) {
-  //   map.removeLayer(polyline);
-  //   polyline = undefined;
-  // }
 
   $('#instructions').empty();
-  
+  $('#broken-route').hide();
+  successfulRequestBrokenRoute(true);
   $('#weather').show();
 }
 

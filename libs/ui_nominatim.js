@@ -66,9 +66,9 @@ function onDOMReady() {
 
   $("#broken-route-confirm-button").click(function(){
     var text = $("#text-broken-route").val();
-    var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], polyline);
+    var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], routeLine);
     var url = 'http://104.131.18.160:8000/reclamacao';
-    $.post(url, brokenRouteObject, succesfulRequestBrokenRoute());
+    $.post(url, brokenRouteObject, successfulRequestBrokenRoute());
   });
 
   $(".address").focusout(showGeocodesAfterEvent);
@@ -117,13 +117,15 @@ function brokenRoute(){
   }
 }
 
-function succesfulRequestBrokenRoute(){
+function successfulRequestBrokenRoute(hideAlert){
   $("#text-broken-route").hide();
   $("#text-broken-route").val('');
   $("#broken-route-confirm-button").hide();
   $("#broken-route-button").show();
 
-  alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
+  if (hideAlert == undefined) {
+    alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
+  }
 }
 
 

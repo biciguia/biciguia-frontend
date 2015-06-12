@@ -8,6 +8,12 @@
 
 var map;
 var overlays = {};
+var maxBounds = {
+  bottom: -24.317,
+  left: -47.357,
+  top: -23.125,
+  right: -45.863,
+};
 
 var iconSize = 24; //TODO: iconSize 12 and 18.
 var LeafIcon = L.Icon.extend({
@@ -32,17 +38,19 @@ var overlayFiles = {
 };
 
 var overlayIcons = {
-  "Ambulatórios": "../assets/icons/src/lodging",
-  "Bibliotecas": "../assets/icons/src/town-hall",
-  "Bosques e Pontos de Leitura": "../assets/icons/src/library",
-  "Hospitais": "../assets/icons/src/city",
-  "Museus": "../assets/icons/src/museum",
-  "Pronto-Socorros": "../assets/icons/src/hospital",
-  "Unidades Básicas de Saúde": "../assets/icons/src/heart"
+  "Ambulatórios": "assets/icons/maki/src/lodging",
+  "Bibliotecas": "assets/icons/maki/src/town-hall",
+  "Bosques e Pontos de Leitura": "assets/icons/maki/src/library",
+  "Hospitais": "assets/icons/maki/src/city",
+  "Museus": "assets/icons/maki/src/museum",
+  "Pronto-Socorros": "assets/icons/maki/src/hospital",
+  "Unidades Básicas de Saúde": "assets/icons/maki/src/heart"
 };
 
 function initializeMap(){
   map = L.map('map',{
+    // TODO change
+    maxBounds: coordsToLeafletBounds(maxBounds),
     contextmenu: true,
     contextmenuWidth: 140,
     contextmenuItems: [{
@@ -56,18 +64,69 @@ function initializeMap(){
     ]
   }).setView([-23.5475, -46.63611], 13);
 
+  //TODO: update unit tests.
+  map.on('zoomend', function(e) {
+    var curBounds_L = map.getBounds();
+    var curBounds = {
+      bottom: curBounds_L.getSouthWest().lat,
+      left: curBounds_L.getSouthWest().lng,
+      top: curBounds_L.getNorthEast().lat,
+      right: curBounds_L.getNorthEast().lng,
+    };
+    var coords = ensureMapViewBounds(curBounds);
+    map.fitBounds(coordsToLeafletBounds(coords));
+  });
+
+  navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
+
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
-      $.getJSON('../assets/overlays/'+overlayFiles[key],
+      $.getJSON('assets/overlays/'+overlayFiles[key],
         bind2ndArgument(createLeafletMarkers, key)).fail(errorCallback);
     }
   }
 
-  // add an OpenStreetMap tile layer
-  L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+  //add an OpenStreetMap tile layer
+  // L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+  //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  //     }).addTo(map);
+     var accessToken = 'pk.eyJ1IjoianVzdHRlc3RpbmciLCJhIjoiMEg3ZWJTVSJ9.h41984pPh9afTYWBg2eoQQ';
 
+     L.tileLayer('http://{s}.tiles.mapbox.com/v4/' + 'justtesting.bb599507' + '/{z}/{x}/{y}.png?access_token=' + accessToken, {
+         attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+     }).addTo(map);
+}
+
+
+
+//TODO: unit tests (with Leaflet mocking).
+function coordsToLeafletBounds(coords) {
+    var bounds = L.latLngBounds(L.latLng(coords.bottom, coords.left),
+        L.latLng(coords.top, coords.right));
+    return bounds;
+}
+
+//TODO: unit tests.
+function ensureMapViewBounds(currentBounds) {
+  if (currentBounds.bottom < maxBounds.bottom) currentBounds.bottom = maxBounds.bottom;
+  if (currentBounds.left < maxBounds.left) currentBounds.left = maxBounds.left;
+  if (currentBounds.top > maxBounds.top) currentBounds.top = maxBounds.top;
+  if (currentBounds.right > maxBounds.right) currentBounds.right = maxBounds.right;
+  return currentBounds;
+}
+
+function getGeolocation(position){
+  var address = [];
+  address.lat = position.coords.latitude;
+  address.lon = position.coords.longitude;
+  address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
+
+  setMarker('origin', address, true); 
+}
+
+function errorGeolocation(error){
+  if(error.code != error.PERMISSION_DENIED)
+    alert("Falha ao buscar sua geolocalização");
 }
 
 function mapClicked(e, source){
@@ -77,6 +136,7 @@ function mapClicked(e, source){
   address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
 
   setMarker(source, address);
+  showRoute();
 }
 
 function getIcon(key) {
@@ -116,4 +176,3 @@ function createMarkersArray(fileJson) {
 
   return markers;
 }
-

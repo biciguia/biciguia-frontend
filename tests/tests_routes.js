@@ -7,7 +7,7 @@
    */
 
 /* globals for mocking */
-var polyline;
+var routeLine;
 var map;
 
 QUnit.test("getRouteURLFromCoordinates ", function (assert) {
@@ -34,6 +34,11 @@ QUnit.test("getRouteURLFromCoordinates ", function (assert) {
   assert.equal(result, expected, "Route URL was generated correctly");
 });
 
+QUnit.test("_displayRouteWithElevation", function (assert) {
+  // TODO: add tests (during test day)
+  assert.ok(true, "TODO: add tests");
+});
+
 QUnit.test("displayRoute", function (assert) {
   var decodedResponse = [[1, -1], [2, -2]];
 
@@ -43,24 +48,13 @@ QUnit.test("displayRoute", function (assert) {
   var old_removeRoute = removeRoute;
   removeRoute = sinon.spy();
 
-  var polyline_stubs = {
-    "addTo": sinon.stub(),
-    "getBounds": sinon.stub()
-  };
-
-  polyline_stubs.addTo.returns(polyline_stubs);
-  polyline_stubs.getBounds.returns(polyline_stubs);
-
-  var polyline_stub = sinon.stub(L, "polyline");
-  polyline_stub.returns(polyline_stubs);
-
-  map = {
-    "fitBounds": sinon.spy()
-  };
+  var old_displayRouteWithElevation = _displayRouteWithElevation;
+  _displayRouteWithElevation = sinon.spy();
 
   var $_stubs = {
     "hide": sinon.spy(),
     "append": sinon.spy(),
+    "show": sinon.spy(),
   };
 
   $ = sinon.stub().returns($_stubs);
@@ -84,43 +78,19 @@ QUnit.test("displayRoute", function (assert) {
   assert.ok(decodeRouteResponse.calledOnce, "Route response decoded correctly");
   assert.ok(decodeRouteResponse.calledWith(response), "Route response decoded correctly");
 
-  assert.ok(L.polyline.calledWith(decodedResponse, {color: 'red'}), "Polyline created correctly");
-  assert.ok(polyline_stubs.addTo.calledOnce, "Polyline shown on map correctly");
-  assert.ok(polyline_stubs.addTo.calledWith(map), "Polyline shown on map correctly");
-
-  assert.ok(map.fitBounds.calledOnce, "Map was zoomed in correctly");
-  assert.ok(map.fitBounds.calledWith(polyline_stubs), "Map was zoomed in to the correct region");
-  assert.ok(polyline_stubs.getBounds.calledOnce, "Map was zoomed in correctly");
-
   assert.ok(removeRoute.calledOnce, "Route polyline was hidden");
 
+  assert.ok(_displayRouteWithElevation.calledOnce, "Route displayed correctly");
+  assert.ok(_displayRouteWithElevation.calledWith(decodedResponse), "Route displayed correctly");
+
   assert.ok($_stubs.hide.calledOnce, "Hidden the weather info");
+  assert.ok($_stubs.show.calledOnce, "Broken route button shown correctly");
   var numAppends = response.paths[0].instructions.length + 1;
   assert.equal($_stubs.append.callCount, numAppends, "Added the right number of instructions");
 
-  polyline_stub.restore();
   removeRoute = old_removeRoute;
   decodeRouteResponse = old_decodeRouteResponse;
-});
-
-QUnit.test("invertLatLngs", function (assert) {
-  var test = [
-    [1, 2],
-    [3, 4],
-  ];
-
-  var expected = [
-    [2, 1],
-    [4, 3],
-  ];
-
-  var result = invertLatLngs(test);
-
-  for (var i = 0; i < result.length; i++) {
-    for (var j = 0; j < result[i].length; j++) {
-      assert.equal(result[i][j], expected[i][j], "Coordinate is swapped correctly");
-    }
-  }
+  _displayRouteWithElevation = old_displayRouteWithElevation;
 });
 
 QUnit.test("instructionHtml", function (assert) {
@@ -130,7 +100,7 @@ QUnit.test("instructionHtml", function (assert) {
     distance: 1000,
   };
 
-  var expected = '<div class="instruction"><p class="instruction-text">1. Test</p><div class="instruction-info"><div class="intruction-time">1s</div><div class="intruction-dist">1000 m</div></div></div>';
+  var expected = '<div class="instruction"><p class="instruction-text">1. Test</p><div class="instruction-info"><div class="intruction-time">0 min</div><div class="intruction-dist">1.0 km</div></div></div>';
 
   var result = instructionHtml(1, test);
 
@@ -138,40 +108,50 @@ QUnit.test("instructionHtml", function (assert) {
 });
 
 QUnit.test("convertTimeUnit", function (assert) {
-  assert.equal(convertTimeUnit(1*1000), "1s", "Seconds are correct");
-  assert.equal(convertTimeUnit(60*1000), "1m0s", "Minutes are correct");
-  assert.equal(convertTimeUnit(60*60*1000), "1h0m", "Hours are correct");
-  assert.equal(convertTimeUnit(90*60*1000 + 30*1000), "1h30m", "Everything is correct");
+  assert.equal(convertTimeUnit(1*1000), "0 min", "Zero minute");
+  assert.equal(convertTimeUnit(60*1000), "1 min", "Minutes are correct");
+  assert.equal(convertTimeUnit(60*60*1000), "1 h0 min", "Hours are correct");
+  assert.equal(convertTimeUnit(90*60*1000 + 30*1000), "1 h31 min", "Everything is correct");
 });
 
 QUnit.test("removeRoute", function (assert) {
-  polyline = undefined;
+  routeLine = undefined;
 
   map = {
-    "removeLayer": sinon.spy()
+    "removeLayer": sinon.spy(),
+    "hasLayer": sinon.stub().returns(true),
   };
 
   var $_stubs = {
     "empty": sinon.spy(),
     "show": sinon.spy(),
+    "hide": sinon.spy(),
   };
 
   $ = sinon.stub().returns($_stubs);
 
+  var old_successfulRequestBrokenRoute = successfulRequestBrokenRoute;
+  successfulRequestBrokenRoute = sinon.spy();
+
   removeRoute();
 
   assert.equal(map.removeLayer.called, false, "Didn't remove empty route");
-  assert.ok($_stubs.empty.called, "Removed instructions");
-  assert.ok($_stubs.show.called, "Displayed weather info");
+  assert.ok($_stubs.empty.calledOnce, "Removed instructions");
+  assert.ok($_stubs.show.calledOnce, "Displayed weather info");
+  assert.ok($_stubs.hide.calledOnce, "Broken route information hidden correctly");
+  assert.ok(successfulRequestBrokenRoute.calledOnce, "Reset broken route panel status");
+  assert.ok(successfulRequestBrokenRoute.calledWith(true), "Reset broken route correctly");
 
-  var tmp_polyline = {};
-  polyline = tmp_polyline;
+  var tmp_routeLine = {};
+  routeLine = tmp_routeLine;
 
   removeRoute();
 
   assert.ok(map.removeLayer.calledOnce, "Removed route");
-  assert.ok(map.removeLayer.calledWith(tmp_polyline), "Removed correct route");
-  assert.equal(polyline, undefined, "polyline unset correctly");
+  assert.ok(map.removeLayer.calledWith(tmp_routeLine), "Removed correct route");
+  assert.equal(routeLine, undefined, "routeLine unset correctly");
+
+  successfulRequestBrokenRoute = old_successfulRequestBrokenRoute;
 });
 
 QUnit.test("testBrokenRouteObject", function(assert) {

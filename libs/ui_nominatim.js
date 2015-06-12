@@ -66,9 +66,9 @@ function onDOMReady() {
 
   $("#broken-route-confirm-button").click(function(){
     var text = $("#text-broken-route").val();
-    var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], polyline);
+    var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], routeLine);
     var url = 'http://104.131.18.160:8000/reclamacao';
-    $.post(url, brokenRouteObject, succesfulRequestBrokenRoute());
+    $.post(url, brokenRouteObject, successfulRequestBrokenRoute());
   });
 
   $(".address").focusout(showGeocodesAfterEvent);
@@ -78,39 +78,31 @@ function onDOMReady() {
     brokenRoute();
    });
 
+  $("#location-button").click(function() {
+    navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
+  });
+
   // TODO: replace this with *actual code* for showing/hiding multiple screens
-  window.addEventListener('resize', function(evt) {
-    var mapElem = $('#map');
-    if ($(window).width() > 992) {
-      if (!mapElem.is(":visible")) {
-        mapElem.toggle();
-      }
-    } else {
-      var menuElem = $('#menu');
-      if (menuElem.is(":visible")) {
-        if (mapElem.is(":visible")) {
-          menuElem.show();
-          mapElem.hide();
-        }
-      } else {
-        if (!mapElem.is(":visible")) {
-          menuElem.show();
-        }
-      }
-    }
-  });
-
-  $('#botao-menu').click(function() {
-  //We must have two functionalities here, one for big screens, other for small ones
-    if($(window).width() <= 992) {
-      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
-      $('#map').toggle();
-    }
-    else {
-      $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
-    }
-  });
-
+  // window.addEventListener('resize', function(evt) {
+  //   var mapElem = $('#map-wrapper');
+  //   if ($(window).width() > 992) {
+  //     if (!mapElem.is(":visible")) {
+  //       mapElem.toggle();
+  //     }
+  //   } else {
+  //     var menuElem = $('#menu');
+  //     if (menuElem.is(":visible")) {
+  //       if (mapElem.is(":visible")) {
+  //         menuElem.show();
+  //         mapElem.hide();
+  //       }
+  //     } else {
+  //       if (!mapElem.is(":visible")) {
+  //         menuElem.show();
+  //       }
+  //     }
+  //   }
+  // });
 
 }
 
@@ -125,13 +117,15 @@ function brokenRoute(){
   }
 }
 
-function succesfulRequestBrokenRoute(){
+function successfulRequestBrokenRoute(hideAlert){
   $("#text-broken-route").hide();
   $("#text-broken-route").val('');
   $("#broken-route-confirm-button").hide();
   $("#broken-route-button").show();
 
-  alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
+  if (hideAlert == undefined) {
+    alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
+  }
 }
 
 
@@ -147,7 +141,29 @@ function showGeocodesAfterEvent(event) {
   }
 }
 
+function isLatLonString(value) {
+  if (value.match('^[ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*[,][ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*$'))
+    return true;
+  return false;
+}
+
+function latLonInput(target) {
+  var source = target.id.replace("-address","");
+  var value = target.value;
+  if (isLatLonString(value)) {
+    var latLon = value.split(" ").join("").split(",");
+    latLon.lat = latLon[0];
+    latLon.lon = latLon[1];
+    latLon.display_name = latLon.lat + ", " + latLon.lon;
+    setMarker(source,latLon,true);
+    return true;
+  }
+  return false;
+}
+
 function keyUpHandler(event) {
+  if (latLonInput(event.target)) return;
+
   var targetId = lastKeypressId + 1;
   lastKeypressId = targetId;
 
@@ -175,7 +191,10 @@ function showGeocodes(address, source) {
 function setMarker(source, address, zoomIn) {
   var coords = [address.lat, address.lon];
   var zoom = 17;
-  $('#'+source+'-address').val(address.display_name);
+  var element = $('#'+source+'-address');
+  if (element.val() != address.display_name) {
+    element.val(address.display_name);
+  }
   hideAddressList(source);
   var markerIdx = 0;
   if(source == "destination") {

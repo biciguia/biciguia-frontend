@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Biciguia Tests</title>
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.17.1.css">
+  </head>
+  <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="http://code.jquery.com/qunit/qunit-1.17.1.js"></script>
+    <script type="text/javascript" src="js/sinon-1.14.1.js"></script>
+    <script type="text/javascript" src="js/blanket.min.js"></script>
+    <script type="text/javascript" src="../assets/js/spin.min.js"></script>
+    <script type="text/javascript" src="../assets/leaflet-0.7.3/leaflet.js"></script>
+
+    <script>
+    if (location.href.match(/(\?|&)gruntReport($|&|=)/)) {
+        blanket.options("reporter", "js/grunt-reporter.js");
+    }
+    </script>
+
+    <script src="../libs/lib_misc.js" data-cover></script>
+
+    <script src="../libs/lib_routes.js" data-cover></script>
+    <script src="tests_routes.js"></script>
+
+    <script src="../libs/lib_map.js" data-cover></script>
+    <script src="tests_map.js"></script>
+
+    <script src="../libs/ui_nominatim.js" data-cover></script>
+    <script src="../libs/lib_nominatim.js" data-cover></script>
+    <script src="tests_nominatim.js"></script>
+
+    <script src="../libs/lib_weather.js" data-cover></script>
+    <script src="../libs/ui_weather.js" data-cover></script>
+    <script src="tests_weather.js"></script>
+  </body>
+</html>

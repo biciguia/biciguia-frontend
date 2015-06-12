@@ -26,6 +26,12 @@ Code Climate reports (master): [code](https://codeclimate.com/github/biciguia/bi
 
 ## Changelog
 
+### v0.7
+- Add HTML5 geolocation support
+- Limit map bounds to São Paulo
+- UI and UX improvements
+- Elevation information for routes
+
 ### v0.6
 - Add maki icons to POI markers
 

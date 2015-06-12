@@ -55,17 +55,6 @@ function displayRoute(response) {
 function decodeRouteResponse(encodedResponse) {
   var result = decodePath(encodedResponse.paths[0].points, true);
   return result;
-  //return invertLatLngs(result);
-}
-
-function invertLatLngs(array) {
-  var result = array;
-  for (var i = 0; i < result.length; i++) {
-    var tmp = result[i][0];
-    result[i][0] = result[i][1];
-    result[i][1] = tmp;
-  }
-  return result;
 }
 
 function removeRoute() {
@@ -80,7 +69,7 @@ function removeRoute() {
       elev.clear();
       map.removeControl(elev);
     }
-  } 
+  }
 
   $('#instructions').empty();
   $('#broken-route').hide();

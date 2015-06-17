@@ -16,13 +16,13 @@
     "jquery"    :  true,
     "qunit"     :  true,
     "globals"   : {
-        L: true,
-        map: true,
-        spinner: true,
-        routeLine: true,
-        menuManager: true,
-        '_': true,
-        sinon: false,
+        "L"             :  true,
+        "map"           :  true,
+        "spinner"       :  true,
+        "routeLine"     :  true,
+        "menuManager"   :  true,
+        "_"             :  true,
+        "sinon"         :  false,
     },
 }
 

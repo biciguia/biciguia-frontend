@@ -24,6 +24,7 @@ function getGeocoderURLFromAddress(address) {
   return geoCoderURL;
 }
 
+// REFACTOR: maybe change name and move to another file?
 function getAddressListHTML(addresses, source) {
   var list = [];
 

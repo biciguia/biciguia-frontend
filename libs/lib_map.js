@@ -47,6 +47,7 @@ var overlayIcons = {
   "Unidades Básicas de Saúde": "assets/icons/maki/src/heart"
 };
 
+// REFACTOR: add $(document).ready(initializeMap);
 function initializeMap(){
   map = L.map('map',{
     // TODO change
@@ -79,6 +80,7 @@ function initializeMap(){
 
   navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
 
+  // REFACTOR: split into its own function?
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
       $.getJSON('assets/overlays/'+overlayFiles[key],
@@ -115,6 +117,7 @@ function ensureMapViewBounds(currentBounds) {
   return currentBounds;
 }
 
+// REFACTOR: change name
 function getGeolocation(position){
   var address = [];
   address.lat = position.coords.latitude;
@@ -124,11 +127,13 @@ function getGeolocation(position){
   setMarker('origin', address, true); 
 }
 
+// TODO: change alert() to something less intrusive?
 function errorGeolocation(error){
   if(error.code != error.PERMISSION_DENIED)
     alert("Falha ao buscar sua geolocalização");
 }
 
+// REFACTOR: change name
 function mapClicked(e, source){
   var address = [];
   address.lat = e.latlng.lat;
@@ -161,6 +166,7 @@ function createLeafletMarkers(fileJson, key) {
   }
 }
 
+// TODO: use this for preprocessing the json files (issue #31)
 function createMarkersArray(fileJson) {
   var markers = [];
   for (var i = 0; i < fileJson.length; i++) {

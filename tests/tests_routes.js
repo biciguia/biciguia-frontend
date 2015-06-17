@@ -35,7 +35,7 @@ QUnit.test("getRouteURLFromCoordinates ", function (assert) {
 });
 
 QUnit.test("_displayRouteWithElevation", function (assert) {
-  // TODO: add tests (during test day)
+  // TODO: (TESTDAY) add tests (during test day)
   assert.ok(true, "TODO: add tests");
 });
 

@@ -22,7 +22,7 @@
         "routeLine"     :  true,
         "menuManager"   :  true,
         "_"             :  true,
-        "sinon"         :  false,
-    },
+        "sinon"         :  false
+    }
 }
 

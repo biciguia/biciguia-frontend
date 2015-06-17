@@ -28,7 +28,7 @@
     right: -45.000,
   };
 
-   var place = [
+  var place = [
    {
     "latitude": 5,
     "longitude": -5,
@@ -45,14 +45,6 @@
 
   var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
   var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
-
-  function ensureMapViewBounds(currentBounds) {
-  if (currentBounds.bottom < maxBounds.bottom) currentBounds.bottom = maxBounds.bottom;
-  if (currentBounds.left < maxBounds.left) currentBounds.left = maxBounds.left;
-  if (currentBounds.top > maxBounds.top) currentBounds.top = maxBounds.top;
-  if (currentBounds.right > maxBounds.right) currentBounds.right = maxBounds.right;
-  return currentBounds;
-}
 
 QUnit.test("ensureMapViewBounds", function (assert) {
   var resultInsideBounds = ensureMapViewBounds(insideBounds);

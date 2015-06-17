@@ -24,17 +24,6 @@ function hideAddressListOnClick() {
   }
 }
 
-// REFACTOR: lib_routes.js or ui_routes.js
-function showRoute() {
-  searchRoute = true;
-  var routeOptions = {
-    option1: $('#option-1').is(':checked'),
-    option2: $('#option-2').is(':checked'),
-    option3: $('#option-3').is(':checked')
-  };
-  routeByCoordinates(markers[0]._latlng,markers[1]._latlng, routeOptions);
-}
-
 // TODO refactor to reduce coupling
 // TODO create more logs to specify if did not choose or if geocoder result was empty
 // TODO fix test
@@ -43,46 +32,8 @@ function showRoute() {
 function onDOMReady() {
   hideAddressListOnClick();
 
-  $("#route-button").click(function() {
-    
-    if(markers[0] != undefined && markers[1] != undefined) {
-      showRoute();
-    }
-    else if (origin != undefined && destination != undefined) {
-      if (markers[0] == undefined) {
-        setMarker("origin",origin);
-      }
-      if (markers[1] == undefined) {
-        setMarker("destination",destination);
-      }
-      showRoute();
-    }
-    else {
-      if (markers[0] == undefined && origin == undefined) {
-        if (markers[1] == undefined && destination == undefined)
-          alert("Favor escolher origem e destino válidos.");
-        else 
-          alert("Favor escolher uma origem válida.");
-      }
-      else if (markers[1] == undefined && destination == undefined) {
-          alert("Favor escolher um destino válido.");
-      }
-    }
-  });
-
-  $("#broken-route-confirm-button").click(function(){
-    var text = $("#text-broken-route").val();
-    var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], routeLine);
-    var url = 'http://104.131.18.160:8000/reclamacao';
-    $.post(url, brokenRouteObject, successfulRequestBrokenRoute());
-  });
-
   $(".address").focusout(showGeocodesAfterEvent);
   $(".address").keyup(keyUpHandler);
-
-  $("#broken-route-button").click(function() {
-    brokenRoute();
-   });
 
   $("#location-button").click(function() {
     navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
@@ -112,29 +63,6 @@ function onDOMReady() {
 
 }
 
-// REFACTOR: ui_routes.js
-function brokenRoute(){
-  if(!searchRoute){
-    alert("Você precisa escolher uma rota antes!");
-  }
-  else{
-    $("#text-broken-route").show();
-    $("#broken-route-confirm-button").show();
-    $("#broken-route-button").hide();
-  }
-}
-
-function successfulRequestBrokenRoute(hideAlert){
-  $("#text-broken-route").hide();
-  $("#text-broken-route").val('');
-  $("#broken-route-confirm-button").hide();
-  $("#broken-route-button").show();
-
-  if (hideAlert == undefined) {
-    alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
-  }
-}
-
 // REFACTOR: ui_address.js, change name
 function showGeocodesAfterEvent(event) {
   var value = $(event.target).val();
@@ -146,13 +74,6 @@ function showGeocodesAfterEvent(event) {
       showGeocodes(value, 'destination');
     }
   }
-}
-
-// REFACTOR: lib_misc.js
-function isLatLonString(value) {
-  if (value.match('^[ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*[,][ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*$'))
-    return true;
-  return false;
 }
 
 // REFACTOR: ui_address.js

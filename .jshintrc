@@ -10,7 +10,7 @@
     "maxdepth"  :  3,
     "noarg"     :  true,
     "nonew"     :  true,
-    "undef"     :  true,
+    "undef"     :  false,
     "unused"    :  false,
     "browser"   :  true,
     "jquery"    :  true,

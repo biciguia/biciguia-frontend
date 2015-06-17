@@ -11,6 +11,7 @@ var searchRoute = false;
 var elev = false;
 var routeLine = false;
 
+// REFACTOR: move to another file? ui_routes?
 function routeByCoordinates(originLatLng, destinationLatLng, routeOptions) {
   var requestURL = getRouteURLFromCoordinates(originLatLng, destinationLatLng, routeOptions);
 
@@ -30,6 +31,7 @@ function getRouteURLFromCoordinates (originLatLng, destinationLatLng, routeOptio
   return requestURL;
 }
 
+// REFACTOR: ui_routes.js
 function displayRoute(response) {
   var decodedResponse = decodeRouteResponse(response);
 
@@ -57,6 +59,7 @@ function decodeRouteResponse(encodedResponse) {
   return result;
 }
 
+// REFACTOR: ui_route.js
 function removeRoute() {
   if (routeLine) {
     if (map.hasLayer(routeLine)) {
@@ -98,6 +101,7 @@ function convertTimeUnit(ms){
   } 
 }
 
+// REFACTOR: change name? move to another file? similar to getAddressListHTML
 function instructionHtml(id, instruction){
   var distancia = instruction.distance;
 
@@ -133,6 +137,7 @@ function createBrokenRouteObject(text, origin, destination, origin_point, destin
   return result;
 }
 
+// REFACTOR: move to ui_routes.js
 function _displayRouteWithElevation(decodedResponse) {
   elev = L.control.elevation({
       position: "bottomleft",

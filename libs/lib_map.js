@@ -141,7 +141,7 @@ function mapClicked(e, source){
   address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
 
   setMarker(source, address);
-  showRoute();
+  getAndShowRoute();
 }
 
 function getIcon(key) {

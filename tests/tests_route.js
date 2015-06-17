@@ -10,7 +10,7 @@
 var routeLine;
 var map;
 
-QUnit.test("getRouteURLFromCoordinates ", function (assert) {
+QUnit.test("getRouterURL", function (assert) {
   var origin = {
     lat: 10,
     lng: -10
@@ -27,29 +27,29 @@ QUnit.test("getRouteURLFromCoordinates ", function (assert) {
     option3: false,
   };
 
-  var result = getRouteURLFromCoordinates(origin, destination, options);
+  var result = getRouterURL(origin, destination, options);
 
   var expected = 'http://104.131.18.160:8989/route?point=10%2C-10&point=20%2C-20&locale=pt_BR&instructions=true&vehicle=bike2&elevation=true';
 
   assert.equal(result, expected, "Route URL was generated correctly");
 });
 
-QUnit.test("_displayRouteWithElevation", function (assert) {
+QUnit.test("addRouteToMap", function (assert) {
   // TODO: (TESTDAY) add tests (during test day)
   assert.ok(true, "TODO: add tests");
 });
 
-QUnit.test("displayRoute", function (assert) {
+QUnit.test("showRoute", function (assert) {
   var decodedResponse = [[1, -1], [2, -2]];
 
-  var old_decodeRouteResponse = decodeRouteResponse;
-  decodeRouteResponse = sinon.stub().returns(decodedResponse);
+  var old_decodeRouterResponse = decodeRouterResponse;
+  decodeRouterResponse = sinon.stub().returns(decodedResponse);
 
   var old_removeRoute = removeRoute;
   removeRoute = sinon.spy();
 
-  var old_displayRouteWithElevation = _displayRouteWithElevation;
-  _displayRouteWithElevation = sinon.spy();
+  var old_addRouteToMap = addRouteToMap;
+  addRouteToMap = sinon.spy();
 
   var $_stubs = {
     "hide": sinon.spy(),
@@ -73,15 +73,15 @@ QUnit.test("displayRoute", function (assert) {
     ],
   };
 
-  displayRoute(response);
+  showRoute(response);
 
-  assert.ok(decodeRouteResponse.calledOnce, "Route response decoded correctly");
-  assert.ok(decodeRouteResponse.calledWith(response), "Route response decoded correctly");
+  assert.ok(decodeRouterResponse.calledOnce, "Route response decoded correctly");
+  assert.ok(decodeRouterResponse.calledWith(response), "Route response decoded correctly");
 
   assert.ok(removeRoute.calledOnce, "Route polyline was hidden");
 
-  assert.ok(_displayRouteWithElevation.calledOnce, "Route displayed correctly");
-  assert.ok(_displayRouteWithElevation.calledWith(decodedResponse), "Route displayed correctly");
+  assert.ok(addRouteToMap.calledOnce, "Route displayed correctly");
+  assert.ok(addRouteToMap.calledWith(decodedResponse), "Route displayed correctly");
 
   assert.ok($_stubs.hide.calledOnce, "Hidden the weather info");
   assert.ok($_stubs.show.calledOnce, "Broken route button shown correctly");
@@ -89,11 +89,11 @@ QUnit.test("displayRoute", function (assert) {
   assert.equal($_stubs.append.callCount, numAppends, "Added the right number of instructions");
 
   removeRoute = old_removeRoute;
-  decodeRouteResponse = old_decodeRouteResponse;
-  _displayRouteWithElevation = old_displayRouteWithElevation;
+  decodeRouterResponse = old_decodeRouterResponse;
+  addRouteToMap = old_addRouteToMap;
 });
 
-QUnit.test("instructionHtml", function (assert) {
+QUnit.test("generateInstructionHTML", function (assert) {
   var test = {
     text: 'Test',
     time: 1000,
@@ -102,7 +102,7 @@ QUnit.test("instructionHtml", function (assert) {
 
   var expected = '<div class="instruction"><p class="instruction-text">1. Test</p><div class="instruction-info"><div class="intruction-time">0 min</div><div class="intruction-dist">1.0 km</div></div></div>';
 
-  var result = instructionHtml(1, test);
+  var result = generateInstructionHTML(1, test);
 
   assert.equal(result, expected, "Generated instruction html correctly");
 });

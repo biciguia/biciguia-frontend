@@ -164,7 +164,7 @@ QUnit.test("setMarker", function (assert) {
 
   var test_event = {"target": {"id": "origin-0"}};
 
-  menuItemSelected(test_event, addressIME);
+  addressSelected(test_event, addressIME);
 
   assert.ok($.calledWith("#origin-address"), "#origin-address reached correctly");
   assert.ok(test_stubs.val.calledWith(addressIME[0].display_name), "Address textbox changed correctly");

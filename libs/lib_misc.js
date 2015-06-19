@@ -17,8 +17,7 @@ function bind2ndArgument(callback, source) {
   return function(data) { callback(data, source);};
 }
 
-var spinner = createSpinner();
-
+spinner = createSpinner();
 function createSpinner() {
   var opts = {
     lines: 7, // The number of lines to draw

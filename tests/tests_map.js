@@ -7,28 +7,28 @@
    */
 
 
-  var maxBounds = {
+var maxBounds = {
     bottom: -24.317,
     left: -47.357,
     top: -23.125,
     right: -45.863,
   };
 
-  var insideBounds = {
+var insideBounds = {
     bottom: -24.000,
     left: -47.000,
     top: -23.500,
     right: -46.000,
   };
 
-  var outsideBounds = {
+var outsideBounds = {
     bottom: -25.000,
     left: -48.000,
     top: -23.000,
     right: -45.000,
   };
 
-  var place = [
+var place = [
    {
     "latitude": 5,
     "longitude": -5,
@@ -43,8 +43,8 @@
   }
   ];
 
-  var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
-  var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
+var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
+var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
 
 QUnit.test("ensureMapViewBounds", function (assert) {
   var resultInsideBounds = ensureMapViewBounds(insideBounds);

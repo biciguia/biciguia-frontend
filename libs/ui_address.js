@@ -6,11 +6,15 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
-function hideAddressListOnClick() {
-  document.getElementById( "menu" ).onclick = function(){
+$(document).ready(registerAddressCallbacks);
+function registerAddressCallbacks() {
+  $("#menu").click(function(){
     hideAddressList("origin");
     hideAddressList("destination");
-  }
+  })
+
+  $(".address").focusout(showGeocodesAfterEvent);
+  $(".address").keyup(keyUpHandler);
 }
 
 //TODO: change name

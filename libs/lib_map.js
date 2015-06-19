@@ -6,49 +6,9 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
 
-var map;
-var overlays = {};
-var maxBounds = {
-  bottom: -24.317,
-  left: -47.357,
-  top: -23.125,
-  right: -45.863,
-};
-
-var iconSize = 24; //TODO: iconSize 12 and 18.
-var LeafIcon = L.Icon.extend({
-    options: {
-        //shadowUrl: 'leaf-shadow.png',
-        iconSize:     [iconSize, iconSize],
-        shadowSize:   [iconSize, iconSize],
-        iconAnchor:   [iconSize/2, iconSize/2],
-        shadowAnchor: [iconSize/2, iconSize/2],
-        popupAnchor:  [-3, -iconSize]
-    }
-});
-
-var overlayFiles = {
-  "Ambulatórios": "ambulatorios_de_especialidades.json",
-  "Bibliotecas": "bibliotecas.json",
-  "Bosques e Pontos de Leitura": "bosques_e_pontos_de_leitura.json",
-  "Hospitais": "hospitais.json",
-  "Museus": "museus.json",
-  "Pronto-Socorros": "pronto-socorros.json",
-  "Unidades Básicas de Saúde": "ubs.json"
-};
-
-var overlayIcons = {
-  "Ambulatórios": "assets/icons/maki/src/lodging",
-  "Bibliotecas": "assets/icons/maki/src/town-hall",
-  "Bosques e Pontos de Leitura": "assets/icons/maki/src/library",
-  "Hospitais": "assets/icons/maki/src/city",
-  "Museus": "assets/icons/maki/src/museum",
-  "Pronto-Socorros": "assets/icons/maki/src/hospital",
-  "Unidades Básicas de Saúde": "assets/icons/maki/src/heart"
-};
-
-// REFACTOR: add $(document).ready(initializeMap);
-function initializeMap(){
+$(document).ready(initializeMap);
+function initializeMap() {
+  if (document.getElementById('map') === null) return;
   map = L.map('map',{
     // TODO change
     maxBounds: coordsToLeafletBounds(maxBounds),
@@ -78,6 +38,10 @@ function initializeMap(){
     map.fitBounds(coordsToLeafletBounds(coords));
   });
 
+  $("#location-button").click(function() {
+    navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
+  });
+
   navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
 
   // REFACTOR: split into its own function?
@@ -98,8 +62,6 @@ function initializeMap(){
          attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
      }).addTo(map);
 }
-
-
 
 //TODO: unit tests (with Leaflet mocking).
 function coordsToLeafletBounds(coords) {
@@ -149,7 +111,6 @@ function getIcon(key) {
   return new LeafIcon({iconUrl: overlayIcons[key]});
 }
 
-var __count = 0;
 function createLeafletMarkers(fileJson, key) {
   var markers = createMarkersArray(fileJson);
 

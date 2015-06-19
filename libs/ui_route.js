@@ -6,11 +6,6 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
 
-// globals
-var searchRoute = false;
-var elev = false;
-var routeLine = false;
-
 $(document).ready(registerRouteCallbacks);
 function registerRouteCallbacks() {
   $("#route-button").click(routeButton);

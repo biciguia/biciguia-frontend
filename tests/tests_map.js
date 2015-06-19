@@ -62,6 +62,33 @@ QUnit.test("ensureMapViewBounds", function (assert) {
   assert.ok(resultOutOfBounds.right <= maxBounds.right, "Result for coords outside bounds respects right bound");
 });
 
+QUnit.test("coordsToLeafletBounds", function (assert) {
+  var testBounds = {
+    bottom: 1,
+    left: 2,
+    top: 3,
+    right: 4,
+  };
+
+  var latLng_stub = sinon.stub(L, "latLng");
+  latLng_stub.returns('expected');
+
+  var latLngBounds_stub = sinon.stub(L, "latLngBounds");
+  latLngBounds_stub.returns('expected');
+
+  var result = coordsToLeafletBounds(testBounds);
+
+  assert.equal(result, 'expected', "Coordinate changed correctly");
+  assert.equal(latLng_stub.callCount, 2, "Coordinates constructed correctly");
+  assert.ok(latLng_stub.calledWith(1, 2), "Coordinates constructed correctly");
+  assert.ok(latLng_stub.calledWith(3, 4), "Coordinates constructed correctly");
+  assert.ok(latLngBounds_stub.calledOnce, "Bounds constructed correctly");
+  assert.ok(latLngBounds_stub.calledWith('expected', 'expected'), "Bounds constructed correctly");
+
+  latLng_stub.restore();
+  latLngBounds_stub.restore();
+});
+
 QUnit.test("createMarkersArray", function (assert) {
   var result = createMarkersArray(place);
 

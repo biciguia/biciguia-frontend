@@ -63,14 +63,12 @@ function initializeMap() {
      }).addTo(map);
 }
 
-//TODO: unit tests (with Leaflet mocking).
 function coordsToLeafletBounds(coords) {
-    var bounds = L.latLngBounds(L.latLng(coords.bottom, coords.left),
-        L.latLng(coords.top, coords.right));
-    return bounds;
+  var bounds = L.latLngBounds(L.latLng(coords.bottom, coords.left),
+      L.latLng(coords.top, coords.right));
+  return bounds;
 }
 
-//TODO: unit tests.
 function ensureMapViewBounds(currentBounds) {
   if (currentBounds.bottom < maxBounds.bottom) currentBounds.bottom = maxBounds.bottom;
   if (currentBounds.left < maxBounds.left) currentBounds.left = maxBounds.left;

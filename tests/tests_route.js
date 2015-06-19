@@ -102,9 +102,17 @@ QUnit.test("generateInstructionHTML", function (assert) {
   };
 
   var expected = '<div class="instruction"><p class="instruction-text">1. Test</p><div class="instruction-info"><div class="intruction-time">0 min</div><div class="intruction-dist">1.0 km</div></div></div>';
-
   var result = generateInstructionHTML(1, test);
+  assert.equal(result, expected, "Generated instruction html correctly");
 
+  test = {
+    text: 'Another test',
+    time: 55,
+    distance: 123,
+  };
+
+  expected = "<div class=\"instruction\"><p class=\"instruction-text\">2. Another test</p><div class=\"instruction-info\"><div class=\"intruction-time\">0 min</div><div class=\"intruction-dist\">123 m</div></div></div>";
+  result = generateInstructionHTML(2, test);
   assert.equal(result, expected, "Generated instruction html correctly");
 });
 

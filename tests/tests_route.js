@@ -9,6 +9,7 @@
 /* globals for mocking */
 var routeLine;
 var map;
+var decodePath;
 
 QUnit.test("getRouterURL", function (assert) {
   var origin = {
@@ -154,7 +155,7 @@ QUnit.test("removeRoute", function (assert) {
   successfulRequestBrokenRoute = old_successfulRequestBrokenRoute;
 });
 
-QUnit.test("testBrokenRouteObject", function(assert) {
+QUnit.test("createBrokenRouteObject", function(assert) {
   var fakeMarker = {
     "toGeoJSON": sinon.spy()
   };
@@ -168,4 +169,20 @@ QUnit.test("testBrokenRouteObject", function(assert) {
   assert.equal(objTest.endereco_origem, objExpected.endereco_origem, "(2) Object created successfully");
   assert.equal(objTest.endereco_destino, objExpected.endereco_destino, "(3) Object created successfully");
   assert.ok(fakeMarker.toGeoJSON.calledThrice, "(4) Object create successfully");
+});
+
+QUnit.test("decodeRouterResponse", function(assert) {
+  decodePath = sinon.stub().returns("expected");
+
+  var encoded = {
+    paths: [{
+      points: "test"
+    }]
+  };
+
+  var result = decodeRouterResponse(encoded);
+
+  assert.ok(decodePath.calledWith("test", true), "decodePath called correctly");
+  assert.ok(decodePath.calledOnce, "decodePath called once");
+  assert.equal(result, "expected", "Return value is correct");
 });

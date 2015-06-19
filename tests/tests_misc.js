@@ -20,7 +20,7 @@ QUnit.test("bind2ndArgument", function (assert) {
   assert.notEqual(callback.calledWith('test', 'destination'), true, "The bound argument is passed correctly");
 });
 
-QUnit.test("isLatLonString", function(assert) {
+QUnit.test("isLatLonString", function (assert) {
   var correctLatLon1 = "23,46";
   var correctLatLon2 = "-23,  -46 ";
   var correctLatLon3 = "-23.123,-46";

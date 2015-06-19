@@ -173,7 +173,7 @@ QUnit.test("removeRoute", function (assert) {
   successfulRequestBrokenRoute = old_successfulRequestBrokenRoute;
 });
 
-QUnit.test("createBrokenRouteObject", function(assert) {
+QUnit.test("createBrokenRouteObject", function (assert) {
   var fakeMarker = {
     "toGeoJSON": sinon.spy()
   };
@@ -189,7 +189,7 @@ QUnit.test("createBrokenRouteObject", function(assert) {
   assert.ok(fakeMarker.toGeoJSON.calledThrice, "(4) Object create successfully");
 });
 
-QUnit.test("decodeRouterResponse", function(assert) {
+QUnit.test("decodeRouterResponse", function (assert) {
   decodePath = sinon.stub().returns("expected");
 
   var encoded = {

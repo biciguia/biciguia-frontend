@@ -43,6 +43,8 @@ function initializeMap() {
     navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
   });
 
+  $(window).resize(resizeMapElementsCallback);
+
   navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
 
   // REFACTOR: split into its own function?
@@ -62,6 +64,16 @@ function initializeMap() {
      L.tileLayer('http://{s}.tiles.mapbox.com/v4/' + 'justtesting.bb599507' + '/{z}/{x}/{y}.png?access_token=' + accessToken, {
          attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
      }).addTo(map);
+}
+
+function resizeMapElementsCallback(e) {
+  resizeMapElements(e.target.innerWidth, e.target.innerHeight);
+}
+
+function resizeMapElements(width, height) {
+  if(!(menuManager.mapState && width < 992)) {
+    $('#botao-rota').hide();
+  }
 }
 
 function coordsToLeafletBounds(coords) {

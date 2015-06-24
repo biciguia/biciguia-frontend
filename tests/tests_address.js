@@ -36,8 +36,11 @@ QUnit.test("showAddressList", function (assert) {
     "click":  sinon.spy()
   };
 
+  var old_getSelectedAddressElement = getSelectedAddressElement;
+  getSelectedAddressElement = sinon.stub().returns('origin');
+
   $ = sinon.stub().returns(test_stubs);
-  
+
   showAddressList(addressIME, 'origin');
 
   assert.ok($.calledWith("#origin-table"), "#origin-table reached correctly");
@@ -47,4 +50,6 @@ QUnit.test("showAddressList", function (assert) {
   assert.ok(test_stubs.show.calledOnce, "The elements are shown");
   assert.ok(test_stubs.append.calledOnce, "The elements are added to the list");
   assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
+
+  getSelectedAddressElement = old_getSelectedAddressElement;
 });

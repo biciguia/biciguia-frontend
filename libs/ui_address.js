@@ -8,13 +8,19 @@
 
 $(document).ready(registerAddressCallbacks);
 function registerAddressCallbacks() {
-  $("#menu").click(function(){
-    hideAddressList("origin");
-    hideAddressList("destination");
-  })
 
-  $(".address").focusout(showGeocodesAfterEvent);
+  $(".address").focusin(addressFocusIn);
+  $(".address").focusout(addressFocusOut);
   $(".address").keyup(keyUpHandler);
+}
+
+function addressFocusIn(event) {
+  showGeocodesAfterEvent(event);
+}
+
+function addressFocusOut(event) {
+  var source = event.target.id.split('-')[0];
+  hideAddressList(source);
 }
 
 //TODO: change name
@@ -31,7 +37,7 @@ function showGeocodesAfterEvent(event) {
 }
 
 function latLonInput(target) {
-  var source = target.id.replace("-address","");
+  var source = target.id.split('-')[0];
   var value = target.value;
   if (isLatLonString(value)) {
     var latLon = value.split(" ").join("").split(",");
@@ -79,7 +85,18 @@ function addressSelected(event, addressesList) {
   setMarker(source,addressesList[i], true);
 }
 
+function getSelectedAddressElement() {
+  return $(document.activeElement)[0].id.split('-')[0];
+}
+
 function showAddressList(addresses, source) {
+  // if user writes something and exits the edit box, do not show the address list
+  var activeElement = getSelectedAddressElement();
+  if (source != activeElement) {
+    spinner.stop();
+    return;
+  }
+
   // filter out results from outside são paulo
   for (var i = 0; i < addresses.length; i++) {
     if (addresses[i].address.city != "São Paulo") {
@@ -89,7 +106,6 @@ function showAddressList(addresses, source) {
   }
 
   spinner.stop();
-
   var list = $('#'+source+'-table');
   list.empty();
   list.show();
@@ -106,7 +122,8 @@ function showAddressList(addresses, source) {
 
 function hideAddressList(source) {
   spinner.stop();
-
+  madeRequest = false;
+  
   var list = $('#'+source+'-table');
   list.empty();
   list.hide();

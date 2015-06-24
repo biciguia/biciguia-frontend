@@ -5,30 +5,30 @@
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
+var menuManager;
 
-
-  var maxBounds = {
+var maxBounds = {
     bottom: -24.317,
     left: -47.357,
     top: -23.125,
     right: -45.863,
   };
 
-  var insideBounds = {
+var insideBounds = {
     bottom: -24.000,
     left: -47.000,
     top: -23.500,
     right: -46.000,
   };
 
-  var outsideBounds = {
+var outsideBounds = {
     bottom: -25.000,
     left: -48.000,
     top: -23.000,
     right: -45.000,
   };
 
-  var place = [
+var place = [
    {
     "latitude": 5,
     "longitude": -5,
@@ -43,8 +43,8 @@
   }
   ];
 
-  var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
-  var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
+var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
+var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
 
 QUnit.test("ensureMapViewBounds", function (assert) {
   var resultInsideBounds = ensureMapViewBounds(insideBounds);
@@ -62,6 +62,33 @@ QUnit.test("ensureMapViewBounds", function (assert) {
   assert.ok(resultOutOfBounds.right <= maxBounds.right, "Result for coords outside bounds respects right bound");
 });
 
+QUnit.test("coordsToLeafletBounds", function (assert) {
+  var testBounds = {
+    bottom: 1,
+    left: 2,
+    top: 3,
+    right: 4,
+  };
+
+  var latLng_stub = sinon.stub(L, "latLng");
+  latLng_stub.returns('expected');
+
+  var latLngBounds_stub = sinon.stub(L, "latLngBounds");
+  latLngBounds_stub.returns('expected');
+
+  var result = coordsToLeafletBounds(testBounds);
+
+  assert.equal(result, 'expected', "Coordinate changed correctly");
+  assert.equal(latLng_stub.callCount, 2, "Coordinates constructed correctly");
+  assert.ok(latLng_stub.calledWith(1, 2), "Coordinates constructed correctly");
+  assert.ok(latLng_stub.calledWith(3, 4), "Coordinates constructed correctly");
+  assert.ok(latLngBounds_stub.calledOnce, "Bounds constructed correctly");
+  assert.ok(latLngBounds_stub.calledWith('expected', 'expected'), "Bounds constructed correctly");
+
+  latLng_stub.restore();
+  latLngBounds_stub.restore();
+});
+
 QUnit.test("createMarkersArray", function (assert) {
   var result = createMarkersArray(place);
 
@@ -73,6 +100,33 @@ QUnit.test("createMarkersArray", function (assert) {
   assert.equal(result[1].description, desc2, "Object 2 has the correct description");
   assert.equal(result[1].coords[0], place[1].latitude, "Object 2 has the correct latitude");
   assert.equal(result[1].coords[1], place[1].longitude, "Object 2 has the correct longitude");
+});
+
+QUnit.test("resizeMapElements", function(assert){
+  var stubs = {
+    "hide": sinon.spy(),
+    "show": sinon.spy()
+  };
+
+  $ = sinon.stub().returns(stubs);
+
+  menuManager = {
+    "mapState": true
+  };
+
+  resizeMapElements(1000, 1000);
+
+  assert.ok(stubs.hide.calledOnce, "Button is not visible when the screen is large");
+
+  resizeMapElements(100, 100);
+
+  assert.ok(stubs.show.calledOnce, "Button is visible when the screen is small");
+
+  menuManager.mapState = false;
+  resizeMapElements(100, 100);
+
+  assert.ok(stubs.hide.calledTwice, "Button is not visible when the screen is small and map is not visible");  
+
 });
 
 QUnit.test("createLeafletMarkers", function (assert) {

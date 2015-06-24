@@ -6,6 +6,11 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
 
+$(document).ready(initializeWeather);
+function initializeWeather() {
+  getWeatherData(displayTemperature);
+}
+
 // TODO: display in a separate panel
 function displayTemperature(weatherInfo) {
   spinner.stop();

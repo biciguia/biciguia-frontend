@@ -34,9 +34,6 @@ var addressIME = [{
   },
 }];
 
-/* globals for mocking */
-var $;
-
 QUnit.test("getGeocoderURLFromAddress", function (assert) {
   var result = getGeocoderURLFromAddress("Rua do Matao, 1010");
   var expected = 'http://nominatim.openstreetmap.org/search?format=json&city=S%C3%A3o%20Paulo&state=S%C3%A3o%20Paulo&country=Brasil&street=Rua%20do%20Matao%2C%201010&viewbox=-47.357,-23.125,-45.863,-24.317&bounded=1&addressdetails=1'
@@ -44,20 +41,6 @@ QUnit.test("getGeocoderURLFromAddress", function (assert) {
   assert.equal(result, expected, "URL returned is ok");
 
   assert.ok(getGeocoderURLFromAddress("    ") == undefined, "Spaces are handled correctly");
-});
-
-QUnit.test("bind2ndArgument", function (assert) {
-  var callback = sinon.spy();
-
-  var newFn = bind2ndArgument(callback, 'origin');
-
-  newFn('test');
-  assert.ok(callback.calledWith('test', 'origin'), "Arguments are passed correctly");
-
-  newFn('test2');
-  assert.ok(callback.calledWith('test2', 'origin'), "The function doesn't register incorrect arguments");
-
-  assert.notEqual(callback.calledWith('test', 'destination'), true, "The bound argument is passed correctly");
 });
 
 QUnit.test("getAddressListHTML", function (assert) {
@@ -68,71 +51,6 @@ QUnit.test("getAddressListHTML", function (assert) {
   assert.equal(result.length, 1, "Result has expected length");
 
   assert.equal(result[0], expected, "Result has expected item html");
-});
-
-QUnit.test("hideAddressList", function (assert) {
-  var test_stubs = {
-    "empty": sinon.spy(),
-    "hide":  sinon.spy()
-  };
-
-  $ = sinon.stub().returns(test_stubs);
-
-  spinner = {
-    "stop": sinon.spy()
-  };
-
-  hideAddressList('origin');
-
-  assert.ok($.calledWith('#origin-table'), "#origin-table reached correctly");
-
-  assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
-  assert.ok(test_stubs.hide.calledOnce, "The elements are hidden");
-
-  assert.ok(spinner.stop.calledOnce, "The spinner was stopped");
-});
-
-QUnit.test("showAddressList", function (assert) {
-  var test_stubs = {
-    "empty":  sinon.spy(),
-    "show":   sinon.spy(),
-    "append": sinon.spy(),
-    "click":  sinon.spy()
-  };
-
-  $ = sinon.stub().returns(test_stubs);
-  
-  showAddressList(addressIME, 'origin');
-
-  assert.ok($.calledWith("#origin-table"), "#origin-table reached correctly");
-  assert.ok($.calledWith(".origin-suggestion-item"), ".origin-suggestion-item reached correctly");
-
-  assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
-  assert.ok(test_stubs.show.calledOnce, "The elements are shown");
-  assert.ok(test_stubs.append.calledOnce, "The elements are added to the list");
-  assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
-});
-
-QUnit.test("isLatLonString", function(assert) {
-  var correctLatLon1 = "23,46";
-  var correctLatLon2 = "-23,  -46 ";
-  var correctLatLon3 = "-23.123,-46";
-  var correctLatLon4 = "  -23.12   , -46.123  ";
-  var wrongLatLon1 = "IME -23,46";
-  var wrongLatLon2 = "-23.123";
-  var wrongLatLon3 = "-23.,-46";
-  var wrongLatLon4 = " - 23, - 46";
-  var wrongLatLon5 = " -23, -4 6";
-
-  assert.ok(isLatLonString(correctLatLon1), "accepts unsigned latlon");
-  assert.ok(isLatLonString(correctLatLon2), "accepts signed latlon and spaces");
-  assert.ok(isLatLonString(correctLatLon3), "accepts signed latlon with decimals");
-  assert.ok(isLatLonString(correctLatLon4), "accepts signed latlon, spaces and decimals");
-  assert.ok(!isLatLonString(wrongLatLon1), "denies letters");
-  assert.ok(!isLatLonString(wrongLatLon2), "denies if only one coordinate is passed");
-  assert.ok(!isLatLonString(wrongLatLon3), "denies coordinate with dot and without decimals");
-  assert.ok(!isLatLonString(wrongLatLon4), "denies spaces between number and it's signal");
-  assert.ok(!isLatLonString(wrongLatLon5), "denies spaces between numbers of the same coordinate");
 });
 
 QUnit.test("setMarker", function (assert) {
@@ -150,6 +68,11 @@ QUnit.test("setMarker", function (assert) {
     "setView": sinon.spy(),
     "fitBounds": sinon.spy()
   };
+
+  mixpanel = {
+    "track": sinon.spy()
+  };
+
   $ = sinon.stub().returns(test_stubs);
 
   var old_removeRoute = removeRoute;
@@ -164,7 +87,7 @@ QUnit.test("setMarker", function (assert) {
 
   var test_event = {"target": {"id": "origin-0"}};
 
-  menuItemSelected(test_event, addressIME);
+  addressSelected(test_event, addressIME);
 
   assert.ok($.calledWith("#origin-address"), "#origin-address reached correctly");
   assert.ok(test_stubs.val.calledWith(addressIME[0].display_name), "Address textbox changed correctly");
@@ -172,6 +95,7 @@ QUnit.test("setMarker", function (assert) {
   assert.ok(marker_stub.addTo.calledWith(map_stub), "Marker added to map");
   assert.ok(map_stub.setView.calledWith([addressIME[0].lat, addressIME[0].lon], 17), "Map centered arround maker");
   assert.ok(removeRoute.calledOnce, "Removed route from map");
+  assert.ok(mixpanel.track.calledOnce, "Mixpanel is called");
 
   removeRoute = old_removeRoute;
   L = old_L;

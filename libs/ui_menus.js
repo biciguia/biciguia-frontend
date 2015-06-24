@@ -75,6 +75,7 @@ $(document).ready(function() {
 
 // TODO: Refactoring. These two pieces of code must be the same.
 $('#botao-menu').click(function() {
+  mixpanel.track("menuClick");
   menuManager.toggleMapOnSmallScreen();
 // //We must have two functionalities here, one for big screens, other for small ones
 //   if($(window).width() <= 992) {
@@ -87,6 +88,7 @@ $('#botao-menu').click(function() {
 });
 
 $('#go-button').click(function() {
+  mixpanel.track("goButtonClick");
   menuManager.openMenu('menu');
 });
 // $('#go-button').click(function() {
@@ -101,6 +103,7 @@ $('#go-button').click(function() {
 // });
 
 $('#link-about').click(function() {
+  mixpanel.track("aboutClick");
   menuManager.openMenu('about');
   console.log("Clicou no link-about");
 });

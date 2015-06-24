@@ -122,6 +122,11 @@ QUnit.test("resizeMapElements", function(assert){
 
   assert.ok(stubs.show.calledOnce, "Button is visible when the screen is small");
 
+  menuManager.mapState = false;
+  resizeMapElements(100, 100);
+
+  assert.ok(stubs.hide.calledTwice, "Button is not visible when the screen is small and map is not visible");  
+
 });
 
 QUnit.test("createLeafletMarkers", function (assert) {

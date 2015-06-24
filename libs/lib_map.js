@@ -44,6 +44,7 @@ function initializeMap() {
   });
 
   $(window).resize(resizeMapElementsCallback);
+  resizeMapElements(window.innerWidth, window.innerHeight);
 
   navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
 
@@ -73,7 +74,7 @@ function resizeMapElementsCallback(e) {
 function resizeMapElements(width, height) {
   if(menuManager.mapState && width < 992) {
     $('#botao-rota').show();
-  } else{
+  } else {
     $('#botao-rota').hide();
   }
 }

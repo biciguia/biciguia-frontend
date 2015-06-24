@@ -71,7 +71,9 @@ function resizeMapElementsCallback(e) {
 }
 
 function resizeMapElements(width, height) {
-  if(!(menuManager.mapState && width < 992)) {
+  if(menuManager.mapState && width < 992) {
+    $('#botao-rota').show();
+  } else{
     $('#botao-rota').hide();
   }
 }

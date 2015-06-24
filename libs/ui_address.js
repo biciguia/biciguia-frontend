@@ -77,6 +77,8 @@ function addressSelected(event, addressesList) {
   var i = parseInt(pieces[1]);
   var coords = [addressesList[i].lat, addressesList[i].lon];
   setMarker(source,addressesList[i], true);
+
+  mixpanel.track("addressSelected-"+source);
 }
 
 function showAddressList(addresses, source) {

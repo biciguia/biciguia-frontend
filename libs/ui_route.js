@@ -15,6 +15,8 @@ function registerRouteCallbacks() {
 }
 
 function routeButton() {
+  mixpanel.track("routeButton");
+
   if(markers[0] != undefined && markers[1] != undefined) {
     getAndShowRoute();
   } else if (origin != undefined && destination != undefined) {
@@ -144,12 +146,16 @@ function submitBrokenRoute() {
   var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], routeLine);
   var url = 'http://104.131.18.160:8000/reclamacao';
   $.post(url, brokenRouteObject, successfulRequestBrokenRoute());
+  
+  mixpanel.track("submitBrokenRoute");
 }
 
 function showBrokenRouteFields() {
   if(!searchRoute) {
+    mixpanel.track("showBrokenRouteFields-error-mustChooseRouteBefore");
     alert("Você precisa escolher uma rota antes!");
   } else {
+    mixpanel.track("showBrokenRouteFields");
     $("#text-broken-route").show();
     $("#broken-route-confirm-button").show();
     $("#broken-route-button").hide();

@@ -39,6 +39,7 @@ function initializeMap() {
   });
 
   $("#location-button").click(function() {
+    mixpanel.track("geolocationButton");
     navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
   });
 
@@ -96,6 +97,7 @@ function errorGeolocation(error){
 // REFACTOR: change name
 function mapClicked(e, source){
   var address = [];
+  mixpanel.track("mapClicked-"+source);
   address.lat = e.latlng.lat;
   address.lon = e.latlng.lng;
   address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);

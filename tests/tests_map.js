@@ -5,7 +5,7 @@
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
-
+var menuManager;
 
 var maxBounds = {
     bottom: -24.317,
@@ -100,6 +100,24 @@ QUnit.test("createMarkersArray", function (assert) {
   assert.equal(result[1].description, desc2, "Object 2 has the correct description");
   assert.equal(result[1].coords[0], place[1].latitude, "Object 2 has the correct latitude");
   assert.equal(result[1].coords[1], place[1].longitude, "Object 2 has the correct longitude");
+});
+
+QUnit.test("resizeMapElements", function(assert){
+  var stubs = {
+    "hide": sinon.spy(),
+    "show": sinon.spy()
+  };
+
+  $ = sinon.stub().returns(stubs);
+
+  menuManager = {
+    "mapState": true
+  };
+
+  resizeMapElements(1000, 1000);
+
+  assert.ok(stubs.hide.calledOnce, "Button is not visible when the screen is large");
+
 });
 
 QUnit.test("createLeafletMarkers", function (assert) {

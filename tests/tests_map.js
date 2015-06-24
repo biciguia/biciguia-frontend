@@ -7,28 +7,28 @@
    */
 
 
-  var maxBounds = {
+var maxBounds = {
     bottom: -24.317,
     left: -47.357,
     top: -23.125,
     right: -45.863,
   };
 
-  var insideBounds = {
+var insideBounds = {
     bottom: -24.000,
     left: -47.000,
     top: -23.500,
     right: -46.000,
   };
 
-  var outsideBounds = {
+var outsideBounds = {
     bottom: -25.000,
     left: -48.000,
     top: -23.000,
     right: -45.000,
   };
 
-   var place = [
+var place = [
    {
     "latitude": 5,
     "longitude": -5,
@@ -43,16 +43,8 @@
   }
   ];
 
-  var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
-  var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
-
-  function ensureMapViewBounds(currentBounds) {
-  if (currentBounds.bottom < maxBounds.bottom) currentBounds.bottom = maxBounds.bottom;
-  if (currentBounds.left < maxBounds.left) currentBounds.left = maxBounds.left;
-  if (currentBounds.top > maxBounds.top) currentBounds.top = maxBounds.top;
-  if (currentBounds.right > maxBounds.right) currentBounds.right = maxBounds.right;
-  return currentBounds;
-}
+var desc1 = "<h2>Teste</h2><p>Descricao teste</p>";
+var desc2 = "<h2>Teste2</h2><p>Descricao teste2</p>";
 
 QUnit.test("ensureMapViewBounds", function (assert) {
   var resultInsideBounds = ensureMapViewBounds(insideBounds);
@@ -68,6 +60,33 @@ QUnit.test("ensureMapViewBounds", function (assert) {
   assert.ok(resultOutOfBounds.left >= maxBounds.left, "Result for coords outside bounds respects left bound");
   assert.ok(resultOutOfBounds.top <= maxBounds.top, "Result for coords outside bounds respects top bound");
   assert.ok(resultOutOfBounds.right <= maxBounds.right, "Result for coords outside bounds respects right bound");
+});
+
+QUnit.test("coordsToLeafletBounds", function (assert) {
+  var testBounds = {
+    bottom: 1,
+    left: 2,
+    top: 3,
+    right: 4,
+  };
+
+  var latLng_stub = sinon.stub(L, "latLng");
+  latLng_stub.returns('expected');
+
+  var latLngBounds_stub = sinon.stub(L, "latLngBounds");
+  latLngBounds_stub.returns('expected');
+
+  var result = coordsToLeafletBounds(testBounds);
+
+  assert.equal(result, 'expected', "Coordinate changed correctly");
+  assert.equal(latLng_stub.callCount, 2, "Coordinates constructed correctly");
+  assert.ok(latLng_stub.calledWith(1, 2), "Coordinates constructed correctly");
+  assert.ok(latLng_stub.calledWith(3, 4), "Coordinates constructed correctly");
+  assert.ok(latLngBounds_stub.calledOnce, "Bounds constructed correctly");
+  assert.ok(latLngBounds_stub.calledWith('expected', 'expected'), "Bounds constructed correctly");
+
+  latLng_stub.restore();
+  latLngBounds_stub.restore();
 });
 
 QUnit.test("createMarkersArray", function (assert) {

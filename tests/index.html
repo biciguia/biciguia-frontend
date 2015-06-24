@@ -8,6 +8,7 @@
   <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://code.jquery.com/qunit/qunit-1.17.1.js"></script>
     <script type="text/javascript" src="js/sinon-1.14.1.js"></script>
     <script type="text/javascript" src="js/blanket.min.js"></script>
@@ -20,20 +21,22 @@
     }
     </script>
 
+    <script src="../libs/globals.js" data-cover></script>
     <script src="../libs/lib_misc.js" data-cover></script>
-
-    <script src="../libs/lib_routes.js" data-cover></script>
-    <script src="tests_routes.js"></script>
-
+    <script src="../libs/lib_route.js" data-cover></script>
+    <script src="../libs/ui_route.js" data-cover></script>
     <script src="../libs/lib_map.js" data-cover></script>
-    <script src="tests_map.js"></script>
-
     <script src="../libs/ui_nominatim.js" data-cover></script>
     <script src="../libs/lib_nominatim.js" data-cover></script>
-    <script src="tests_nominatim.js"></script>
-
+    <script src="../libs/ui_address.js" data-cover></script>
     <script src="../libs/lib_weather.js" data-cover></script>
     <script src="../libs/ui_weather.js" data-cover></script>
+
+    <script src="tests_misc.js"></script>
+    <script src="tests_address.js"></script>
+    <script src="tests_route.js"></script>
+    <script src="tests_map.js"></script>
+    <script src="tests_nominatim.js"></script>
     <script src="tests_weather.js"></script>
   </body>
 </html>

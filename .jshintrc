@@ -1,0 +1,28 @@
+{
+    "bitwise"   :  true,
+    "curly"     :  true,
+    "eqeqeq"    :  true,
+    "forin"     :  true,
+    "freeze"    :  true,
+    "futurehostile" :  true,
+    "latedef"   :  "nofunc",
+    "maxparams" :  6,
+    "maxdepth"  :  3,
+    "noarg"     :  true,
+    "nonew"     :  true,
+    "undef"     :  false,
+    "unused"    :  false,
+    "browser"   :  true,
+    "jquery"    :  true,
+    "qunit"     :  true,
+    "globals"   : {
+        "L"             :  true,
+        "map"           :  true,
+        "spinner"       :  true,
+        "routeLine"     :  true,
+        "menuManager"   :  true,
+        "_"             :  true,
+        "sinon"         :  false
+    }
+}
+

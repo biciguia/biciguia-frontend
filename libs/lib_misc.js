@@ -17,8 +17,7 @@ function bind2ndArgument(callback, source) {
   return function(data) { callback(data, source);};
 }
 
-var spinner = createSpinner();
-
+spinner = createSpinner();
 function createSpinner() {
   var opts = {
     lines: 7, // The number of lines to draw
@@ -41,4 +40,10 @@ function createSpinner() {
 
   var spinner = new Spinner(opts);
   return spinner;
+}
+
+function isLatLonString(value) {
+  if (value.match('^[ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*[,][ ]*[+|-]?[0-9]+([.]([0-9]+))?[ ]*$'))
+    return true;
+  return false;
 }

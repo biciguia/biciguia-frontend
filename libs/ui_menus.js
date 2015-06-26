@@ -12,6 +12,7 @@ menuManager = new Object({
       'menu': false,
       'about': false,
       'rotaZoada': false
+      'report-broken-route': false
     },
   mapState: true,
 
@@ -90,6 +91,11 @@ function initializeMenus() {
   $('#link-about').click(function() {
     mixpanel.track("aboutClick");
     menuManager.openMenu('about');
+  });
+
+  $("#broken-route-button").click(function() {
+    mixpanel.track("brokenRouteClick");
+    menuManager.openMenu('report-broken-route');
   });
 }
 

@@ -155,8 +155,6 @@ QUnit.test("removeRoute", function (assert) {
   assert.ok($_stubs.empty.calledOnce, "Removed instructions");
   assert.ok($_stubs.show.calledOnce, "Displayed weather info");
   assert.ok($_stubs.hide.calledOnce, "Broken route information hidden correctly");
-  assert.ok(successfulRequestBrokenRoute.calledOnce, "Reset broken route panel status");
-  assert.ok(successfulRequestBrokenRoute.calledWith(true), "Reset broken route correctly");
   assert.ok(elev.clear.calledOnce, "Elevation cleared correctly");
   assert.ok(map.removeControl.calledWith(elev), "Elevation removed from map correctly");
   assert.ok(map.removeControl.calledOnce, "Elevation removed from map correctly");

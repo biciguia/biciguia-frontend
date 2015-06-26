@@ -6,6 +6,8 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
+QUnit.module("nominatim");
+
 var addressIME = [{
   "place_id":"90628654",
   "licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",

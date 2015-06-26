@@ -111,6 +111,12 @@
 }
 */
 
+@media (min-width: 992px) {
+  #botao-rota {
+    display: none;
+  }
+}
+
 /* Agora os Media Queries todos */
 @media (max-width: 992px) {
 /*@media all and (orientation:portrait) {*/

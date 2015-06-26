@@ -6,6 +6,8 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
 
+QUnit.module("weather");
+
 QUnit.test("getWeatherData", function (assert) {
   $ = {
     "get": sinon.spy()

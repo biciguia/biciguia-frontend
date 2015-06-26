@@ -53,6 +53,5 @@ function setMarker(source, address, zoomIn) {
   }
 
   removeRoute();
-  searchRoute = false;
 }
 

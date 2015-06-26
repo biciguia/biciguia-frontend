@@ -62,7 +62,6 @@ var __count = 0;
 
 
 // route globals (lib_route.js, ui_route.js)
-var searchRoute = false;
 var elev = false;
 var routeLine = false;
 

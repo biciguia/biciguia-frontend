@@ -137,7 +137,6 @@ function removeRoute() {
   $('#instructions').empty();
   $('#broken-route').hide();
 
-  successfulRequestBrokenRoute(true);
   $('#weather').show();
 }
 
@@ -156,19 +155,16 @@ function showBrokenRouteFields() {
     alert("Você precisa escolher uma rota antes!");
   } else {
     mixpanel.track("showBrokenRouteFields");
-    $("#text-broken-route").show();
-    $("#broken-route-confirm-button").show();
+    //$("#text-broken-route").show();
+    //$("#broken-route-confirm-button").show();
     $("#broken-route-button").hide();
   }
 }
 
-function successfulRequestBrokenRoute(hideAlert) {
-  $("#text-broken-route").hide();
+function successfulRequestBrokenRoute() {
   $("#text-broken-route").val('');
-  $("#broken-route-confirm-button").hide();
   $("#broken-route-button").show();
+  alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
+  menuManager.openMenu('menu');
 
-  if (hideAlert == undefined) {
-    alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
-  }
 }

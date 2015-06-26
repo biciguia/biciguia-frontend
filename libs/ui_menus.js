@@ -61,7 +61,7 @@ menuManager = new Object({
 
   closeAllMenus: function() {
     $.each(this.menuState, function(idx, value){
-      if (this.menuState[idx] == true) {
+      if (menuManager.menuState[idx] == true) {
         menuManager.closeMenu(idx);
       }
     });

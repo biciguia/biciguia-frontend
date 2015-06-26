@@ -26,6 +26,13 @@ Code Climate reports (master): [code](https://codeclimate.com/github/biciguia/bi
 
 ## Changelog
 
+### v0.8
+- Refactoring Day (17/06)
+- Test Day (19/06)
+- TDD Day (24/06)
+- Documentation Day (24/06)
+- Add Google Analytics and Mixpanel
+
 ### v0.7
 - Add HTML5 geolocation support
 - Limit map bounds to São Paulo

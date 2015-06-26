@@ -6,7 +6,7 @@ menuManager = new Object({
       'menu': false,
       'about': false,
       //'map': true,
-      'rotaZoada': false
+      'report-broken-route': false
     },
 
   mapState: true, // O mapa começa ligado
@@ -105,5 +105,11 @@ $('#go-button').click(function() {
 $('#link-about').click(function() {
   mixpanel.track("aboutClick");
   menuManager.openMenu('about');
+  console.log("Clicou no link-about");
+});
+
+$("#broken-route-button").click(function() {
+  mixpanel.track("brokenRouteClick");
+  menuManager.openMenu('report-broken-route');
   console.log("Clicou no link-about");
 });

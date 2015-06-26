@@ -68,6 +68,11 @@ QUnit.test("setMarker", function (assert) {
     "setView": sinon.spy(),
     "fitBounds": sinon.spy()
   };
+
+  mixpanel = {
+    "track": sinon.spy()
+  };
+
   $ = sinon.stub().returns(test_stubs);
 
   var old_removeRoute = removeRoute;
@@ -90,6 +95,7 @@ QUnit.test("setMarker", function (assert) {
   assert.ok(marker_stub.addTo.calledWith(map_stub), "Marker added to map");
   assert.ok(map_stub.setView.calledWith([addressIME[0].lat, addressIME[0].lon], 17), "Map centered arround maker");
   assert.ok(removeRoute.calledOnce, "Removed route from map");
+  assert.ok(mixpanel.track.calledOnce, "Mixpanel is called");
 
   removeRoute = old_removeRoute;
   L = old_L;

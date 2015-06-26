@@ -40,6 +40,9 @@ function routeButton() {
 }
 
 function getAndShowRoute() {
+  // Bail if we don't have origin/destination
+  if (markers[0] === undefined || markers[1] === undefined) return;
+
   var routeOptions = {
     option1: $('#option-1').is(':checked'),
     option2: $('#option-2').is(':checked'),

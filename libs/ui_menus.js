@@ -1,15 +1,19 @@
-/* Parte de Menus dessaporrae */
+/*
+   Copyright © 2015 Biciguia Team
+
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*/
 
 menuManager = new Object({
-
+  // Menu states
   menuState: {
       'menu': false,
       'about': false,
-      //'map': true,
       'rotaZoada': false
     },
-
-  mapState: true, // O mapa começa ligado
+  mapState: true,
 
   openMap: function () {
     $('#map-wrapper').show();
@@ -18,22 +22,20 @@ menuManager = new Object({
 
   closeMap: function () {
     $('#map-wrapper').hide();
-    menuManager.mapState = false;
+    this.mapState = false;
   },
 
   openMenu: function (menuId) {
-    // Se a tela for pequena, fecha o mapa!
     if ($(document).width() <= 992) {
-      menuManager.closeMap();
+      this.closeMap();
     }
-    // Abrimos o menu desejado
+    // Open the menu
     $('#' + menuId).show();
-    menuManager.menuState[menuId] = true;
-    // E agora escondemos os outros menus!
+    this.menuState[menuId] = true;
+    // Hide other menus
     $.each(this.menuState, function(idx, value) {
-      if (idx!==menuId) {
+      if (idx !== menuId) {
         menuManager.closeMenu(idx);
-        menuManager.menuState[idx] = false;
       }
     });
   },
@@ -41,69 +43,68 @@ menuManager = new Object({
   closeMenu: function (menuId) {
     $('#' + menuId).hide();
     this.menuState[menuId] = false;
-    // Se nenhum outro menu estiver ativado, a gente exibe o mapa
-    if( _.contains(_.values(menuManager.menuState), true) === false) {
-      menuManager.openMap();
+    // If no other menus are active, show the map
+    if(_.contains(_.values(this.menuState), true) === false) {
+      this.openMap();
     }
   },
 
   toggleMapOnSmallScreen: function() {
-    var  width = $(document).width();
-    //if(width >= 992) {console.log("Tela grande, vaza"); return;} // Se a tela for grande, vai embora
-    //else 
-    if(menuManager.mapState === true) {
-      menuManager.openMenu('menu');
+    if(this.mapState === true) {
+      this.openMenu('menu');
+    } else { 
+      this.closeAllMenus();
+      this.openMap();
     }
-    else {
-      // Primeiro, se tiver algum menu ativo, desativa    
-      $.each(this.menuState, function(idx, value){
-        if (menuManager.menuState[idx] == true) {
-          menuManager.closeMenu(idx);
-        }
-      $('#map-wrapper').show();
-      });
-    }
+  },
+
+  closeAllMenus: function() {
+    $.each(this.menuState, function(idx, value){
+      if (this.menuState[idx] == true) {
+        menuManager.closeMenu(idx);
+      }
+    });
   },
 });
 
-// Para rodar na inicialização. Se a tela for grande, recebe a tela normal
-$(document).ready(function() {
+$(document).ready(initializeMenus);
+function initializeMenus() {
   if($(document).width() >= 992) {
     menuManager.openMenu('menu');
-  }  
-});
+  }
 
-// TODO: Refactoring. These two pieces of code must be the same.
-$('#botao-menu').click(function() {
-  mixpanel.track("menuClick");
-  menuManager.toggleMapOnSmallScreen();
-// //We must have two functionalities here, one for big screens, other for small ones
-//   if($(window).width() <= 992) {
-//     $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
-//     $('#map-wrapper').toggle();
-//   }
-//   else {
-//     $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
-//   }
-});
+  // Set event handlers
+  $(window).resize(resizeCallback);
 
-$('#go-button').click(function() {
-  mixpanel.track("goButtonClick");
-  menuManager.openMenu('menu');
-});
-// $('#go-button').click(function() {
-// //We must have two functionalities here, one for big screens, other for small ones
-//   if($(window).width() <= 992) {
-//     $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
-//     $('#map-wrapper').toggle();
-//   }
-//   else {
-//     $('#menu').animate({width: 'toggle'},{done: function(){map.invalidateSize(false);}});
-//   }
-// });
+  // TODO: Refactoring. These two pieces of code must be the same.
+  $('#botao-menu').click(function() {
+    mixpanel.track("menuClick");
+    menuManager.toggleMapOnSmallScreen();
+  });
 
-$('#link-about').click(function() {
-  mixpanel.track("aboutClick");
-  menuManager.openMenu('about');
-  console.log("Clicou no link-about");
-});
+  $('#go-button').click(function() {
+    mixpanel.track("goButtonClick");
+    menuManager.openMenu('menu');
+  });
+
+  $('#link-about').click(function() {
+    mixpanel.track("aboutClick");
+    menuManager.openMenu('about');
+  });
+}
+
+function resizeCallback(evt) {
+  if (window.innerWidth >= 992 && !menuManager.mapState) {
+    menuManager.openMap();
+  }
+  if (window.innerWidth < 992 && menuManager.mapState) {
+    menuManager.closeAllMenus();
+  }
+  if (window.innerWidth >= 992) {
+    // If no other menus are active, show the menu
+    if(_.contains(_.values(menuManager.menuState), true) === false) {
+      menuManager.openMenu('menu');
+    }
+  }
+  map.invalidateSize(true);
+}

@@ -11,7 +11,7 @@ menuManager = new Object({
   menuState: {
       'menu': false,
       'about': false,
-      'rotaZoada': false
+      'rotaZoada': false,
       'report-broken-route': false
     },
   mapState: true,

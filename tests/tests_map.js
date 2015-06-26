@@ -6,6 +6,8 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
    */
 
+QUnit.module("map");
+
 var maxBounds = {
     bottom: -24.317,
     left: -47.357,

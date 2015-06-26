@@ -6,6 +6,8 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
+QUnit.module("misc");
+
 QUnit.test("bind2ndArgument", function (assert) {
   var callback = sinon.spy();
 

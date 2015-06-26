@@ -6,3 +6,10 @@ before_script:
     - npm install grunt grunt-cli grunt-blanket-qunit
 
 script: grunt test --verbose
+
+notifications:
+  email:
+    recipients:
+      - biciguia-2015@googlegroups.com
+    on_success: [change] # default: change
+    on_failure: [always] # default: always

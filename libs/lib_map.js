@@ -47,9 +47,6 @@ function initializeMap() {
     navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
   });
 
-  $(window).resize(resizeMapElementsCallback);
-  resizeMapElements(window.innerWidth, window.innerHeight);
-
   navigator.geolocation.getCurrentPosition(getGeolocation, errorGeolocation);
 
   // REFACTOR: split into its own function?
@@ -78,18 +75,6 @@ function initializeMap() {
 //     .setView([-23.5475, -46.63611], 16);
 
 
-}
-
-function resizeMapElementsCallback(e) {
-  resizeMapElements(e.target.innerWidth, e.target.innerHeight);
-}
-
-function resizeMapElements(width, height) {
-  if(menuManager.mapState && width < 992) {
-    $('#botao-rota').show();
-  } else {
-    $('#botao-rota').hide();
-  }
 }
 
 function coordsToLeafletBounds(coords) {

@@ -10,7 +10,6 @@ $(document).ready(registerRouteCallbacks);
 function registerRouteCallbacks() {
   $("#route-button").click(routeButton);
 
-  $("#broken-route-button").click(showBrokenRouteFields);
   $("#broken-route-confirm-button").click(submitBrokenRoute);
 }
 
@@ -41,7 +40,9 @@ function routeButton() {
 }
 
 function getAndShowRoute() {
-  searchRoute = true;
+  // Bail if we don't have origin/destination
+  if (markers[0] === undefined || markers[1] === undefined) return;
+
   var routeOptions = {
     option1: $('#option-1').is(':checked'),
     option2: $('#option-2').is(':checked'),
@@ -137,7 +138,6 @@ function removeRoute() {
   $('#instructions').empty();
   $('#broken-route').hide();
 
-  successfulRequestBrokenRoute(true);
   $('#weather').show();
 }
 
@@ -150,25 +150,9 @@ function submitBrokenRoute() {
   mixpanel.track("submitBrokenRoute");
 }
 
-function showBrokenRouteFields() {
-  if(!searchRoute) {
-    mixpanel.track("showBrokenRouteFields-error-mustChooseRouteBefore");
-    alert("Você precisa escolher uma rota antes!");
-  } else {
-    mixpanel.track("showBrokenRouteFields");
-    $("#text-broken-route").show();
-    $("#broken-route-confirm-button").show();
-    $("#broken-route-button").hide();
-  }
-}
-
-function successfulRequestBrokenRoute(hideAlert) {
-  $("#text-broken-route").hide();
+function successfulRequestBrokenRoute() {
   $("#text-broken-route").val('');
-  $("#broken-route-confirm-button").hide();
-  $("#broken-route-button").show();
-
-  if (hideAlert == undefined) {
-    alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
-  }
+  $("#broken-route").hide();
+  alert("Sua reclamação foi enviada! Obrigado pelo feedback!");
+  menuManager.openMenu('menu');
 }

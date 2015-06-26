@@ -6,6 +6,8 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
+QUnit.module("address");
+
 QUnit.test("hideAddressList", function (assert) {
   var test_stubs = {
     "empty": sinon.spy(),

@@ -25,7 +25,7 @@
   background: #13988a;
 }
 
-#broken-route, #text-broken-route, #broken-route-confirm-button {
+#broken-route {
   display: none;
 }
 
@@ -110,6 +110,12 @@
   vertical-align: inherit;
 }
 */
+
+@media (min-width: 992px) {
+  #botao-rota {
+    display: none;
+  }
+}
 
 /* Agora os Media Queries todos */
 @media (max-width: 992px) {

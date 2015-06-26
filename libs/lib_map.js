@@ -9,6 +9,10 @@
 $(document).ready(initializeMap);
 function initializeMap() {
   if (document.getElementById('map') === null) return;
+
+  L.mapbox.accessToken = 'pk.eyJ1IjoiYmljaWd1aWFzcGZhYmlvIiwiYSI6ImQyYmI4YmM5MGQ2ZTk5MmI3MjY2N2UxYjVlZDYwMDVjIn0.stEthE-G_AT1ejVvagtCnA';
+  //L.mapbox.accessToken = 'pk.eyJ1IjoianVzdHRlc3RpbmciLCJhIjoiMEg3ZWJTVSJ9.h41984pPh9afTYWBg2eoQQ';
+
   map = L.map('map',{
     // TODO change
     maxBounds: coordsToLeafletBounds(maxBounds),
@@ -65,6 +69,15 @@ function initializeMap() {
      L.tileLayer('http://{s}.tiles.mapbox.com/v4/' + 'justtesting.bb599507' + '/{z}/{x}/{y}.png?access_token=' + accessToken, {
          attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
      }).addTo(map);
+
+
+
+
+// 
+// var map = L.map('map', 'mapbox.streets')
+//     .setView([-23.5475, -46.63611], 16);
+
+
 }
 
 function resizeMapElementsCallback(e) {
@@ -122,8 +135,9 @@ function mapClicked(e, source){
 }
 
 function getIcon(key) {
-  overlayIcons[key] = overlayIcons[key] + "-" + iconSize + ".svg";
-  return new LeafIcon({iconUrl: overlayIcons[key]});
+  overlayIcons[key] = L.MakiMarkers.icon({icon: overlayIcons[key], color: "#b0b", size: "l"});
+  return overlayIcons[key];
+  //return new LeafIcon({iconUrl: overlayIcons[key]});
 }
 
 function createLeafletMarkers(fileJson, key) {
@@ -132,6 +146,7 @@ function createLeafletMarkers(fileJson, key) {
   var markerIcon = getIcon(key);
   for (var i = 0; i < markers.length; i++) {  
     markers[i] = L.marker(markers[i].coords, {icon: markerIcon}).bindPopup(markers[i].description);
+    //L.marker([-23.532356524850428, -46.65224075317383], {icon: icon}).addTo(map);    
   }
 
   overlays[key] = L.layerGroup(markers);

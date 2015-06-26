@@ -50,13 +50,13 @@ var overlayFiles = {
   "Unidades Básicas de Saúde": "ubs.json"
 };
 var overlayIcons = {
-  "Ambulatórios": "assets/icons/maki/src/lodging",
-  "Bibliotecas": "assets/icons/maki/src/town-hall",
-  "Bosques e Pontos de Leitura": "assets/icons/maki/src/library",
-  "Hospitais": "assets/icons/maki/src/city",
-  "Museus": "assets/icons/maki/src/museum",
-  "Pronto-Socorros": "assets/icons/maki/src/hospital",
-  "Unidades Básicas de Saúde": "assets/icons/maki/src/heart"
+  "Ambulatórios": "lodging",
+  "Bibliotecas": "town-hall",
+  "Bosques e Pontos de Leitura": "library",
+  "Hospitais": "city",
+  "Museus": "museum",
+  "Pronto-Socorros": "hospital",
+  "Unidades Básicas de Saúde": "heart"
 };
 var __count = 0;
 

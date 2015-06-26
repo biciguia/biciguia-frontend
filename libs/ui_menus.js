@@ -1,11 +1,15 @@
-/* Parte de Menus dessaporrae */
+/*
+   Copyright © 2015 Biciguia Team
+
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*/
 
 menuManager = new Object({
-
   menuState: {
       'menu': false,
       'about': false,
-      //'map': true,
       'rotaZoada': false
     },
 
@@ -53,16 +57,19 @@ menuManager = new Object({
     //else 
     if(menuManager.mapState === true) {
       menuManager.openMenu('menu');
-    }
-    else {
+    } else {
       // Primeiro, se tiver algum menu ativo, desativa    
-      $.each(this.menuState, function(idx, value){
-        if (menuManager.menuState[idx] == true) {
-          menuManager.closeMenu(idx);
-        }
-      $('#map-wrapper').show();
-      });
+      closeAllMenus();
+      menuManager.openMap();
     }
+  },
+
+  closeAllMenus: function() {
+    $.each(this.menuState, function(idx, value){
+      if (menuManager.menuState[idx] == true) {
+        menuManager.closeMenu(idx);
+      }
+    });
   },
 });
 
@@ -70,7 +77,7 @@ menuManager = new Object({
 $(document).ready(function() {
   if($(document).width() >= 992) {
     menuManager.openMenu('menu');
-  }  
+  }
 });
 
 // TODO: Refactoring. These two pieces of code must be the same.
@@ -105,5 +112,26 @@ $('#go-button').click(function() {
 $('#link-about').click(function() {
   mixpanel.track("aboutClick");
   menuManager.openMenu('about');
-  console.log("Clicou no link-about");
 });
+
+$(window).resize(resizeCallback);
+function resizeCallback(evt) {
+  if (window.innerWidth >= 992 && !menuManager.mapState) {
+    menuManager.openMap();
+  }
+  if (window.innerWidth < 992 && menuManager.mapState) {
+    menuManager.closeAllMenus();
+  }
+  if (window.innerWidth >= 992) {
+    var menuShown = false;
+    $.each(menuManager.menuState, function(idx, value){
+      if (menuManager.menuState[idx] == true) {
+        menuShown = true;
+      }
+    });
+    if (!menuShown) {
+      menuManager.openMenu('menu');
+    }
+  }
+  map.invalidateSize(true);
+}

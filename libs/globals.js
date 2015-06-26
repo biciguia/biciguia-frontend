@@ -67,4 +67,5 @@ var routeLine = false;
 
 
 // spinner (lib_misc.js)
-var spinner;
+var weatherSpinner;
+var addressSpinner;

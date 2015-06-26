@@ -13,7 +13,7 @@ function initializeWeather() {
 
 // TODO: display in a separate panel
 function displayTemperature(weatherInfo) {
-  spinner.stop();
+  weatherSpinner.stop();
 
   var html = "Previsão do tempo<br>";
 

@@ -17,11 +17,13 @@ function bind2ndArgument(callback, source) {
   return function(data) { callback(data, source);};
 }
 
-spinner = createSpinner();
-function createSpinner() {
+weatherSpinner = createSpinner(10);
+addressSpinner = createSpinner(0);
+
+function createSpinner(size) {
   var opts = {
     lines: 7, // The number of lines to draw
-    length: 0, // The length of each line
+    length: size, // The length of each line
     width: 4, // The line thickness
     radius: 4, // The radius of the inner circle
     corners: 1, // Corner roundness (0..1)

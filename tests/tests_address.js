@@ -16,7 +16,7 @@ QUnit.test("hideAddressList", function (assert) {
 
   $ = sinon.stub().returns(test_stubs);
 
-  spinner = {
+  addressSpinner = {
     "stop": sinon.spy()
   };
 
@@ -27,7 +27,7 @@ QUnit.test("hideAddressList", function (assert) {
   assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
   assert.ok(test_stubs.hide.calledOnce, "The elements are hidden");
 
-  assert.ok(spinner.stop.calledOnce, "The spinner was stopped");
+  assert.ok(addressSpinner.stop.calledOnce, "The spinner was stopped");
 });
 
 QUnit.test("showAddressList", function (assert) {

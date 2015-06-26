@@ -13,7 +13,7 @@ QUnit.test("getWeatherData", function (assert) {
     "get": sinon.spy()
   };
 
-  spinner = {
+  weatherSpinner = {
     "spin": sinon.spy()
   };
 
@@ -23,7 +23,7 @@ QUnit.test("getWeatherData", function (assert) {
 
   assert.ok($.get.calledWith(expectedURL, 'dummy'), "$.get called correctly");
 
-  assert.ok(spinner.spin.calledOnce, "Spinner was started");
+  assert.ok(weatherSpinner.spin.calledOnce, "Spinner was started");
 });
 
 QUnit.test("displayTemperature", function (assert) {
@@ -58,7 +58,7 @@ QUnit.test("displayTemperature", function (assert) {
 
   $ = sinon.stub().returns(test_stubs);
 
-  spinner = {
+  weatherSpinner = {
     "stop": sinon.spy()
   };
 
@@ -73,5 +73,5 @@ QUnit.test("displayTemperature", function (assert) {
 
   assert.ok(test_stubs.html.calledWith(expected), "Temperature rendered correctly");
 
-  assert.ok(spinner.stop.calledOnce, "The spinner was stopped");
+  assert.ok(weatherSpinner.stop.calledOnce, "The spinner was stopped");
 });

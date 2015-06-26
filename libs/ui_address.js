@@ -60,7 +60,14 @@ function keyUpHandler(event) {
 
   setTimeout(function() {
     if (lastKeypressId == targetId) {
-      spinner.spin(document.getElementById("spinner"));
+      if (event.target.id == 'origin-address') {
+        addressSpinner.spin(document.getElementById("addressSpinner"));
+      }
+
+      if (event.target.id == 'destination-address') {
+        addressSpinner.spin(document.getElementById("destinationSpinner"));
+      }
+      // spinner.spin(document.getElementById("spinner"));
       showGeocodesAfterEvent(event);
     }
     // TODO adjust the timeout below
@@ -95,7 +102,7 @@ function showAddressList(addresses, source) {
   // if user writes something and exits the edit box, do not show the address list
   var activeElement = getSelectedAddressElement();
   if (source != activeElement) {
-    spinner.stop();
+    addressSpinner.stop();
     return;
   }
 
@@ -107,7 +114,7 @@ function showAddressList(addresses, source) {
     }
   }
 
-  spinner.stop();
+  addressSpinner.stop();
   var list = $('#'+source+'-table');
   list.empty();
   list.show();
@@ -123,7 +130,7 @@ function showAddressList(addresses, source) {
 }
 
 function hideAddressList(source) {
-  spinner.stop();
+  addressSpinner.stop();
   madeRequest = false;
   
   var list = $('#'+source+'-table');

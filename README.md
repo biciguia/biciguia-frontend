@@ -1,6 +1,12 @@
 # Biciguia
 
-Biciguia project
+The Biciguia project started as an experiment of development during an eXtreme
+Programming (XP) course at the Institute of Mathematics and Statistics at the
+Universidade de São Paulo.
+
+The Biciguia project is inspired on Waze, and we aim to provide something like
+"a Waze For Cyclists". Check our live demo hosted on gh-pages
+[Here](http://biciguia.github.io/biciguia-frontend/).
 
 ## Workflow
 Ready Stories: [![Stories in Ready](https://badge.waffle.io/biciguia/biciguia-frontend.png?label=ready&title=Ready)](http://waffle.io/biciguia/biciguia-frontend)
@@ -13,6 +19,8 @@ Throughput Graph
 
 
 ## Build
+Demo: [Click here to open the demo](http://biciguia.github.io/biciguia-frontend/).
+
 Build Status (master branch):[![Build Status (master):](https://travis-ci.org/biciguia/biciguia-frontend.svg?branch=master)](https://travis-ci.org/biciguia/biciguia-frontend)
 
 Build Status (develop branch):[![Build Status (develop):](https://travis-ci.org/biciguia/biciguia-frontend.svg?branch=develop)](https://travis-ci.org/biciguia/biciguia-frontend)
@@ -63,4 +71,4 @@ Code Climate reports (master): [code](https://codeclimate.com/github/biciguia/bi
 - Initial version
 
 ## License
-Copyright (c) 2015 Biciguia team under MPLv2
+Copyright (c) 2015 Biciguia team under MPLv2. Check the [contributors](https://github.com/biciguia/biciguia-frontend/blob/develop/CONTRIBUTORS.md)

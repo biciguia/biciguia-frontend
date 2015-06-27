@@ -70,7 +70,7 @@ function initializeMap() {
 
 
 
-// 
+//
 // var map = L.map('map', 'mapbox.streets')
 //     .setView([-23.5475, -46.63611], 16);
 
@@ -98,7 +98,7 @@ function getGeolocation(position){
   address.lon = position.coords.longitude;
   address.display_name = address.lat.toFixed(5) + ", " + address.lon.toFixed(5);
 
-  setMarker('origin', address, true); 
+  setMarker('origin', address, true);
 }
 
 // TODO: change alert() to something less intrusive?
@@ -120,18 +120,20 @@ function mapClicked(e, source){
 }
 
 function getIcon(key) {
-  overlayIcons[key] = L.MakiMarkers.icon({icon: overlayIcons[key], color: "#b0b", size: "l"});
-  return overlayIcons[key];
-  //return new LeafIcon({iconUrl: overlayIcons[key]});
+  if (key !== undefined){
+    overlayIcons[key] = L.MakiMarkers.icon({icon: overlayIcons[key], color: "#b0b", size: "l"});
+    return overlayIcons[key];
+  } else {
+    return undefined;
+  }
 }
 
 function createLeafletMarkers(fileJson, key) {
   var markers = createMarkersArray(fileJson);
 
   var markerIcon = getIcon(key);
-  for (var i = 0; i < markers.length; i++) {  
+  for (var i = 0; i < markers.length; i++) {
     markers[i] = L.marker(markers[i].coords, {icon: markerIcon}).bindPopup(markers[i].description);
-    //L.marker([-23.532356524850428, -46.65224075317383], {icon: icon}).addTo(map);    
   }
 
   overlays[key] = L.layerGroup(markers);

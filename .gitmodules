@@ -4,9 +4,6 @@
 [submodule "assets/fonts/material-design-iconic-font"]
 	path = assets/fonts/material-design-iconic-font
 	url = https://github.com/zavoloklom/material-design-iconic-font.git
-[submodule "assets/icons/maki"]
-	path = assets/icons/maki
-	url = https://github.com/mapbox/maki.git
 [submodule "assets/js/underscore"]
 	path = assets/js/underscore
 	url = https://github.com/jashkenas/underscore/

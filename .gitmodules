@@ -1,5 +1,5 @@
 [submodule "assets/dados-espaciais-json"]
-	path = assets/overlays
+	path = assets/overlays-original
 	url = https://github.com/prefeiturasp/dados-espaciais-json
 [submodule "assets/fonts/material-design-iconic-font"]
 	path = assets/fonts/material-design-iconic-font

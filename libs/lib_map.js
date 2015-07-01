@@ -52,7 +52,7 @@ function initializeMap() {
   // REFACTOR: split into its own function?
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
-      $.getJSON('assets/overlays/'+overlayFiles[key],
+      $.getJSON('assets/overlays-min/'+overlayFiles[key],
         bind2ndArgument(createLeafletMarkers, key)).fail(errorCallback);
     }
   }
@@ -129,11 +129,11 @@ function getIcon(key) {
 }
 
 function createLeafletMarkers(fileJson, key) {
-  var markers = createMarkersArray(fileJson);
+  var markers = [];
 
   var markerIcon = getIcon(key);
-  for (var i = 0; i < markers.length; i++) {
-    markers[i] = L.marker(markers[i].coords, {icon: markerIcon}).bindPopup(markers[i].description);
+  for (var i = 0; i < fileJson.length; i++) {
+    markers[i] = L.marker(fileJson[i].coords, {icon: markerIcon}).bindPopup(fileJson[i].description);
   }
 
   overlays[key] = L.layerGroup(markers);
@@ -142,21 +142,4 @@ function createLeafletMarkers(fileJson, key) {
     L.control.layers(undefined, overlays).addTo(map);
     __count = undefined;
   }
-}
-
-// TODO: use this for preprocessing the json files (issue #31)
-function createMarkersArray(fileJson) {
-  var markers = [];
-  for (var i = 0; i < fileJson.length; i++) {
-    var place = fileJson[i];
-
-    var marker = {
-      "coords": [place.latitude, place.longitude],
-      "description": "<h2>" + place.nome + "</h2><p>" + place.descricao + "</p>",
-    };
-
-    markers.push(marker);
-  }
-
-  return markers;
 }

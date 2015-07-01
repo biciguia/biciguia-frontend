@@ -30,17 +30,13 @@ var outsideBounds = {
   };
 
 var place = [
-   {
-    "latitude": 5,
-    "longitude": -5,
-    "nome": "Teste",
-    "descricao": "Descricao teste"
+  {
+    coords: [5, -5],
+    description: "<h2>Teste</h2><p>Descricao teste</p>",
   },
   {
-    "latitude": 10,
-    "longitude": -10,
-    "nome": "Teste2",
-    "descricao": "Descricao teste2"
+    coords: [10, -10],
+    description: "<h2>Teste2</h2><p>Descricao teste2</p>",
   }
   ];
 
@@ -88,19 +84,6 @@ QUnit.test("coordsToLeafletBounds", function (assert) {
 
   latLng_stub.restore();
   latLngBounds_stub.restore();
-});
-
-QUnit.test("createMarkersArray", function (assert) {
-  var result = createMarkersArray(place);
-
-  assert.equal(result.length, 2, "Result has the correct lenght");
-  assert.equal(result[0].description, desc1, "Object 1 has the correct description");
-  assert.equal(result[0].coords[0], place[0].latitude, "Object 1 has the correct latitude");
-  assert.equal(result[0].coords[1], place[0].longitude, "Object 1 has the correct longitude");
-
-  assert.equal(result[1].description, desc2, "Object 2 has the correct description");
-  assert.equal(result[1].coords[0], place[1].latitude, "Object 2 has the correct latitude");
-  assert.equal(result[1].coords[1], place[1].longitude, "Object 2 has the correct longitude");
 });
 
 QUnit.test("createLeafletMarkers", function (assert) {

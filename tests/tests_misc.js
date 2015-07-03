@@ -8,10 +8,6 @@
 
 QUnit.module("misc");
 
-QUnit.test("failing test", function (assert) {
-  assert.ok(false, "breaking the build to test travis email notifications");
-});
-
 QUnit.test("bind2ndArgument", function (assert) {
   var callback = sinon.spy();
 

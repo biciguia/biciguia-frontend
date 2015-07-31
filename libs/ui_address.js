@@ -19,8 +19,11 @@ function addressFocusIn(event) {
 }
 
 function addressFocusOut(event) {
-  var source = event.target.id.split('-')[0];
-  hideAddressList(source);
+  // TODO: remove setTimeout, works around a bug that hides the address list before the marker gets set
+  setTimeout(function(){
+    var source = event.target.id.split('-')[0];
+    hideAddressList(source);
+  }, 100);
 }
 
 //TODO: change name
@@ -125,7 +128,7 @@ function showAddressList(addresses, source) {
 function hideAddressList(source) {
   spinner.stop();
   madeRequest = false;
-  
+
   var list = $('#'+source+'-table');
   list.empty();
   list.hide();

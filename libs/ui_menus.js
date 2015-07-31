@@ -18,6 +18,7 @@ menuManager = new Object({
 
   openMap: function () {
     $('#map-wrapper').show();
+    map.invalidateSize();
     this.mapState = true;  
   },
 

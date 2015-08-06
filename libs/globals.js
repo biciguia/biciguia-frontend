@@ -7,7 +7,6 @@
 */
 
 // address and UI globals (ui_address.js)
-var madeRequest = false;
 var lastKeypressId = 0;
 var markers = [undefined, undefined];
 var origin, destination;

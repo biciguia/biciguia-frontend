@@ -37,12 +37,14 @@ function setMarker(source, address, zoomIn) {
   }
 
   // REFACTOR: this could be another?
-  if (markers[0] != undefined && markers[1] != undefined) {
-    var group = new L.featureGroup(markers);
-    map.fitBounds(group.getBounds());
-  } else if (zoomIn) {
-    map.setView(coords, zoom);
-  }
+  // TODO: replace this with a layergroup that has both markers and the routeLine
+  // instead and re-add this feature
+  // if (zoomIn && markers[0] != undefined && markers[1] != undefined) {
+  //   var group = new L.layerGroup(markers);
+  //   map.fitBounds(group.getBounds());
+  // } else if (zoomIn) {
+  //   map.setView(coords, zoom);
+  // }
 
   if (source == "origin") {
     originConfigured = true;

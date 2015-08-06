@@ -20,10 +20,10 @@ function routeButton() {
     getAndShowRoute();
   } else if (origin != undefined && destination != undefined) {
     if (markers[0] == undefined) {
-      setMarker("origin",origin);
+      setMarker("origin",origin, false);
     }
     if (markers[1] == undefined) {
-      setMarker("destination",destination);
+      setMarker("destination",destination, false);
     }
     getAndShowRoute();
   } else {
@@ -146,7 +146,7 @@ function submitBrokenRoute() {
   var brokenRouteObject = createBrokenRouteObject(text, origin.display_name, destination.display_name, markers[0], markers[1], routeLine);
   var url = 'http://104.131.18.160:8000/reclamacao';
   $.post(url, brokenRouteObject, successfulRequestBrokenRoute());
-  
+
   mixpanel.track("submitBrokenRoute");
 }
 

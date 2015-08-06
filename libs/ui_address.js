@@ -8,9 +8,8 @@
 
 $(document).ready(registerAddressCallbacks);
 function registerAddressCallbacks() {
-
   $(".address").focusin(addressFocusIn);
-  $(".address").focusout(addressFocusOut);
+  $(".address").blur(addressFocusOut);
   $(".address").keyup(keyUpHandler);
 }
 
@@ -19,23 +18,18 @@ function addressFocusIn(event) {
 }
 
 function addressFocusOut(event) {
-  // TODO: remove setTimeout, works around a bug that hides the address list before the marker gets set
-  setTimeout(function(){
-    var source = event.target.id.split('-')[0];
-    hideAddressList(source);
-  }, 100);
+  var source = event.target.id.split('-')[0];
+  hideAddressList(source);
 }
 
 //TODO: change name
 function showGeocodesAfterEvent(event) {
   var value = $(event.target).val();
-  if (!madeRequest) {
-    madeRequest = true;
-    if (event.target.id == 'origin-address') {
-      getAndShowGeocodes(value, 'origin');
-    } else {
-      getAndShowGeocodes(value, 'destination');
-    }
+  spinner.spin(document.getElementById("spinner"));
+  if (event.target.id == 'origin-address') {
+    getAndShowGeocodes(value, 'origin');
+  } else {
+    getAndShowGeocodes(value, 'destination');
   }
 }
 
@@ -59,8 +53,6 @@ function keyUpHandler(event) {
   var targetId = lastKeypressId + 1;
   lastKeypressId = targetId;
 
-  madeRequest = false;
-
   setTimeout(function() {
     if (lastKeypressId == targetId) {
       spinner.spin(document.getElementById("spinner"));
@@ -75,6 +67,7 @@ function getAndShowGeocodes(address, source) {
 
   if (geoCoderURL == undefined) {
     hideAddressList(source);
+    spinner.stop();
   } else {
     $.get(geoCoderURL, bind2ndArgument(showAddressList, source)).fail(errorCallback);
   }
@@ -122,14 +115,10 @@ function showAddressList(addresses, source) {
   else if (source == "destination")
     destination = addresses[0];
 
-  $('.'+source+'-suggestion-item').click(bind2ndArgument(addressSelected, addresses));
+  $('.'+source+'-suggestion-item').on("mousedown", bind2ndArgument(addressSelected, addresses));
 }
 
 function hideAddressList(source) {
-  spinner.stop();
-  madeRequest = false;
-
   var list = $('#'+source+'-table');
-  list.empty();
   list.hide();
 }

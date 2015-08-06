@@ -11,7 +11,7 @@ function getGeocoderURLFromAddress(address) {
     return undefined;
   }
 
-  var geoCoderURL = "http://nominatim.openstreetmap.org/search?format=json";
+  var geoCoderURL = "https://nominatim.openstreetmap.org/search?format=json";
   geoCoderURL += "&city=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&state=" + encodeURIComponent("São Paulo");
   geoCoderURL += "&country=Brasil";

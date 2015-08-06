@@ -10,24 +10,16 @@ QUnit.module("address");
 
 QUnit.test("hideAddressList", function (assert) {
   var test_stubs = {
-    "empty": sinon.spy(),
     "hide":  sinon.spy()
   };
 
   $ = sinon.stub().returns(test_stubs);
 
-  spinner = {
-    "stop": sinon.spy()
-  };
-
   hideAddressList('origin');
 
   assert.ok($.calledWith('#origin-table'), "#origin-table reached correctly");
 
-  assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
   assert.ok(test_stubs.hide.calledOnce, "The elements are hidden");
-
-  assert.ok(spinner.stop.calledOnce, "The spinner was stopped");
 });
 
 QUnit.test("showAddressList", function (assert) {
@@ -35,7 +27,7 @@ QUnit.test("showAddressList", function (assert) {
     "empty":  sinon.spy(),
     "show":   sinon.spy(),
     "append": sinon.spy(),
-    "click":  sinon.spy()
+    "on":  sinon.spy()
   };
 
   var old_getSelectedAddressElement = getSelectedAddressElement;
@@ -51,7 +43,7 @@ QUnit.test("showAddressList", function (assert) {
   assert.ok(test_stubs.empty.calledOnce, "The list is emptied");
   assert.ok(test_stubs.show.calledOnce, "The elements are shown");
   assert.ok(test_stubs.append.calledOnce, "The elements are added to the list");
-  assert.ok(test_stubs.click.calledOnce, "The click handlers are changed");
+  assert.ok(test_stubs.on.calledOnce, "The click handlers are changed");
 
   getSelectedAddressElement = old_getSelectedAddressElement;
 });

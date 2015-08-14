@@ -1,0 +1,38 @@
+{
+  "name": "biciguia-frontend",
+  "version": "0.0.1",
+  "homepage": "https://github.com/biciguia/biciguia-frontend",
+  "authors": [
+    "ccsl.ime.usp.br"
+  ],
+  "main": "index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MPL-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "lodash": "~3.10.1",
+    "d3": "~3.5.6",
+    "leaflet": "~0.7.3",
+    "pure": "~0.6.0",
+    "spin.js": "~2.3.2",
+    "mapbox.js": "~2.2.1",
+    "material-design-iconic-font": "~2.1.2",
+    "Leaflet.MakiMarkers": "~1.0.1",
+    "leaflet.elevation": "~0.0.3",
+    "Leaflet.contextmenu": "*"
+  },
+  "devDependencies": {
+    "qunit": "~1.18.0",
+    "sinon-js": "~1.15.4",
+    "blanket": "~1.1.7"
+  }
+}

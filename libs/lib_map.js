@@ -52,7 +52,7 @@ function initializeMap() {
   // REFACTOR: split into its own function?
   for (var key in overlayFiles) {
     if (overlayFiles.hasOwnProperty(key)) {
-      $.getJSON('assets/overlays-min/'+overlayFiles[key],
+      $.getJSON('assets/overlays/'+overlayFiles[key],
         bind2ndArgument(createLeafletMarkers, key)).fail(errorCallback);
     }
   }

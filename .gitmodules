@@ -1,12 +1,3 @@
 [submodule "assets/dados-espaciais-json"]
 	path = assets/overlays-original
 	url = https://github.com/prefeiturasp/dados-espaciais-json
-[submodule "assets/fonts/material-design-iconic-font"]
-	path = assets/fonts/material-design-iconic-font
-	url = https://github.com/zavoloklom/material-design-iconic-font.git
-[submodule "assets/js/underscore"]
-	path = assets/js/underscore
-	url = https://github.com/jashkenas/underscore/
-[submodule "assets/js/Leaflet.Elevation"]
-	path = assets/js/Leaflet.Elevation
-	url = https://github.com/MrMufflon/Leaflet.Elevation

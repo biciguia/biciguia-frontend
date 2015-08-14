@@ -1,8 +1,8 @@
 {
   "name": "biciguia-frontend",
   "version": "0.0.1",
-  "description": "Biciguia project is distributed under GNU General Public License.",
-  "main": "Gruntfile.js",
+  "description": "Frontend for the Biciguia project",
+  "main": "index.html",
   "directories": {
     "test": "tests"
   },
@@ -11,15 +11,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/biciguia/biciguia-frontend.git"
+    "url": "git://github.com/biciguia/biciguia-frontend.git"
   },
-  "author": "vonpupp",
-  "license": "GPL",
+  "author": "http://ccsl.ime.usp.br/",
+  "license": "MPL-2.0",
   "bugs": {
     "url": "https://github.com/biciguia/biciguia-frontend/issues"
   },
   "devDependencies": {
+    "bower": "^1.4.1",
     "grunt": "^0.4.5",
-    "grunt-blanket-qunit": "^0.2.0"
+    "grunt-blanket-qunit": "^0.2.0",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.13.0",
+    "grunt-contrib-htmlmin": "^0.4.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-shell": "^1.1.2",
+    "grunt-wiredep": "^2.0.0"
   }
 }

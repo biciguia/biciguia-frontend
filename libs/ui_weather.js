@@ -8,6 +8,7 @@
 
 $(document).ready(initializeWeather);
 function initializeWeather() {
+  if (typeof QUnit !== "undefined") return; // don't run on tests
   getWeatherData(displayTemperature);
 }
 
@@ -31,5 +32,6 @@ function displayTemperature(weatherInfo) {
     }
   }
 
+  
   $("#weather").html(html);
 }

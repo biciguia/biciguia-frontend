@@ -1,2 +1,7 @@
-# for testing
-node_modules
+# npm/bower directories
+node_modules/
+bower_components/
+
+# output directories
+build/
+tests/files/

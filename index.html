@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0">
     <title>Biciguia</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link rel="stylesheet" type="text/css" href="assets/leaflet-0.7.3/leaflet.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/leaflet.contextmenu.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/Leaflet.Elevation/dist/leaflet.elevation-0.0.4.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/pure.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/leaflet.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/mapbox.standalone.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/leaflet.contextmenu.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Leaflet.Elevation-0.0.2.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/regras_basicas.css">
     <link rel="stylesheet" type="text/css" href="assets/css/menu.css">
-    <link rel="stylesheet" type="text/css" href="assets/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-    <link rel='stylesheet' type="text/css" href='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css'  />
     <style>
       body { margin:0; padding:0; }
       #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -23,12 +23,12 @@
 
     <div id="container" class="body">
       <div id="header" class="pure-menu pure-menu-horizontal">
-        <a href="#" class="pure-menu-heading margins-horizontal-menu"><i class="md md-menu md-3x" id="botao-menu"></i></a>
+        <a href="#" class="pure-menu-heading margins-horizontal-menu"><i class="zmdi zmdi-menu zmdi-hc-3x" id="botao-menu"></i></a>
         <ul class="pure-menu-list margins-horizontal-menu">
             <li class="pure-menu-item"><a href="#" id="link-about">Sobre</a></li>
         </ul>
         <!-- <ul class="pure-menu-list">
-          <li><i class="md md-menu md-3x" id="botao-menu"></i></li>
+          <li><i class="zmdi zmdi-menu zmdi-hc-3x" id="botao-menu"></i></li>
           <li><a href="#" id="link-about">Sobre</a></li>
         </ul> -->
       </div>
@@ -91,12 +91,12 @@
           <div id="button-wrapper">
             <div class="round-button" id="location-button">
               <div class="round-button-circle">
-                <a class="round-button"> <i class="md md-my-location md-2x"></i> </a>
+                <a class="round-button"><i class="zmdi zmdi-my-location zmdi-hc-2x"></i></a>
               </div>
             </div>
             <div class="round-button" id="botao-rota">
               <div class="round-button-circle">
-                <a id="go-button" class="round-button"> <i class="md md-directions md-3x"></i> </a>
+                <a id="go-button" class="round-button"><i class="zmdi zmdi-directions zmdi-hc-4x"></i></a>
               </div>
             </div>
           </div>
@@ -105,18 +105,17 @@
     </div>
 
     <script type="text/javascript" src="cordova.js"></script>
-    <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#tpKk-gl7sXefuergdivTAUNsdhbNk2zjuSN3Gqt8_Kc"></script> -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script type="text/javascript" src="assets/js/underscore/underscore-min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/d3.min.js"></script>
+    <script type="text/javascript" src="assets/js/lodash.min.js"></script>
     <script type="text/javascript" src="assets/js/spin.min.js"></script>
-    <!-- Leaflet -->
-    <script type="text/javascript" src="assets/leaflet-0.7.3/leaflet.js"></script>
-    <script type="text/javascript" src='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
-    <!-- Leaflet plugins -->
-    <script type="text/javascript" src="assets/js/Leaflet.MakiMarkers.js"></script>
-    <script type="text/javascript" src="assets/js/leaflet.contextmenu.js"></script>
-    <script type="text/javascript" src="assets/js/Leaflet.Elevation/dist/leaflet.elevation-0.0.4.min.js"></script>
+    <script type="text/javascript" src="assets/js/leaflet.min.js"></script>
+    <script type="text/javascript" src="assets/js/mapbox.standalone.min.js"></script>
+    <script type="text/javascript" src="assets/js/leaflet.contextmenu.min.js"></script>
+    <script type="text/javascript" src="assets/js/Leaflet.Elevation-0.0.2.min.js"></script>
+    <script type="text/javascript" src="assets/js/Leaflet.MakiMarkers.min.js"></script>
+
     <!-- Router response decoding -->
     <script type="text/javascript" src="assets/js/decodePath.js"></script>
 

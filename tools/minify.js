@@ -1,4 +1,5 @@
 fs = require('fs');
+path = require('path');
 
 function bind(f, a) {
   return function (b, c) {
@@ -6,9 +7,13 @@ function bind(f, a) {
   };
 }
 
-process.argv.forEach(function (val, index, array) {
-  if (index >= 2) {
-    fs.readFile("../overlays-original/" + val, 'utf8', bind(processFile, val));
+var overlaysDir = '../../../assets/overlays-original/';
+
+fs.readdir(overlaysDir, function(err, files) {
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].match(/\.json$/)) {
+      fs.readFile(overlaysDir + files[i], 'utf8', bind(processFile, files[i]));
+    }
   }
 });
 

@@ -3,21 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>Biciguia Tests</title>
-    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.17.1.css">
+    <link rel="stylesheet" href="files/qunit.css" />
   </head>
   <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://code.jquery.com/qunit/qunit-1.17.1.js"></script>
-    <script type="text/javascript" src="js/sinon-1.14.1.js"></script>
-    <script type="text/javascript" src="js/blanket.min.js"></script>
-    <script type="text/javascript" src="../assets/js/spin.min.js"></script>
-    <script type="text/javascript" src="../assets/leaflet-0.7.3/leaflet.js"></script>
+
+    <script src="files/qunit.js"></script>
+    <script src="files/blanket.js"></script>
+    <script src="files/sinon.js"></script>
+
+    <script type="text/javascript" src="../build/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/d3.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/lodash.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/spin.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/leaflet.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/mapbox.standalone.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/Leaflet.Elevation-0.0.2.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/Leaflet.MakiMarkers.min.js"></script>
+    <script type="text/javascript" src="../build/assets/js/decodePath.js"></script>
 
     <script>
     if (location.href.match(/(\?|&)gruntReport($|&|=)/)) {
-        blanket.options("reporter", "js/grunt-reporter.js");
+        blanket.options("reporter", "files/grunt-reporter.js");
     }
     </script>
 
